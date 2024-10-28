@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import Space from "./Space";
-import AppToolBar from "../../components/AppToolBar";
 import { useSpace } from "../../store";
 import { useDigitalTwin } from "../../store/digitalTwin";
 import { get } from "../../service";
@@ -13,6 +12,7 @@ import UnitData from "./UnitDetails";
 import ShowUnitAndFacility from "./ShowUnitandFacility";
 import OverView from "./Overview";
 import TicketsOverview from "./TicketsOverview";
+import AppToolBar from "../../components/AppToolBar";
 
 const DigitalTwin = ({ mapping }) => {
   //=========================================Space Store Store State===============================================================
