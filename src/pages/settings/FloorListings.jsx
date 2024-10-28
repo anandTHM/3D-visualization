@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
-import { useSpace } from "../../store";
+import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import {
   Table,
   TableBody,
@@ -14,9 +14,10 @@ import {
   TableFooter,
   TablePagination,
 } from "@mui/material";
+
+import { useSpace } from "../../store";
 import edit from "../../assets/edit.svg";
 import { get } from "../../service";
-import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import { config } from "../../utils";
 import AppButton from "../../components/AppButton";
 import { baseUrl } from "../../utils/helper";
