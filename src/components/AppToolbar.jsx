@@ -1,4 +1,3 @@
-import React, { useCallback } from "react";
 import { Box, Typography, Toolbar as MuiToolbar } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import backIcon from "../assets/backIcon.svg";
