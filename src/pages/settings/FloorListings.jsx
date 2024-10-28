@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { useSpace } from "../../store";
-import AppToolBar from "../../components/AppToolBar";
 import {
   Table,
   TableBody,
@@ -21,6 +20,7 @@ import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import { config } from "../../utils";
 import AppButton from "../../components/AppButton";
 import { baseUrl } from "../../utils/helper";
+import AppToolBar from "../../components/AppToolBar";
 
 const CustomTable = ({ tableHeader, tableData, mappedPolygons, onClick }) => {
   const [page, setPage] = useState(0);
