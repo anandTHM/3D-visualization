@@ -17,9 +17,9 @@ export const formatCurrency = (currency = "USD", amount = 0) => {
 };
 
 // ========================================================== Base URL For Navigation =============================================
-export const baseUrl = "http://localhost:9000";
+// export const baseUrl = "http://localhost:9000";
 // export const baseUrl = "https://dev.thehousemonk.com";
-// export const baseUrl = "https://staging.thehousemonk.com";
+export const baseUrl = "https://staging.thehousemonk.com";
 // export const baseUrl = "https://dashboard.thehousemonk.com";
 
 // ========================================================== Statuses Legends For Occupancy Status  =============================================
