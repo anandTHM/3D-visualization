@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import { Box, Typography, Divider, CircularProgress } from "@mui/material";
-import AppToolbar from "../../components/AppToolBar";
+import AppToolBar from "../../components/AppToolBar";
 import AppButton from "../../components/AppButton";
 import noSpace from "../../assets/noSpace.svg";
 import AppInput from "../../components/AppInputField";
@@ -402,7 +402,7 @@ const DigitalTwinMapping = () => {
 
   return (
     <>
-      <AppToolbar onClickBackHandler={() => window.history.back()} />
+      <AppToolBar onClickBackHandler={() => window.history.back()} />
       <Box sx={{ flexGrow: 1, background: "#ffffff" }}>
         <Grid container>
           <Grid size={5}>
