@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import { Box, Typography, Divider, CircularProgress } from "@mui/material";
-import AppToolBar from "../../components/AppToolBar";
 import AppButton from "../../components/AppButton";
 import noSpace from "../../assets/noSpace.svg";
 import AppInput from "../../components/AppInputField";
@@ -12,6 +11,7 @@ import { config } from "../../utils";
 import edit from "../../assets/edit.svg";
 import AppModal from "../../components/AppModal";
 import { patch, post } from "../../service";
+import AppToolBar from "../../components/AppToolBar";
 
 const SpaceIdValidator = ({
   enterSpaceId,
