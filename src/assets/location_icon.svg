@@ -1,0 +1,13 @@
+<svg width="31" height="47" viewBox="0 0 31 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.5 0C11.3891 0 7.44666 1.73312 4.53984 4.81809C1.63303 7.90307 0 12.0872 0 16.45C0 28.7875 15.5 47 15.5 47C15.5 47 31 28.7875 31 16.45C31 12.0872 29.367 7.90307 26.4602 4.81809C23.5533 1.73312 19.6109 0 15.5 0Z" fill="url(#paint0_linear_68_6498)"/>
+<circle cx="15.5" cy="15.5" r="11.5" fill="white"/>
+<defs>
+<linearGradient id="paint0_linear_68_6498" x1="30.6866" y1="23.0405" x2="-1.97855" y2="23.0405" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FE734A"/>
+ <text x="15.5" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="url(#paint0_linear_68_6498)">
+   Anand
+  </text>
+<stop offset="1" stop-color="#8754D6"/>
+</linearGradient>
+</defs>
+</svg>
