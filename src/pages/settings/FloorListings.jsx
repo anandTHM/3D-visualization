@@ -21,7 +21,7 @@ import { get } from "../../service";
 import { config } from "../../utils";
 import AppButton from "../../components/AppButton";
 import { baseUrl } from "../../utils/helper";
-import AppToolBar from "../../components/AppToolBar";
+import AppToolBar from "../../components/AppToolbar";
 
 const CustomTable = ({ tableHeader, tableData, mappedPolygons, onClick }) => {
   const [page, setPage] = useState(0);

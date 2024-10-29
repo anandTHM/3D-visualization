@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Grid from "@mui/material/Grid2";
 import { Box, Divider, Typography } from "@mui/material";
-import Toolbar from "../../components/AppToolBar";
+import Toolbar from "../../components/AppToolbar";
 import { useSpace } from "../../store";
 import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import { config } from "../../utils";

@@ -12,7 +12,7 @@ import UnitData from "./UnitDetails";
 import ShowUnitAndFacility from "./ShowUnitandFacility";
 import OverView from "./Overview";
 import TicketsOverview from "./TicketsOverview";
-import AppToolBar from "../../components/AppToolBar";
+import AppToolBar from "../../components/AppToolbar";
 
 const DigitalTwin = ({ mapping }) => {
   //=========================================Space Store Store State===============================================================

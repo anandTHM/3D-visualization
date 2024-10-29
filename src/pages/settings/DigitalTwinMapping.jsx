@@ -11,7 +11,7 @@ import { config } from "../../utils";
 import edit from "../../assets/edit.svg";
 import AppModal from "../../components/AppModal";
 import { patch, post } from "../../service";
-import AppToolBar from "../../components/AppToolBar";
+import AppToolBar from "../../components/AppToolbar";
 
 const SpaceIdValidator = ({
   enterSpaceId,
