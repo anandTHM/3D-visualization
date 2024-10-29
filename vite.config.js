@@ -17,7 +17,7 @@ export default defineConfig({
   base: '/',
   plugins: [react()],
   build: {
-    outDir: '/', 
+    outDir: 'dist', // Changed to 'dist' instead of 'build'
     emptyOutDir: true,
     chunkSizeWarningLimit: 1500,
     assetsDir: 'assets',
