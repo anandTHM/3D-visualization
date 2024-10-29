@@ -17,7 +17,7 @@ export default defineConfig({
   base: '/',
   plugins: [react()],
   build: {
-    outDir: 'build',
+    outDir: './build',
     emptyOutDir: true,
     chunkSizeWarningLimit: 1500,
     rollupOptions: {
