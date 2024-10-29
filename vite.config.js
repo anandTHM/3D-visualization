@@ -19,18 +19,16 @@ export default defineConfig({
   build: {
     outDir: 'build',
     emptyOutDir: true,
-    chunkSizeWarningLimit: 1500, // Increased limit
+    chunkSizeWarningLimit: 1500,
     rollupOptions: {
       output: {
         manualChunks: {
-          // Separate vendor chunks
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['@mui/material', '@mui/icons-material'], // if you're using Material UI
-          'vendor-utils': ['lodash', 'axios'], // other large dependencies
+          // Only include React packages that you're definitely using
+          'vendor-react': ['react', 'react-dom'],
+          // Add other chunks based on what you're actually using in your project
         },
       },
     },
-    // Ensure the build directory is created
     assetsDir: 'assets',
     minify: 'esbuild',
   },
