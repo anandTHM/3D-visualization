@@ -5,4 +5,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/',
   plugins: [react()],
+  chunkSizeWarningLimit: 1000,
+  outDir: 'build',
 })
