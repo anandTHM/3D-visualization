@@ -13,12 +13,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/',
   plugins: [react()],
   build: {
-    emptyOutDir: true,
-    chunkSizeWarningLimit: 1500,
-    assetsDir: 'assets',
-    minify: 'esbuild'
+    outDir: 'dist'  // Using Vite's default
   }
 })
