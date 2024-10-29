@@ -26,7 +26,8 @@ const OverView = ({
   } = unitOccupancy || {};
 
   const navigateToUrl = (url) => {
-    window.parent.location.href = `${baseUrl}${url}`;
+    // window.parent.location.href = `${baseUrl}${url}`;
+    window.open(`${baseUrl}${url}`, '_blank');
   };
 
   const OccupancyOverviewData = [
@@ -131,7 +132,11 @@ const OverView = ({
                   item
                   size={6}
                   key={label}
-                  sx={{ cursor: "pointer" }}
+                  sx={{
+                    cursor: "pointer",
+                    transition: "transform 0.2s ease-in-out",
+                    "&:hover": { transform: "scale(1.1)" },
+                  }}
                   onClick={() => navigateToUrl(url)}
                 >
                   <Typography
@@ -157,9 +162,20 @@ const OverView = ({
             <Grid
               item
               xs={12}
-              sx={{ cursor: "pointer" }}
+              sx={{
+                cursor: "pointer",
+                transition: "transform 0.2s ease-in-out",
+                "&:hover": {
+                  transform:
+                    totalFacility?.totalFacilityRequestPending > 0
+                      ? "scale(1.15)"
+                      : "none",
+                },
+              }}
               onClick={() =>
-                navigateToUrl(`/godview/#/facility-booking/filter/${selectedProjects?._id}`)
+                navigateToUrl(
+                  `/godview/#/facility-booking/filter/${selectedProjects?._id}`
+                )
               }
             >
               <Typography
@@ -191,6 +207,5 @@ const OverView = ({
     </Box>
   );
 };
-
 
 export default OverView;

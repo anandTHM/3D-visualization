@@ -22,12 +22,19 @@ const TicketsOverview = ({
         container
         direction="column"
         alignItems="center"
-        sx={{ cursor: openTickets ? "pointer" : "default" }}
+        sx={{
+          cursor: openTickets ? "pointer" : "default",
+          transition: "transform 0.2s ease-in-out",
+          "&:hover": {
+            transform: openTickets > 0 ? "scale(1.15)" : "none",
+          },
+        }}
         onClick={() => {
           const parentUrl = `${baseUrl}/godview/#/ticket/${"open"}/${
             selectedProjects?._id
           }`;
-          window.parent.location.href = parentUrl;
+          // window.parent.location.href = parentUrl;
+          window.open(parentUrl , '_blank');
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
@@ -46,12 +53,17 @@ const TicketsOverview = ({
         alignItems="center"
         sx={{
           cursor: inProgressTickets ? "pointer" : "default",
+          transition: "transform 0.2s ease-in-out",
+          "&:hover": {
+            transform: inProgressTickets > 0 ? "scale(1.15)" : "none",
+          },
         }}
         onClick={() => {
           const parentUrl = `${baseUrl}/godview/#/ticket/${"in-progress"}/${
             selectedProjects?._id
           }`;
-          window.parent.location.href = parentUrl;
+          // window.parent.location.href = parentUrl;
+          window.open(parentUrl , '_blank');
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
@@ -67,12 +79,20 @@ const TicketsOverview = ({
         container
         direction="column"
         alignItems="center"
-        sx={{ cursor: reopenedTickets ? "pointer" : "default" }}
+        sx={{
+          cursor: reopenedTickets ? "pointer" : "default",
+
+          transition: "transform 0.2s ease-in-out",
+          "&:hover": {
+            transform: inProgressTickets > 0 ? "scale(1.15)" : "none",
+          },
+        }}
         onClick={() => {
           const parentUrl = `${baseUrl}/godview/#/ticket/${"re-open"}/${
             selectedProjects?._id
           }`;
-          window.parent.location.href = parentUrl;
+          // window.parent.location.href = parentUrl;
+          window.open(parentUrl , '_blank');
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
@@ -89,12 +109,19 @@ const TicketsOverview = ({
         container
         direction="column"
         alignItems="center"
-        sx={{ cursor: onHoldTickets ? "pointer" : "default" }}
+        sx={{
+          cursor: onHoldTickets ? "pointer" : "default",
+          transition: "transform 0.2s ease-in-out",
+          "&:hover": {
+            transform: onHoldTickets > 0 ? "scale(1.15)" : "none",
+          },
+        }}
         onClick={() => {
           const parentUrl = `${baseUrl}/godview/#/ticket/${"on-hold"}/${
             selectedProjects?._id
           }`;
-          window.parent.location.href = parentUrl;
+          // window.parent.location.href = parentUrl;
+          window.open(parentUrl , '_blank');
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
@@ -119,6 +146,10 @@ const TicketsOverview = ({
               py: 1.5,
               cursor: "pointer",
               textTransform: "none",
+              transition: "transform 0.2s ease-in-out",
+              "&:hover": {
+                transform: tickets.length > 0 ? "scale(1.15)" : "none",
+              },
             }}
             onClick={() => {
               const parentUrl = `${baseUrl}/godview/#/ticket/filter/none`;

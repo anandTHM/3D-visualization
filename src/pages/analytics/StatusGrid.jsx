@@ -7,6 +7,10 @@ const StatusGrid = ({ label, value, statusColor, onClick }) => (
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
+      transition: "transform 0.2s ease-in-out", 
+      "&:hover": {
+        transform: value > 0 ? "scale(1.15)" : "none", 
+      },
     }}
     onClick={value && onClick}
     size={4}
