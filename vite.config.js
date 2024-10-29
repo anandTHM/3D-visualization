@@ -17,24 +17,10 @@ export default defineConfig({
   base: '/',
   plugins: [react()],
   build: {
-    outDir: './build',
+    outDir: './build', // Make sure path is explicit
     emptyOutDir: true,
     chunkSizeWarningLimit: 1500,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          // Only include React packages that you're definitely using
-          'vendor-react': ['react', 'react-dom'],
-          // Add other chunks based on what you're actually using in your project
-        },
-      },
-    },
     assetsDir: 'assets',
-    minify: 'esbuild',
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+    minify: 'esbuild'
   }
 })
