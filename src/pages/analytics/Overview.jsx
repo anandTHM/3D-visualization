@@ -76,6 +76,8 @@ const OverView = ({
     },
   ];
 
+  console.log("totalFacility", totalFacility);
+
   return (
     <Box>
       <Box sx={{ py: 2, px: 2, fontSize: "14px", fontWeight: "400" }}>
@@ -137,7 +139,7 @@ const OverView = ({
                     transition: "transform 0.2s ease-in-out",
                     "&:hover": { transform: "scale(1.1)" },
                   }}
-                  onClick={() => navigateToUrl(url)}
+                  onClick={() => value && navigateToUrl(url)}
                 >
                   <Typography
                     variant="body1"
@@ -163,16 +165,16 @@ const OverView = ({
               item
               xs={12}
               sx={{
-                cursor: "pointer",
+                cursor: totalFacility?.totalFacilityRequestPending> 0 ? "pointer" : "default",
                 transition: "transform 0.2s ease-in-out",
                 "&:hover": {
                   transform:
-                    totalFacility?.totalFacilityRequestPending > 0
+                    totalFacility?.totalFacilityRequestPending 
                       ? "scale(1.15)"
                       : "none",
                 },
               }}
-              onClick={() =>
+              onClick={() =>  totalFacility?.totalFacilityRequestPending > 0  &&
                 navigateToUrl(
                   `/godview/#/facility-booking/filter/${selectedProjects?._id}`
                 )

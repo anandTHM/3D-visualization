@@ -34,7 +34,7 @@ const TicketsOverview = ({
             selectedProjects?._id
           }`;
           // window.parent.location.href = parentUrl;
-          window.open(parentUrl , '_blank');
+          openTickets && window.open(parentUrl, "_blank");
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
@@ -63,7 +63,7 @@ const TicketsOverview = ({
             selectedProjects?._id
           }`;
           // window.parent.location.href = parentUrl;
-          window.open(parentUrl , '_blank');
+          inProgressTickets && window.open(parentUrl, "_blank");
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
@@ -92,7 +92,7 @@ const TicketsOverview = ({
             selectedProjects?._id
           }`;
           // window.parent.location.href = parentUrl;
-          window.open(parentUrl , '_blank');
+          reopenedTickets && window.open(parentUrl, "_blank");
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
@@ -121,7 +121,7 @@ const TicketsOverview = ({
             selectedProjects?._id
           }`;
           // window.parent.location.href = parentUrl;
-          window.open(parentUrl , '_blank');
+          onHoldTickets && window.open(parentUrl, "_blank");
         }}
       >
         <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
