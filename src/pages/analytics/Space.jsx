@@ -324,6 +324,8 @@ const Space = () => {
           ...item,
           status: matchingUnit?.status,
           unitId: matchingUnit?._id,
+          buildUpArea: matchingUnit?.buildUpArea,
+          numberOfSeats: matchingUnit?.numberOfSeats,
           facilityId: matchingFacility?._id,
           facilityName: matchingFacility?.name,
           unitName: matchingUnit?.name,
@@ -396,6 +398,8 @@ const Space = () => {
           ...item,
           status: matchingUnit?.status,
           unitId: matchingUnit?._id,
+          buildUpArea: matchingUnit?.buildUpArea,
+          numberOfSeats: matchingUnit?.numberOfSeats,
           facilityId: matchingFacility?._id,
           facilityName: matchingFacility?.name,
           unitName: matchingUnit?.name,
@@ -458,6 +462,9 @@ const Space = () => {
                 objectId: d.id,
                 index: d.levelIndex,
               },
+              buildUpArea: d.buildUpArea,
+              numberOfSeats: d.numberOfSeats,
+              status: d.status,
             });
             handleSelectedFacilities(null);
           } else if (d.facilityId) {
@@ -499,6 +506,9 @@ const Space = () => {
               objectId: d.id,
               index: d.levelIndex,
             },
+            buildUpArea: d.buildUpArea,
+            numberOfSeats: d.numberOfSeats,
+            status: d.status,
           });
           handleSelectedFacilities(null);
         } else if (d.facilityId) {
@@ -559,11 +569,11 @@ const Space = () => {
   ]);
 
   useEffect(() => {
-    if( selectedTab !== "Tickets")  return;
+    if (selectedTab !== "Tickets") return;
     if (ticketsOnSpace?.length === 0) {
       return;
     }
-    
+
     let addedLayerIds = [];
 
     const filteredTickets = ticketsOnSpace

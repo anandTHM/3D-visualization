@@ -333,13 +333,13 @@ const FloorMappedListings = () => {
           </Grid>
           <Grid item size={isProjectNameTooLong ? 12 : 7}>
             <Grid container spacing={4}>
-              <Grid item size={isProjectNameTooLong ? 6 : 4}>
+              <Grid item size={isProjectNameTooLong ? 7 : 4}>
                 {renderInfoItem("Property", projectName)}
               </Grid>
-              <Grid item size={isProjectNameTooLong ? 2 : 4}>
+              <Grid item size={isProjectNameTooLong ? 1 : 4}>
                 {renderInfoItem("Floor", selectedFloor)}
               </Grid>
-              <Grid item size={isProjectNameTooLong ? 6 : 4}>
+              <Grid item size={4}>
                 {renderInfoItem(
                   "Total Mapped",
                   `${mappedPolygons.length} / ${selectedFloorData?.length}`

@@ -14,6 +14,7 @@ const TicketsOverview = ({
 }) => {
   const { openTickets, inProgressTickets, onHoldTickets, reopenedTickets } =
     ticketsStatus;
+
   return (
     <Grid container alignItems="center" sx={{ py: 1, px: 2 }}>
       <Grid

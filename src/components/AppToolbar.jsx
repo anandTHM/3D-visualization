@@ -113,9 +113,10 @@ const ToolbarForMapping = ({
                 value={enteredFloor}
                 onChange={onChangeInputHandler}
                 labelFont="14px"
+                minWidth={200}
               />
             </Grid>
-            <Grid item size={3}>
+            {/* <Grid item size={2}>
               <AppDropdown
                 labelName={"Floor"}
                 options={floors}
@@ -123,7 +124,7 @@ const ToolbarForMapping = ({
                 value={selectedFloor}
                 onChange={onChangeDropdownHandler}
               />
-            </Grid>
+            </Grid> */}
           </>
         )}
       </Grid>

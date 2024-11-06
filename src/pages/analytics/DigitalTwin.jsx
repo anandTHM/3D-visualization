@@ -169,8 +169,10 @@ const DigitalTwin = ({ mapping }) => {
             name: item?.unitAddress,
             smplrSpaceData: item?.smplrSpaceData,
             status: item?.occupancyStatus,
+            occupancyStatus: item?.occupancyStatus,
+            buildUpArea: item?.buildUpArea,
+            numberOfSeats: item?.numberOfSeats,
           }));
-
         handleUnits(transformedProperties);
       } else {
         console.error("No properties found in the response");
@@ -479,59 +481,190 @@ const DigitalTwin = ({ mapping }) => {
     }
   };
 
+  // const fetchHomeDetails = async () => {
+  //   try {
+  //     setLoadUnit(true);
+  //     // const url = `/listing/${selectedUnits?._id}/homes`;
+
+  //     const url = `/home/65e57344a52085243828b2a9`;
+  //     const queryParams = {
+  //       // fields: [
+  //       //   "_id",
+  //       //   "listing",
+  //       //   "tenants",
+  //       //   "dateOfMoveIn",
+  //       //   "moveOut",
+  //       //   "status",
+  //       //   "owners",
+  //       //   "createdAt",
+  //       //   "tenancyTerms",
+  //       //   "occupancyStatus",
+  //       // ],
+  //       // limit: 5,
+  //       // page: 1,
+  //       // status: ["active", "moving-out", "upcoming"],
+  //       // populate: "rents",
+  //     };
+
+  //     const params ={
+  //       populate: "rents",
+  //     }
+
+  //     // const response = await get(url, { params: queryParams }, authToken);
+  //     const response = await get(url, params, authToken);
+
+  //     if (response && response.data) {
+  //       const activeContract = response?.data?.homes.filter(
+  //         (home) => home.status === "active"
+  //       );
+
+  //       if (activeContract.length > 0) {
+  //         handleHomeDetails(activeContract);
+
+  //         const tenants = activeContract[0]?.tenants;
+  //         if (tenants && tenants.length > 0) {
+  //           const tenantDetails = await Promise.all(
+  //             tenants.map(async (tenantId) => {
+  //               const tenantData = await fetchTenantsOfActiveHome(tenantId);
+  //               return tenantData;
+  //             })
+  //           );
+
+  //           handleHomeTenants(tenantDetails);
+  //         } else {
+  //           console.log("No tenants found in the active contract.");
+  //         }
+  //       } else {
+  //         console.error("No active contracts found.");
+  //       }
+  //     } else {
+  //       console.error("No properties found in the response.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching home details:", error);
+  //   } finally {
+  //     setLoadUnit(false);
+  //   }
+  // };
+
   const fetchHomeDetails = async () => {
+    setLoadUnit(true);
     try {
-      setLoadUnit(true);
-      const url = `/listing/${selectedUnits?._id}/homes`;
-      const queryParams = {
-        fields: [
-          "_id",
-          "listing",
-          "tenants",
-          "dateOfMoveIn",
-          "moveOut",
-          "status",
-          "owners",
-          "createdAt",
-          "tenancyTerms",
-          "occupancyStatus",
-        ],
-        limit: 5,
+      const params = {
+        limit: 9007199254740991,
+        listings: selectedUnits?._id,
         page: 1,
+        projects: selectedProjects?._id,
         status: ["active", "moving-out", "upcoming"],
       };
+      const url = `/home/indexV2`;
+      const response = await get(url, params, authToken);
 
-      const response = await get(url, { params: queryParams }, authToken);
+      // Fetch tax
+      const responseDataForTax = await get(
+        `/tax?limit=9007199254740991&page=1`,
+        {},
+        authToken
+      );
 
-      if (response && response.data) {
-        const activeContract = response?.data?.homes.filter(
-          (home) => home.status === "active"
-        );
+      // Fetch categories related to the project
+      const projectId = selectedProjects?._id;
+      const categoryParams = `?belongsTo=Project&categoryType=roomCategory&limit=9007199254740991&page=1&project=${projectId}&status=active`;
+      const categoryResponse = await get(
+        `/category${categoryParams}`,
+        {},
+        authToken
+      );
 
-        if (activeContract.length > 0) {
-          handleHomeDetails(activeContract);
+      const {
+        data: { rows: categories = [] },
+      } = categoryResponse; // Extract categories
 
-          const tenants = activeContract[0]?.tenants;
-          if (tenants && tenants.length > 0) {
-            const tenantDetails = await Promise.all(
-              tenants.map(async (tenantId) => {
-                const tenantData = await fetchTenantsOfActiveHome(tenantId);
-                return tenantData;
-              })
+      const {
+        data: { rows = [] },
+      } = response;
+      const filteredRows = rows.filter(
+        (row) => row.occupancyStatus !== "draft"
+      );
+
+      if (filteredRows.length > 0) {
+        const homeDetail = filteredRows[0];
+
+        // Process deposits
+        homeDetail.deposits = homeDetail.deposits.map((deposit) => {
+          let updatedDeposit = { ...deposit };
+
+          if (deposit.applicableTax === null) {
+            updatedDeposit.applicableTax = "Inclusive";
+          } else {
+            const taxData = responseDataForTax.data.rows.find(
+              (tax) => tax._id === deposit.applicableTax
+            );
+            if (taxData) {
+              updatedDeposit = {
+                ...updatedDeposit,
+                applicableTax: taxData._id,
+                taxRate: taxData.taxRate,
+                taxName: taxData.name,
+              };
+            }
+          }
+
+          const internalCategory = (
+            homeDetail.plans || homeDetail.categories
+          ).find(
+            (category) =>
+              category._id === deposit.category || category._id === deposit.plan
+          );
+
+          if (internalCategory) {
+            updatedDeposit.numberOfUnits = internalCategory.numberOfUnits || 1;
+          }
+
+          return updatedDeposit;
+        });
+
+        if (homeDetail?.plans && homeDetail?.plans.length > 0) {
+          homeDetail.plans = homeDetail?.plans.map((planItem) => {
+            const categoryMatch = categories.find(
+              (category) => category._id === planItem.category
+            );
+            return {
+              ...planItem,
+              categoryName: categoryMatch ? categoryMatch.name : null,
+              categoryStatus: categoryMatch ? categoryMatch.status : null,
+            };
+          });
+        } else if (homeDetail.categories && homeDetail.categories.length > 0) {
+          homeDetail.categories = homeDetail.categories.map((categoryItem) => {
+            const categoryMatch = categories.find(
+              (category) => category._id === categoryItem.categoryId
             );
 
-            handleHomeTenants(tenantDetails);
-          } else {
-            console.log("No tenants found in the active contract.");
-          }
-        } else {
-          console.error("No active contracts found.");
+            const matchedDeposit = homeDetail.deposits.find(
+              (category) => category.category === categoryItem.categoryId
+            );
+
+            return {
+              ...categoryItem,
+              categoryName: categoryMatch ? categoryMatch.name : null,
+              categoryStatus: categoryMatch ? categoryMatch.status : null,
+              amount: matchedDeposit?.amount || null,
+              applicableTax: matchedDeposit?.applicableTax || null,
+            };
+          });
         }
+
+        handleHomeDetails(homeDetail);
+        handleHomeTenants(homeDetail.billTo);
+        handlePocDetails(homeDetail.pointOfContacts);
       } else {
-        console.error("No properties found in the response.");
+        console.warn(
+          "No valid rows found with occupancyStatus other than 'draft'"
+        );
       }
     } catch (error) {
-      console.error("Error fetching home details:", error);
+      console.log(error);
     } finally {
       setLoadUnit(false);
     }
@@ -850,10 +983,19 @@ const DigitalTwin = ({ mapping }) => {
                   <>
                     <ShowUnitAndFacility
                       name={selectedUnits?.name}
+                      unitsDetails={selectedUnits}
                       onClickHandler={() => {
-                        const parentUrl = `${baseUrl}/godview/#/listing/view/${selectedUnits._id}/contract`;
+                        const parentUrl = `${baseUrl}/godview/#/listing/view/${selectedUnits._id}`;
                         window.open(parentUrl, "_blank");
                       }}
+                    />
+                    <ShowUnitAndFacility
+                      name={"Contract Details"}
+                      onClickHandler={() => {
+                        const parentUrl = `${baseUrl}/godview/#/contracts/view/commercial/${homeDetails._id}`;
+                        window.open(parentUrl, "_blank");
+                      }}
+                      type={"commercial"}
                     />
                     <UnitData
                       homeDetails={homeDetails}

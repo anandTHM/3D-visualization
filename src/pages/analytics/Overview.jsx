@@ -76,8 +76,6 @@ const OverView = ({
     },
   ];
 
-  console.log("totalFacility", totalFacility);
-
   return (
     <Box>
       <Box sx={{ py: 2, px: 2, fontSize: "14px", fontWeight: "400" }}>
