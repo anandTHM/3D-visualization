@@ -1,7 +1,7 @@
 import { Box, Divider } from "@mui/material";
 import LaunchSharpIcon from "@mui/icons-material/LaunchSharp";
 
-const ShowUnitAndFacility = ({ name, onClickHandler, type, unitsDetails }) => (
+const ShowUnitAndFacility = ({ name, onClickHandler , unitsDetails ,  isCommercial = false, isFacility=false }) => (
   <Box sx={{ px: 2, py: 1 }}>
     <Box sx={{ mt: 1 }}>
       <Box
@@ -11,7 +11,7 @@ const ShowUnitAndFacility = ({ name, onClickHandler, type, unitsDetails }) => (
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ fontSize: "14px", fontWeight: "500" }}>{name}</Box>
+        <Box sx={{ fontSize: "14px", fontWeight: "400" }}>{name}</Box>
         <Box
           sx={{
             display: "flex",
@@ -27,22 +27,28 @@ const ShowUnitAndFacility = ({ name, onClickHandler, type, unitsDetails }) => (
             fontSize="small"
             sx={{ height: "14px", width: "14px", fontWeight: "400" }}
           />
-          <span>{type ? "View Contracts Details" : "View Unit Details"}</span>
+          <span>
+            {isFacility 
+              ? "View Details"
+              : isCommercial
+              ? "View Contracts Details"
+              : "View Unit Details"}
+          </span>
         </Box>
       </Box>
       {unitsDetails && (
         <>
-          {/* <Box sx={{ fontSize: "13px", fontWeight: "400" }}>
-            {" "}
-            {unitsDetails?.status || unitsDetails?.occupancyStatus}{" "}
-          </Box> */}
           <Box sx={{ mt: 0.5, display: "flex", gap: 1 }}>
-            <Box sx={{ fontSize: "13px", fontWeight: "400" }}>
-              Seats: {unitsDetails?.numberOfSeats}
-            </Box>
-            <Box sx={{ fontSize: "13px", fontWeight: "400" }}>
-              Sft: {unitsDetails?.buildUpArea}
-            </Box>
+            {unitsDetails?.numberOfSeats && (
+              <Box sx={{ fontSize: "13px", fontWeight: "400" }}>
+                Seats: {unitsDetails.numberOfSeats}
+              </Box>
+            )}
+            {unitsDetails?.buildUpArea && (
+              <Box sx={{ fontSize: "13px", fontWeight: "400" }}>
+                Sft: {unitsDetails.buildUpArea}
+              </Box>
+            )}
           </Box>
         </>
       )}

@@ -38,7 +38,8 @@ const FacilityCustomTableForUserDetails = ({
   };
 
   const filteredData = tableData?.filter(
-    (item) => item?.status === "pending" || item?.status === "approved"
+    // (item) => item?.status === "pending" || item?.status === "approved"
+    (item) => item.status !== "cancelled"
   );
 
   return (

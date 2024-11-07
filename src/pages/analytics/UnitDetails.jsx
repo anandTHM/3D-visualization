@@ -335,7 +335,10 @@ const CustomTableForHomeDetails = ({
                   }}
                 >
                   {data?.categoryName}{" "}
-                  {data?.numberOfUnits ? `* ${data?.numberOfUnits}` : ""}
+                  <Box>
+                    {" "}
+                    {data?.numberOfUnits > 1 ? `X ${data?.numberOfUnits}` : ""}{" "}
+                  </Box>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -366,10 +369,15 @@ const CustomTableForHomeDetails = ({
                     width: columnWidth,
                   }}
                 >
-                  {formatCurrency(
-                    organizationCurrency,
-                    data?.rent?.defaultPrice.price || data?.amount
-                  )}
+                  {data?.numberOfUnits
+                    ? formatCurrency(
+                        organizationCurrency,
+                        data?.rent?.defaultPrice.price * data?.numberOfUnits || data?.amount
+                      )
+                    : formatCurrency(
+                        organizationCurrency,
+                        data?.rent?.defaultPrice.price || data?.amount
+                      )}
                 </TableCell>
               </TableRow>
             ))
@@ -640,7 +648,12 @@ const CustomTableForDeposits = ({
                       width: columnWidth,
                     }}
                   >
-                    {formatCurrency(organizationCurrency, data?.amount  * data?.numberOfUnits )}
+                    {data?.numberOfUnits
+                      ? formatCurrency(
+                          organizationCurrency,
+                          data?.amount * data?.numberOfUnits
+                        )
+                      : formatCurrency(organizationCurrency, data?.amount)}
                   </TableCell>
                 </TableRow>
               ))
@@ -672,8 +685,6 @@ const UnitData = ({
     service: ["Services", "Amount", "Total Amount"],
     category: ["Category", "Amount", "Total Amount"],
   };
-
-  console.log("homeDetails",homeDetails)
 
   const formatDate = (date) =>
     date ? moment(date).tz(organizationTimeZone).format("DD MMM YYYY") : "--";
@@ -747,7 +758,7 @@ const UnitData = ({
         <CustomTableForHomeDetails
           tableHeader={tableHeaders.category}
           tableData={
-            homeDetails.plans?.length
+            homeDetails.plans?.length > 0
               ? homeDetails.plans
               : homeDetails.categories
           }
@@ -756,14 +767,15 @@ const UnitData = ({
         />
       </Box>
 
-      <Box sx={{ py: 1 }}>
-        <CustomTableForDeposits
-          tableHeader={tableHeaders.default}
-          tableData={homeDetails.deposits}
-          isLoading={isLoading}
-          organizationCurrency={organizationCurrency}
-        />
-      </Box>
+    
+        <Box sx={{ py: 1 }}>
+          <CustomTableForDeposits
+            tableHeader={tableHeaders.default}
+            tableData={homeDetails.deposits}
+            isLoading={isLoading}
+            organizationCurrency={organizationCurrency}
+          />
+        </Box>
 
       <Box sx={{ py: 1 }}>
         <CustomTableForServices

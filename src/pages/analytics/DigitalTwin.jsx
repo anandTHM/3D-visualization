@@ -589,6 +589,8 @@ const DigitalTwin = ({ mapping }) => {
 
       if (filteredRows.length > 0) {
         const homeDetail = filteredRows[0];
+        handleHomeTenants(homeDetail.billTo);
+        handlePocDetails(homeDetail.pointOfContacts);
 
         // Process deposits
         homeDetail.deposits = homeDetail.deposits.map((deposit) => {
@@ -656,8 +658,6 @@ const DigitalTwin = ({ mapping }) => {
         }
 
         handleHomeDetails(homeDetail);
-        handleHomeTenants(homeDetail.billTo);
-        handlePocDetails(homeDetail.pointOfContacts);
       } else {
         console.warn(
           "No valid rows found with occupancyStatus other than 'draft'"
@@ -912,6 +912,7 @@ const DigitalTwin = ({ mapping }) => {
                       const parentUrl = `${baseUrl}/godview/#/facility-booking/view/${selectedFacilities?._id}`;
                       window.open(parentUrl, "_blank");
                     }}
+                    isFacility
                   />
                 ) : selectedUnits?._id ? (
                   <>
@@ -969,6 +970,7 @@ const DigitalTwin = ({ mapping }) => {
                         const parentUrl = `${baseUrl}/godview/#/facility-booking/view/${selectedFacilities?._id}`;
                         window.open(parentUrl, "_blank");
                       }}
+                      isFacility
                     />
                     <Facility
                       facilityDetails={facilityDetails}
@@ -995,7 +997,7 @@ const DigitalTwin = ({ mapping }) => {
                         const parentUrl = `${baseUrl}/godview/#/contracts/view/commercial/${homeDetails._id}`;
                         window.open(parentUrl, "_blank");
                       }}
-                      type={"commercial"}
+                      isCommercial
                     />
                     <UnitData
                       homeDetails={homeDetails}
