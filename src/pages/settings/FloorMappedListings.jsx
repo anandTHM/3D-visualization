@@ -271,7 +271,7 @@ const FloorMappedListings = () => {
     const payload = { smplrSpaceData: Object.values(filteredData) };
     try {
       const response = await patch(
-        `/listing/addUnitsAndFacilities/${projectId}`,
+        `/listing/add-units-and-facilities/${projectId}`,
         payload,
         authToken
       );

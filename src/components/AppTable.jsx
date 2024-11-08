@@ -120,7 +120,7 @@ const CustomTable = ({ tableData }) => {
     const fetchData = async () => {
       setLoading(true);
       const response = await get(
-        `/listing/unitsAndFacilities/${projectId}`,
+        `/listing/units-and-facilities/${projectId}`,
         {
           type: radioButton.toLowerCase(),
           q: searchQuery.toLowerCase(),

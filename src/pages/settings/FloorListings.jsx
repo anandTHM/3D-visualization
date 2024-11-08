@@ -203,7 +203,7 @@ const FloorListings = () => {
 
         try {
           const response = await get(
-            `/listing/mappedData/${projectId}`,
+            `/listing/mapped-data/${projectId}`,
             {},
             authToken
           );
@@ -318,7 +318,7 @@ const FloorListings = () => {
     };
     try {
       const response = await get(
-        `/listing/mappedData/${projectId}`,
+        `/listing/mapped-data/${projectId}`,
         queryParam,
         authToken
       );

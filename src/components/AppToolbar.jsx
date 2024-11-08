@@ -105,7 +105,7 @@ const ToolbarForMapping = ({
               </Typography>
             </Grid>
 
-            <Grid item size={3} sx={{ marginRight: 2, marginLeft: 4 }}>
+            <Grid item size={4} sx={{ marginRight: 2, marginLeft: 4 }}>
               {" "}
               <AppInputField
                 labelText="Search floor"

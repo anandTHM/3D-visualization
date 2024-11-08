@@ -376,7 +376,7 @@ const DigitalTwin = ({ mapping }) => {
         listingId: selectedUnits?._id || "",
       };
       const response = await get(
-        `/ticket/getAllUnits/${selectedProjects._id}`,
+        `/ticket/get-mapped-units/${selectedProjects._id}`,
         queryParams,
         authToken
       );

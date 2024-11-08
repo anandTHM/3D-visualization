@@ -382,7 +382,7 @@ const DigitalTwinMapping = () => {
       }
 
       const spaceIdResponse = await patch(
-        `/project/addSpaceId/${projectId}`,
+        `/project/${projectId}/add-space-id`,
         payload,
         authToken
       );
