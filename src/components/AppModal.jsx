@@ -65,7 +65,7 @@ const AppModal = ({
       >
         <Box sx={style}>
           <Box sx={headerStyle}>
-            <Typography variant="h6" component="h2" >
+            <Typography variant="h6" component="h2" sx={{fontSize:"16px"}} >
               {headerText}
             </Typography>
             <IconButton onClick={onClickCancelHandler} sx={{ color: "#fff" }}>
@@ -80,7 +80,7 @@ const AppModal = ({
                 mt: 1,
                 color: "#1B1A1A",
                 whiteSpace: "pre-line",
-                fontSize: "15px",
+                fontSize: "14px",
               }}
             >
               {descriptionText}

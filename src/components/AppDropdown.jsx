@@ -163,7 +163,7 @@ const AppDropdown = ({
                 </MenuItem>
               ))
             ) : (
-              <MenuItem sx={{ color: "#848484" }}>No Options</MenuItem>
+              <MenuItem sx={{ color: "#848484" , fontSize:"14px" }}>No Data Found</MenuItem>
             )}
           </Select>
         </FormControl>

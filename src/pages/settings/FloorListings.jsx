@@ -316,6 +316,7 @@ const FloorListings = () => {
     const queryParam = {
       index: data.floor - 1,
     };
+
     try {
       const response = await get(
         `/listing/mapped-data/${projectId}`,

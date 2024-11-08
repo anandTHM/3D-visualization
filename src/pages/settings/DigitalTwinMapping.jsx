@@ -10,7 +10,7 @@ import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import { config } from "../../utils";
 import edit from "../../assets/edit.svg";
 import AppModal from "../../components/AppModal";
-import { patch, post } from "../../service";
+import { post ,put } from "../../service";
 import AppToolBar from "../../components/AppToolbar";
 
 const SpaceIdValidator = ({
@@ -325,7 +325,7 @@ const DigitalTwinMapping = () => {
   //   setLoading(true);
 
   //   try {
-  //     const response = await patch(
+  //     const response = await put(
   //       `/project/addSpaceId/${projectId}`,
   //       payload,
   //       authToken
@@ -381,7 +381,7 @@ const DigitalTwinMapping = () => {
         return;
       }
 
-      const spaceIdResponse = await patch(
+      const spaceIdResponse = await put(
         `/project/${projectId}/add-space-id`,
         payload,
         authToken

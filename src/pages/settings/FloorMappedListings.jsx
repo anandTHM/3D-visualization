@@ -9,7 +9,7 @@ import AppInputField from "../../components/AppInputField";
 import AppButton from "../../components/AppButton";
 import CustomTable from "../../components/AppTable";
 import AppModal from "../../components/AppModal";
-import { patch } from "../../service";
+import { put } from "../../service";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
@@ -270,7 +270,7 @@ const FloorMappedListings = () => {
 
     const payload = { smplrSpaceData: Object.values(filteredData) };
     try {
-      const response = await patch(
+      const response = await put(
         `/listing/add-units-and-facilities/${projectId}`,
         payload,
         authToken

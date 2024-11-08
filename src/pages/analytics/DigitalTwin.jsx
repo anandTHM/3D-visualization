@@ -219,7 +219,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         projects: selectedProjects._id,
-        index: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor : null,
       };
 
       const response = await get(
@@ -244,7 +244,7 @@ const DigitalTwin = ({ mapping }) => {
       const queryParams = {
         projects: selectedProjects._id,
         type: "receivables",
-        index: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor : null,
       };
 
       const response = await get(
@@ -269,7 +269,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         projects: selectedProjects._id,
-        index: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor : null,
       };
       const response = await get(
         "/stats/Overview/facility",
@@ -293,7 +293,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         projects: selectedProjects._id,
-        index: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor : null,
         id: selectedFacilities?._id || selectedUnits?._id || null,
       };
       const response = await get(
@@ -319,7 +319,7 @@ const DigitalTwin = ({ mapping }) => {
       const queryParams = {
         projects: selectedProjects._id,
         type: "payables",
-        index: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor : null,
       };
 
       const response = await get(
@@ -371,7 +371,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         status: ["open", "re-open", "on-hold", "in-progress"],
-        index: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor : null,
         facilityId: selectedFacilities?._id || "",
         listingId: selectedUnits?._id || "",
       };

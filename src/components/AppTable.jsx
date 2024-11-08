@@ -124,7 +124,7 @@ const CustomTable = ({ tableData }) => {
         {
           type: radioButton.toLowerCase(),
           q: searchQuery.toLowerCase(),
-          index: selectedFloor - 1,
+          floorIndex: selectedFloor - 1,
           page: modalPage,
           limit: 5,
         },
