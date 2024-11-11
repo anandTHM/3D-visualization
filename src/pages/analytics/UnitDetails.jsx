@@ -279,9 +279,13 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Typography,
+  Divider,
 } from "@mui/material";
 import moment from "moment";
 import "moment-timezone";
+
+import Grid from "@mui/material/Grid2";
 
 import { formatCurrency } from "../../utils/helper";
 
@@ -321,7 +325,7 @@ const CustomTableForHomeDetails = ({
         <TableBody>
           {normalizedTableData.length > 0 ? (
             normalizedTableData.map((data, index) => (
-              <TableRow key={`data-${index}`}>
+              <TableRow key={`homeDetails-${index}`}>
                 <TableCell
                   sx={{
                     color: "rgba(0, 0, 0, .87)",
@@ -337,7 +341,9 @@ const CustomTableForHomeDetails = ({
                   {data?.categoryName}{" "}
                   <Box>
                     {" "}
-                    {data?.numberOfUnits > 1 ? `X ${data?.numberOfUnits}` : ""}{" "}
+                    {data?.numberOfUnits > 1
+                      ? `X ${data?.numberOfUnits}`
+                      : ""}{" "}
                   </Box>
                 </TableCell>
                 <TableCell
@@ -372,7 +378,8 @@ const CustomTableForHomeDetails = ({
                   {data?.numberOfUnits
                     ? formatCurrency(
                         organizationCurrency,
-                        data?.rent?.defaultPrice.price * data?.numberOfUnits || data?.amount
+                        data?.rent?.defaultPrice.price * data?.numberOfUnits ||
+                          data?.amount
                       )
                     : formatCurrency(
                         organizationCurrency,
@@ -425,7 +432,7 @@ const CustomTableForServices = ({
           <TableBody>
             {tableData.length > 0 ? (
               tableData.map((data, index) => (
-                <TableRow key={`data-${index}`}>
+                <TableRow key={`service-${index}`}>
                   <TableCell
                     sx={{
                       color: "rgba(0, 0, 0, .87)",
@@ -516,7 +523,7 @@ const CustomTableForPocHomeDetails = ({
           <TableBody>
             {normalizedTableData.length > 0 ? (
               normalizedTableData.map((data, index) => (
-                <TableRow key={`data-${index}`}>
+                <TableRow key={`home-${index}`}>
                   <TableCell
                     sx={{
                       color: "rgba(0, 0, 0, .87)",
@@ -607,7 +614,7 @@ const CustomTableForDeposits = ({
           <TableBody>
             {tableData.length > 0 ? (
               tableData.map((data, index) => (
-                <TableRow key={`data-${index}`}>
+                <TableRow key={`deposit-${index}`}>
                   <TableCell
                     sx={{
                       color: "rgba(0, 0, 0, .87)",
@@ -678,6 +685,9 @@ const UnitData = ({
   homeTenants,
   organizationTimeZone,
   organizationCurrency,
+  loadTransaction,
+  totalReceivables,
+  totalPayables,
 }) => {
   const tableHeaders = {
     default: ["Deposit", "Tax", "Total Amount"],
@@ -703,6 +713,19 @@ const UnitData = ({
       </Box>
     );
   }
+
+  const amountData = [
+    {
+      label: "Total Receivables",
+      value: totalReceivables || 0,
+      url: "/godview/#/transaction/invoice/filter/none",
+    },
+    {
+      label: "Total Payables",
+      value: totalPayables || 0,
+      url: "/godview/#/payment/invoice/filter/none",
+    },
+  ];
 
   return (
     <Box sx={{ px: 2, py: 1 }}>
@@ -754,20 +777,20 @@ const UnitData = ({
         </Box>
       </Box>
 
-      <Box sx={{ py: 1 }}>
-        <CustomTableForHomeDetails
-          tableHeader={tableHeaders.category}
-          tableData={
-            homeDetails.plans?.length > 0
-              ? homeDetails.plans
-              : homeDetails.categories
-          }
-          isLoading={isLoading}
-          organizationCurrency={organizationCurrency}
-        />
-      </Box>
+      <>
+        <Box sx={{ py: 1 }}>
+          <CustomTableForHomeDetails
+            tableHeader={tableHeaders.category}
+            tableData={
+              homeDetails.plans?.length > 0
+                ? homeDetails.plans
+                : homeDetails.categories
+            }
+            isLoading={isLoading}
+            organizationCurrency={organizationCurrency}
+          />
+        </Box>
 
-    
         <Box sx={{ py: 1 }}>
           <CustomTableForDeposits
             tableHeader={tableHeaders.default}
@@ -777,21 +800,77 @@ const UnitData = ({
           />
         </Box>
 
-      <Box sx={{ py: 1 }}>
-        <CustomTableForServices
-          tableHeader={tableHeaders.service}
-          tableData={homeDetails.addOns}
-          isLoading={isLoading}
-          organizationCurrency={organizationCurrency}
-        />
-      </Box>
+        <Box sx={{ py: 1 }}>
+          <CustomTableForServices
+            tableHeader={tableHeaders.service}
+            tableData={homeDetails.addOns}
+            isLoading={isLoading}
+            organizationCurrency={organizationCurrency}
+          />
+        </Box>
 
-      <Box sx={{ py: 1, fontSize: "14px", fontWeight: "400" }}>POC</Box>
-      <CustomTableForPocHomeDetails
-        tableHeader={tableHeaders.poc}
-        tableData={pocDetails}
-        isLoading={isLoading}
-      />
+        <Box sx={{ py: 1, fontSize: "14px", fontWeight: "400" }}>POC</Box>
+        <CustomTableForPocHomeDetails
+          tableHeader={tableHeaders.poc}
+          tableData={pocDetails}
+          isLoading={isLoading}
+        />
+
+        <Divider sx={{ py: 1 }} />
+        <Box sx={{ py: 1, fontSize: "14px", fontWeight: "400" }}>Accounts</Box>
+        {loadTransaction ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "40px",
+            }}
+          >
+            <AppLoader thickness={5} size={20} />
+          </Box>
+        ) : (
+          <Grid container spacing={3} sx={{ position: "relative" }}>
+            {amountData.map(({ label, value, url }, index) => (
+              <>
+                <Grid
+                  item
+                  size={6}
+                  key={label}
+                  sx={{
+                    cursor: "pointer",
+                    transition: "transform 0.2s ease-in-out",
+                    "&:hover": { transform: "scale(1.1)" },
+                  }}
+                  onClick={() => value && navigateToUrl(url)}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{ color: "#717171", fontSize: "13px" }}
+                  >
+                    {label}
+                  </Typography>
+                  <Typography variant="span">
+                    {formatCurrency(organizationCurrency, value || 0)}
+                  </Typography>
+                </Grid>
+                {index === 0 && (
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    sx={{
+                      position: "absolute",
+                      height: "100%",
+                      left: "40%",
+                      transform: "translateX(-50%)",
+                    }}
+                  />
+                )}
+              </>
+            ))}
+          </Grid>
+        )}
+      </>
     </Box>
   );
 };

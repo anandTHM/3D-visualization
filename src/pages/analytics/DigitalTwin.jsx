@@ -245,6 +245,7 @@ const DigitalTwin = ({ mapping }) => {
         projects: selectedProjects._id,
         type: "receivables",
         floorIndex: selectedFloor !== null ? selectedFloor : null,
+        listingsId: selectedUnits?._id || null
       };
 
       const response = await get(
@@ -320,6 +321,7 @@ const DigitalTwin = ({ mapping }) => {
         projects: selectedProjects._id,
         type: "payables",
         floorIndex: selectedFloor !== null ? selectedFloor : null,
+        listingsId: selectedUnits?._id || null
       };
 
       const response = await get(
@@ -785,6 +787,8 @@ const DigitalTwin = ({ mapping }) => {
   useEffect(() => {
     if (selectedUnits?._id) {
       fetchHomeDetails();
+      fetchTotalPayables();
+      fetchTotalReceivables();
     }
   }, [selectedUnits]);
 
@@ -1008,6 +1012,9 @@ const DigitalTwin = ({ mapping }) => {
                       organizationCurrency={organizationCurrency}
                       organizationTimeZone={organizationTimeZone}
                       selectedUnits={selectedUnits}
+                      loadTransaction={loadTransaction}
+                      totalReceivables={totalReceivables}
+                      totalPayables={totalPayables}
                     />
                   </>
                 ) : (
