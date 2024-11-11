@@ -199,11 +199,11 @@ const FloorListings = () => {
         handleLoadMappedData(true);
         setError("");
 
-        console.log("projectId", projectId);
+        const queryParams = new URLSearchParams({ projectId }).toString();
 
         try {
           const response = await get(
-            `/listing/mapped-data/${projectId}`,
+            `/digital-twin/mapped-facilities-and-units?${queryParams}`,
             {},
             authToken
           );
@@ -314,12 +314,13 @@ const FloorListings = () => {
     handleLoadMappedData(true);
     navigate("/floor-mapping-units");
     const queryParam = {
-      index: data.floor - 1,
+      floorIndex: data.floor - 1,
+      projectId: projectId,
     };
 
     try {
       const response = await get(
-        `/listing/mapped-data/${projectId}`,
+        `/digital-twin/mapped-facilities-and-units`,
         queryParam,
         authToken
       );

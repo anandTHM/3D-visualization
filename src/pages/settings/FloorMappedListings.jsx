@@ -268,10 +268,11 @@ const FloorMappedListings = () => {
   const onClickMappedUnitHandler = async () => {
     setLoading(true);
 
+    const queryParams = new URLSearchParams({ projectId }).toString();
     const payload = { smplrSpaceData: Object.values(filteredData) };
     try {
       const response = await put(
-        `/listing/add-units-and-facilities/${projectId}`,
+        `/digital-twin/add-units-and-facilities-with-polygons?${queryParams}`,
         payload,
         authToken
       );

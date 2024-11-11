@@ -10,7 +10,7 @@ import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import { config } from "../../utils";
 import edit from "../../assets/edit.svg";
 import AppModal from "../../components/AppModal";
-import { post ,put } from "../../service";
+import { post, put } from "../../service";
 import AppToolBar from "../../components/AppToolbar";
 
 const SpaceIdValidator = ({
@@ -369,9 +369,11 @@ const DigitalTwinMapping = () => {
       totalPolygons: totalFloorDataItems,
     };
 
+    const queryParams = new URLSearchParams({ projectId }).toString();
+
     try {
       const polygonResponse = await post(
-        `/digital-twin/${projectId}`,
+        `/digital-twin?${queryParams}`,
         polygonPayload,
         authToken
       );

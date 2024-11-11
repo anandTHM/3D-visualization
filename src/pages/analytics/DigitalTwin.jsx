@@ -374,9 +374,10 @@ const DigitalTwin = ({ mapping }) => {
         floorIndex: selectedFloor !== null ? selectedFloor : null,
         facilityId: selectedFacilities?._id || "",
         listingId: selectedUnits?._id || "",
+        projectId: selectedProjects._id,
       };
       const response = await get(
-        `/ticket/get-mapped-units/${selectedProjects._id}`,
+        `/digital-twin/smplr-space/mapped-tickets`,
         queryParams,
         authToken
       );

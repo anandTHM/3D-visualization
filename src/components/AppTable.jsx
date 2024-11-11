@@ -120,8 +120,9 @@ const CustomTable = ({ tableData }) => {
     const fetchData = async () => {
       setLoading(true);
       const response = await get(
-        `/listing/units-and-facilities/${projectId}`,
+        `/digital-twin/units-and-facilities`,
         {
+          projectId,
           type: radioButton.toLowerCase(),
           q: searchQuery.toLowerCase(),
           floorIndex: selectedFloor - 1,
