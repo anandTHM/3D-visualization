@@ -139,25 +139,6 @@ const CustomTable = ({ tableData }) => {
     fetchData();
   }, [radioButton, searchQuery, modalPage]);
 
-  // const fetchUnitsandFacility = async () => {
-  //   setLoading(true);
-  //   const response = await get(
-  //     `/listing/unitsAndFacilities/${projectId}`,
-  //     {
-  //       type: radioButton.toLowerCase(),
-  //       q: searchQuery.toLowerCase(),
-  //       index: selectedFloor - 1,
-  //       page: modalPage,
-  //       limit: 5,
-  //     },
-  //     authToken
-  //   );
-  //   if (response.status === 200) {
-  //     setLoading(false);
-  //     handleAllUnitsAndFacilities(response.data);
-  //   }
-  // };
-
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
   }, []);
@@ -176,12 +157,6 @@ const CustomTable = ({ tableData }) => {
     setRadioButton(event.target.value);
   };
 
-  // const onOpenModalHandler = (rowObjectId) => {
-  //   setIsOpen(true);
-  //   setEditingRowObjectId(rowObjectId);
-  //   setSelectedModalItem(selectedItems[rowObjectId] || null);
-  // };
-
   const handleNextModalPage = () => {
     if (modalPage * 5 < allUnitsAndFacilities.count) {
       setModalPage((prev) => prev + 1);
@@ -193,64 +168,6 @@ const CustomTable = ({ tableData }) => {
       setModalPage((prev) => prev - 1);
     }
   };
-
-  // const onOpenModalHandler = (rowObjectId) => {
-  //   setIsOpen(true);
-  //   setEditingRowObjectId(rowObjectId);
-  //   setSelectedModalItem(selectedItems[rowObjectId] || null);
-  // };
-
-  // const handleClose = () => {
-  //   setIsOpen(false);
-
-  //   if (selectedModalItem && selectedModalItem._id) {
-  //     setAlreadySelectedIds((prevIds) => {
-  //       const updatedIds = new Set(prevIds);
-  //       updatedIds.delete(selectedModalItem._id);
-  //       return updatedIds;
-  //     });
-  //   }
-
-  //   setSelectedModalItem(null);
-  //   setEditingRowObjectId(null);
-  // };
-
-  // const handleSelectModalItem = (item) => {
-  //   if (selectedModalItem && selectedModalItem._id === item._id) {
-  //     setSelectedModalItem(null);
-  //   } else {
-  //     const updatedSelectedIds = new Set(alreadySelectedIds);
-
-  //     if (selectedModalItem) {
-  //       updatedSelectedIds.delete(selectedModalItem._id);
-  //     }
-
-  //     updatedSelectedIds.add(item._id);
-
-  //     setSelectedModalItem(item);
-  //     setAlreadySelectedIds(updatedSelectedIds);
-  //   }
-  // };
-
-  // const handleSubmit = () => {
-  //   setSelectedItems((prev) => {
-  //     const newSelectedItems = { ...prev };
-
-  //     if (selectedModalItem) {
-  //       newSelectedItems[editingRowObjectId] = selectedModalItem;
-  //     } else {
-  //       delete newSelectedItems[editingRowObjectId];
-  //     }
-
-  //     handleSelectedItems(newSelectedItems);
-
-  //     return newSelectedItems;
-  //   });
-
-  //   setIsOpen(false);
-  //   setSelectedModalItem(null);
-  //   setEditingRowObjectId(null);
-  // };
 
   const onOpenModalHandler = (rowObjectId) => {
     const type = selectedItems[rowObjectId]?.name ? "Facilities" : "Units";
@@ -273,7 +190,6 @@ const CustomTable = ({ tableData }) => {
     if (selectedModalItem && selectedModalItem._id === item._id) {
       setSelectedModalItem(null);
     } else {
-      // setSelectedModalItem(item);
       setSelectedModalItem({
         ...item,
         objectId: editingRowObjectId,
@@ -281,202 +197,6 @@ const CustomTable = ({ tableData }) => {
         id: item._id,
       });
     }
-  };
-
-  // const handleSubmit = () => {
-  //   setSelectedItems((prev) => {
-  //     const newSelectedItems = { ...prev };
-
-  //     if (selectedModalItem) {
-  //       // Check if there was a previously selected item for this row
-  //       const previousSelectedItem = newSelectedItems[editingRowObjectId];
-
-  //       // Assign the new selected item
-  //       newSelectedItems[editingRowObjectId] = selectedModalItem;
-
-  //       // Update alreadySelectedIds
-  //       setAlreadySelectedIds((prevIds) => {
-  //         const updatedIds = new Set(prevIds);
-
-  //         // Remove the previous selection if it existed
-  //         if (previousSelectedItem && previousSelectedItem._id !== selectedModalItem._id) {
-  //           updatedIds.delete(previousSelectedItem._id);
-  //         }
-
-  //         // Add the new selection
-  //         updatedIds.add(selectedModalItem._id);
-
-  //         return updatedIds;
-  //       });
-  //     } else {
-  //       // Remove the selection if nothing is selected
-  //       const previousSelectedItem = newSelectedItems[editingRowObjectId];
-  //       if (previousSelectedItem) {
-  //         setAlreadySelectedIds((prevIds) => {
-  //           const updatedIds = new Set(prevIds);
-  //           updatedIds.delete(previousSelectedItem._id); // Make it selectable for others
-  //           return updatedIds;
-  //         });
-  //       }
-  //       delete newSelectedItems[editingRowObjectId];
-  //     }
-
-  //     // Propagate the changes to parent handler
-  //     handleSelectedItems(newSelectedItems);
-
-  //     return newSelectedItems;
-  //   });
-
-  //   // Close the modal and reset the states
-  //   setIsOpen(false);
-  //   setSelectedModalItem(null);
-  //   setEditingRowObjectId(null);
-  // };
-
-  // const handleSubmit = () => {
-  //   setSelectedItems((prev) => {
-  //     const newSelectedItems = { ...prev };
-
-  //     if (selectedModalItem) {
-  //       // Assign the new selected item with objectId, type, and id
-  //       newSelectedItems[editingRowObjectId] = {
-  //         ...selectedModalItem,
-  //         objectId: editingRowObjectId, // Ensure objectId is added
-  //         type: radioButton, // Ensure type is added
-  //         id: selectedModalItem._id, // Ensure id is added
-  //         index: selectedFloor - 1,
-  //       };
-
-  //       // Check if there was a previously selected item for this row
-  //       const previousSelectedItem = newSelectedItems[editingRowObjectId];
-
-  //       // Update alreadySelectedIds
-  //       setAlreadySelectedIds((prevIds) => {
-  //         const updatedIds = new Set(prevIds);
-
-  //         // Remove the previous selection if it existed
-  //         if (previousSelectedItem && previousSelectedItem._id !== selectedModalItem._id) {
-  //           updatedIds.delete(previousSelectedItem._id);
-  //         }
-
-  //         // Add the new selection
-  //         updatedIds.add(selectedModalItem._id);
-
-  //         return updatedIds;
-  //       });
-  //     } else {
-  //       // Remove the selection if nothing is selected
-  //       const previousSelectedItem = newSelectedItems[editingRowObjectId];
-  //       if (previousSelectedItem) {
-  //         setAlreadySelectedIds((prevIds) => {
-  //           const updatedIds = new Set(prevIds);
-  //           updatedIds.delete(previousSelectedItem._id); // Make it selectable for others
-  //           return updatedIds;
-  //         });
-  //       }
-  //       delete newSelectedItems[editingRowObjectId];
-  //     }
-
-  //     // Propagate the changes to parent handler
-  //     handleSelectedItems(newSelectedItems);
-
-  //     return newSelectedItems;
-  //   });
-
-  //   // Close the modal and reset the states
-  //   setIsOpen(false);
-  //   setSelectedModalItem(null);
-  //   setEditingRowObjectId(null);
-  // };
-
-  const handleSubmit = () => {
-    setSelectedItems((prev) => {
-      const newSelectedItems = { ...prev };
-
-      if (selectedModalItem) {
-        // Get the current stored item for this row
-        const previousSelectedItem = prev[editingRowObjectId];
-
-        // Compare with selectedModalItem to check for changes
-        const isItemChanged =
-          !previousSelectedItem ||
-          previousSelectedItem._id !== selectedModalItem._id ||
-          previousSelectedItem.objectId !== editingRowObjectId;
-
-        if (isItemChanged) {
-          // Save only if the item has been edited or newly selected
-          newSelectedItems[editingRowObjectId] = {
-            ...selectedModalItem,
-            objectId: editingRowObjectId, // Ensure objectId is added
-            type: radioButton.toLowerCase(), // Ensure type is added
-            id: selectedModalItem._id, // Ensure id is added
-            index: selectedFloor - 1,
-          };
-
-          // Update alreadySelectedIds
-          setAlreadySelectedIds((prevIds) => {
-            const updatedIds = new Set(prevIds);
-
-            // Remove the previous selection if it existed
-            if (
-              previousSelectedItem &&
-              previousSelectedItem._id !== selectedModalItem._id
-            ) {
-              updatedIds.delete(previousSelectedItem._id);
-            }
-
-            // Add the new selection
-            updatedIds.add(selectedModalItem._id);
-
-            return updatedIds;
-          });
-        }
-      } else {
-        // Remove the selection if nothing is selected
-        const previousSelectedItem = newSelectedItems[editingRowObjectId];
-        if (previousSelectedItem) {
-          setAlreadySelectedIds((prevIds) => {
-            const updatedIds = new Set(prevIds);
-            updatedIds.delete(previousSelectedItem._id);
-            return updatedIds;
-          });
-        }
-        delete newSelectedItems[editingRowObjectId];
-      }
-
-      // Filter out items with `smplrSpaceData`
-      const filteredSelectedItems = Object.entries(newSelectedItems)
-        .filter(([key, value]) => !value.smplrSpaceData)
-        .reduce((acc, [key, value]) => {
-          acc[key] = value;
-          return acc;
-        }, {});
-
-      // Move updated or added item to the end of the object
-      const reorderedSelectedItems = {};
-      Object.keys(newSelectedItems)
-        .filter((key) => key !== editingRowObjectId) // Keep all items except the updated one
-        .forEach((key) => {
-          reorderedSelectedItems[key] = newSelectedItems[key];
-        });
-
-      // Add the updated item at the end
-      if (newSelectedItems[editingRowObjectId]) {
-        reorderedSelectedItems[editingRowObjectId] =
-          newSelectedItems[editingRowObjectId];
-      }
-
-      // Propagate the changes to parent handler
-      handleUpdatedSelectedItems(filteredSelectedItems);
-      handleSelectedItems(reorderedSelectedItems);
-
-      return reorderedSelectedItems;
-    });
-
-    // Close the modal and reset the states
-    setIsOpen(false);
-    setSelectedModalItem(null);
-    setEditingRowObjectId(null);
   };
 
   // const handleSubmit = () => {
@@ -492,7 +212,6 @@ const CustomTable = ({ tableData }) => {
   //         !previousSelectedItem ||
   //         previousSelectedItem._id !== selectedModalItem._id ||
   //         previousSelectedItem.objectId !== editingRowObjectId;
-  //       // previousSelectedItem.type !== 'radioButton';
 
   //       if (isItemChanged) {
   //         // Save only if the item has been edited or newly selected
@@ -535,6 +254,7 @@ const CustomTable = ({ tableData }) => {
   //       delete newSelectedItems[editingRowObjectId];
   //     }
 
+  //     // Filter out items with `smplrSpaceData`
   //     const filteredSelectedItems = Object.entries(newSelectedItems)
   //       .filter(([key, value]) => !value.smplrSpaceData)
   //       .reduce((acc, [key, value]) => {
@@ -542,12 +262,27 @@ const CustomTable = ({ tableData }) => {
   //         return acc;
   //       }, {});
 
-  //     handleUpdatedSelectedItems(filteredSelectedItems);
+  //     // Move updated or added item to the end of the object
+  //     const reorderedSelectedItems = {};
+  //     Object.keys(newSelectedItems)
+  //       .filter((key) => key !== editingRowObjectId) // Keep all items except the updated one
+  //       .forEach((key) => {
+  //         reorderedSelectedItems[key] = newSelectedItems[key];
+  //       });
+
+  //     // Add the updated item at the end
+  //     if (newSelectedItems[editingRowObjectId]) {
+  //       reorderedSelectedItems[editingRowObjectId] =
+  //         newSelectedItems[editingRowObjectId];
+  //     }
 
   //     // Propagate the changes to parent handler
-  //     handleSelectedItems(newSelectedItems);
+  //     handleUpdatedSelectedItems(filteredSelectedItems);
+  //     handleSelectedItems(reorderedSelectedItems);
 
-  //     return newSelectedItems;
+  //     console.log("Filtered Selected Items:", reorderedSelectedItems);
+
+  //     return reorderedSelectedItems;
   //   });
 
   //   // Close the modal and reset the states
@@ -556,6 +291,93 @@ const CustomTable = ({ tableData }) => {
   //   setEditingRowObjectId(null);
   // };
 
+  const handleSubmit = () => {
+    setSelectedItems((prev) => {
+      const newSelectedItems = { ...prev };
+  
+      if (selectedModalItem) {
+        const previousSelectedItem = prev[editingRowObjectId];
+  
+        const isItemChanged =
+          !previousSelectedItem ||
+          previousSelectedItem._id !== selectedModalItem._id ||
+          previousSelectedItem.objectId !== editingRowObjectId;
+  
+        if (isItemChanged) {
+          newSelectedItems[editingRowObjectId] = {
+            ...selectedModalItem,
+            objectId: editingRowObjectId,
+            type: radioButton.toLowerCase(),
+            id: selectedModalItem._id,
+            index: selectedFloor - 1,
+            updated: !!previousSelectedItem, // Set updated to true if there was a previous item
+          };
+  
+          setAlreadySelectedIds((prevIds) => {
+            const updatedIds = new Set(prevIds);
+  
+            if (
+              previousSelectedItem &&
+              previousSelectedItem._id !== selectedModalItem._id
+            ) {
+              updatedIds.delete(previousSelectedItem._id);
+            }
+  
+            updatedIds.add(selectedModalItem._id);
+  
+            return updatedIds;
+          });
+        } else {
+          // Ensure the updated flag is false if there's no change
+          newSelectedItems[editingRowObjectId] = {
+            ...newSelectedItems[editingRowObjectId],
+            updated: false,
+          };
+        }
+      } else {
+        const previousSelectedItem = newSelectedItems[editingRowObjectId];
+        if (previousSelectedItem) {
+          setAlreadySelectedIds((prevIds) => {
+            const updatedIds = new Set(prevIds);
+            updatedIds.delete(previousSelectedItem._id);
+            return updatedIds;
+          });
+        }
+        delete newSelectedItems[editingRowObjectId];
+      }
+  
+      const filteredSelectedItems = Object.entries(newSelectedItems)
+        .filter(([key, value]) => !value.smplrSpaceData)
+        .reduce((acc, [key, value]) => {
+          acc[key] = value;
+          return acc;
+        }, {});
+  
+      const reorderedSelectedItems = {};
+      Object.keys(newSelectedItems)
+        .filter((key) => key !== editingRowObjectId)
+        .forEach((key) => {
+          reorderedSelectedItems[key] = newSelectedItems[key];
+        });
+  
+      if (newSelectedItems[editingRowObjectId]) {
+        reorderedSelectedItems[editingRowObjectId] =
+          newSelectedItems[editingRowObjectId];
+      }
+  
+      handleUpdatedSelectedItems(filteredSelectedItems);
+      handleSelectedItems(reorderedSelectedItems);
+  
+      console.log("Filtered Selected Items:", reorderedSelectedItems);
+  
+      return reorderedSelectedItems;
+    });
+  
+    setIsOpen(false);
+    setSelectedModalItem(null);
+    setEditingRowObjectId(null);
+  };
+  
   return (
     <Box sx={{ p: 2 }}>
       <TableContainer component={Paper} sx={{ border: "1px solid #C9CFD9" }}>
