@@ -156,8 +156,6 @@ const FloorMappedListings = () => {
     });
   };
 
-  console.log("data", selectedItems);
-
   const addDataLayer = useCallback(() => {
     if (!viewerReady) return;
 
@@ -184,18 +182,11 @@ const FloorMappedListings = () => {
       highlighted: furniture.id === activeObjectId,
     }));
 
-    // const filteredItems = Object.fromEntries(
-    //   Object.entries(selectedItems).filter(
-    //     ([_, value]) => !value.smplrSpaceData
-    //   )
-    // );
-
     const filteredItems = Object.fromEntries(
       Object.entries(selectedItems).filter(
-        ([_, value]) =>  value.updated === true || value.updated === false
+        ([_, value]) => !value.smplrSpaceData
       )
-    );
-    
+    );    
 
     setFilteredData(filteredItems);
 
