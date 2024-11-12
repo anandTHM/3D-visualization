@@ -550,6 +550,130 @@ const DigitalTwin = ({ mapping }) => {
   //   }
   // };
 
+  // const fetchHomeDetails = async () => {
+  //   setLoadUnit(true);
+  //   try {
+  //     const params = {
+  //       limit: 9007199254740991,
+  //       listings: selectedUnits?._id,
+  //       page: 1,
+  //       projects: selectedProjects?._id,
+  //       status: ["active", "moving-out", "upcoming"],
+  //     };
+  //     const url = `/home/indexV2`;
+  //     const response = await get(url, params, authToken);
+
+  //     // Fetch tax
+  //     const responseDataForTax = await get(
+  //       `/tax?limit=9007199254740991&page=1`,
+  //       {},
+  //       authToken
+  //     );
+
+  //     // Fetch categories related to the project
+  //     const projectId = selectedProjects?._id;
+  //     const categoryParams = `?belongsTo=Project&categoryType=roomCategory&limit=9007199254740991&page=1&project=${projectId}&status=active`;
+  //     const categoryResponse = await get(
+  //       `/category${categoryParams}`,
+  //       {},
+  //       authToken
+  //     );
+
+  //     const {
+  //       data: { rows: categories = [] },
+  //     } = categoryResponse; // Extract categories
+
+  //     const {
+  //       data: { rows = [] },
+  //     } = response;
+  //     const filteredRows = rows.filter(
+  //       (row) => row.occupancyStatus !== "draft"
+  //     );
+
+  //     if (filteredRows.length > 0) {
+  //       const homeDetail = filteredRows[0];
+  //       handleHomeTenants(homeDetail.billTo);
+  //       handlePocDetails(homeDetail.pointOfContacts);
+
+  //       // Process deposits
+  //       homeDetail.deposits = homeDetail.deposits.map((deposit) => {
+  //         let updatedDeposit = { ...deposit };
+
+  //         if (deposit.applicableTax === null) {
+  //           updatedDeposit.applicableTax = "Inclusive";
+  //         } else {
+  //           const taxData = responseDataForTax.data.rows.find(
+  //             (tax) => tax._id === deposit.applicableTax
+  //           );
+  //           if (taxData) {
+  //             updatedDeposit = {
+  //               ...updatedDeposit,
+  //               applicableTax: taxData._id,
+  //               taxRate: taxData.taxRate,
+  //               taxName: taxData.name,
+  //             };
+  //           }
+  //         }
+
+  //         const internalCategory = (
+  //           homeDetail.plans || homeDetail.categories
+  //         ).find(
+  //           (category) =>
+  //             category._id === deposit.category || category._id === deposit.plan
+  //         );
+
+  //         if (internalCategory) {
+  //           updatedDeposit.numberOfUnits = internalCategory.numberOfUnits || 1;
+  //         }
+
+  //         return updatedDeposit;
+  //       });
+
+  //       if (homeDetail?.plans && homeDetail?.plans.length > 0) {
+  //         homeDetail.plans = homeDetail?.plans.map((planItem) => {
+  //           const categoryMatch = categories.find(
+  //             (category) => category._id === planItem.category
+  //           );
+  //           return {
+  //             ...planItem,
+  //             categoryName: categoryMatch ? categoryMatch.name : null,
+  //             categoryStatus: categoryMatch ? categoryMatch.status : null,
+  //           };
+  //         });
+  //       } else if (homeDetail.categories && homeDetail.categories.length > 0) {
+  //         homeDetail.categories = homeDetail.categories.map((categoryItem) => {
+  //           const categoryMatch = categories.find(
+  //             (category) => category._id === categoryItem.categoryId
+  //           );
+
+  //           const matchedDeposit = homeDetail.deposits.find(
+  //             (category) => category.category === categoryItem.categoryId
+  //           );
+
+  //           return {
+  //             ...categoryItem,
+  //             categoryName: categoryMatch ? categoryMatch.name : null,
+  //             categoryStatus: categoryMatch ? categoryMatch.status : null,
+  //             amount: matchedDeposit?.amount || null,
+  //             applicableTax: matchedDeposit?.applicableTax || null,
+  //           };
+  //         });
+  //       }
+
+  //       handleHomeDetails(homeDetail);
+  //     } else {
+  //       console.warn(
+  //         "No valid rows found with occupancyStatus other than 'draft'"
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoadUnit(false);
+  //   }
+  // };
+
+  // ============commercial========================
   const fetchHomeDetails = async () => {
     setLoadUnit(true);
     try {
@@ -562,14 +686,14 @@ const DigitalTwin = ({ mapping }) => {
       };
       const url = `/home/indexV2`;
       const response = await get(url, params, authToken);
-
+  
       // Fetch tax
       const responseDataForTax = await get(
         `/tax?limit=9007199254740991&page=1`,
         {},
         authToken
       );
-
+  
       // Fetch categories related to the project
       const projectId = selectedProjects?._id;
       const categoryParams = `?belongsTo=Project&categoryType=roomCategory&limit=9007199254740991&page=1&project=${projectId}&status=active`;
@@ -578,27 +702,50 @@ const DigitalTwin = ({ mapping }) => {
         {},
         authToken
       );
-
+  
       const {
         data: { rows: categories = [] },
-      } = categoryResponse; // Extract categories
-
+      } = categoryResponse;
+  
       const {
         data: { rows = [] },
       } = response;
+  
       const filteredRows = rows.filter(
         (row) => row.occupancyStatus !== "draft"
-      );
-
+      ) || [];
+  
       if (filteredRows.length > 0) {
         const homeDetail = filteredRows[0];
         handleHomeTenants(homeDetail.billTo);
         handlePocDetails(homeDetail.pointOfContacts);
-
-        // Process deposits
-        homeDetail.deposits = homeDetail.deposits.map((deposit) => {
+  
+        // Function to find numberOfUnits from plans or categories
+        const findNumberOfUnits = (itemId) => {
+          // First check in plans if they exist
+          if (homeDetail.plans?.length > 0) {
+            const planMatch = homeDetail.plans.find(plan => 
+              plan._id === itemId || plan.category === itemId
+            );
+            if (planMatch?.numberOfUnits) return planMatch.numberOfUnits;
+          }
+  
+          // Then check in categories
+          if (homeDetail.categories?.length > 0) {
+            const categoryMatch = homeDetail.categories.find(category => 
+              category._id === itemId || category.categoryId === itemId
+            );
+            if (categoryMatch?.numberOfUnits) return categoryMatch.numberOfUnits;
+          }
+  
+          return 1; // Default to 1 if no match found
+        };
+  
+        // Process deposits with numberOfUnits
+        homeDetail.deposits = (homeDetail.deposits || []).map((deposit) => {
           let updatedDeposit = { ...deposit };
-
+  
+          // Handle tax information
           if (deposit.applicableTax === null) {
             updatedDeposit.applicableTax = "Inclusive";
           } else {
@@ -614,23 +761,24 @@ const DigitalTwin = ({ mapping }) => {
               };
             }
           }
-
-          const internalCategory = (
-            homeDetail.plans || homeDetail.categories
-          ).find(
-            (category) =>
-              category._id === deposit.category || category._id === deposit.plan
-          );
-
-          if (internalCategory) {
-            updatedDeposit.numberOfUnits = internalCategory.numberOfUnits || 1;
-          }
-
+  
+          // Add numberOfUnits from plans or categories
+          updatedDeposit.numberOfUnits = findNumberOfUnits(deposit.category || deposit.plan);
+          
           return updatedDeposit;
         });
-
-        if (homeDetail?.plans && homeDetail?.plans.length > 0) {
-          homeDetail.plans = homeDetail?.plans.map((planItem) => {
+  
+        // Process rents with numberOfUnits
+        homeDetail.rentDetails = (homeDetail.rentDetails || []).map((rent) => {
+          return {
+            ...rent,
+            numberOfUnits: findNumberOfUnits(rent.categoryId || rent.productAndService)
+          };
+        });
+  
+        // Process plans if they exist
+        if (homeDetail.plans?.length > 0) {
+          homeDetail.plans = homeDetail.plans.map((planItem) => {
             const categoryMatch = categories.find(
               (category) => category._id === planItem.category
             );
@@ -640,16 +788,21 @@ const DigitalTwin = ({ mapping }) => {
               categoryStatus: categoryMatch ? categoryMatch.status : null,
             };
           });
-        } else if (homeDetail.categories && homeDetail.categories.length > 0) {
+        } else {
+          homeDetail.plans = [];
+        }
+  
+        // Process categories if they exist
+        if (homeDetail.categories?.length > 0) {
           homeDetail.categories = homeDetail.categories.map((categoryItem) => {
             const categoryMatch = categories.find(
               (category) => category._id === categoryItem.categoryId
             );
-
+  
             const matchedDeposit = homeDetail.deposits.find(
-              (category) => category.category === categoryItem.categoryId
+              (deposit) => deposit.category === categoryItem.categoryId
             );
-
+  
             return {
               ...categoryItem,
               categoryName: categoryMatch ? categoryMatch.name : null,
@@ -658,13 +811,15 @@ const DigitalTwin = ({ mapping }) => {
               applicableTax: matchedDeposit?.applicableTax || null,
             };
           });
+        } else {
+          homeDetail.categories = [];
         }
-
+  
         handleHomeDetails(homeDetail);
       } else {
-        console.warn(
-          "No valid rows found with occupancyStatus other than 'draft'"
-        );
+        handleHomeDetails([]);
+        handleHomeTenants([]);
+        handlePocDetails([]);
       }
     } catch (error) {
       console.log(error);
@@ -672,6 +827,137 @@ const DigitalTwin = ({ mapping }) => {
       setLoadUnit(false);
     }
   };
+  // const fetchHomeDetails = async () => {
+  //   setLoadUnit(true);
+  //   try {
+  //     const params = {
+  //       limit: 9007199254740991,
+  //       listings: selectedUnits?._id,
+  //       page: 1,
+  //       projects: selectedProjects?._id,
+  //       status: ["active", "moving-out", "upcoming"],
+  //     };
+  //     const url = `/home/indexV2`;
+  //     const response = await get(url, params, authToken);
+  
+  //     // Fetch tax
+  //     const responseDataForTax = await get(
+  //       `/tax?limit=9007199254740991&page=1`,
+  //       {},
+  //       authToken
+  //     );
+  
+  //     // Fetch categories related to the project
+  //     const projectId = selectedProjects?._id;
+  //     const categoryParams = `?belongsTo=Project&categoryType=roomCategory&limit=9007199254740991&page=1&project=${projectId}&status=active`;
+  //     const categoryResponse = await get(
+  //       `/category${categoryParams}`,
+  //       {},
+  //       authToken
+  //     );
+  
+  //     const {
+  //       data: { rows: categories = [] },
+  //     } = categoryResponse; // Extract categories
+  
+  //     const {
+  //       data: { rows = [] },
+  //     } = response;
+  
+  //     // Filter and set default to empty array if filteredRows is empty
+  //     const filteredRows = rows.filter(
+  //       (row) => row.occupancyStatus !== "draft"
+  //     ) || [];
+  
+  //     if (filteredRows.length > 0) {
+  //       const homeDetail = filteredRows[0];
+  //       handleHomeTenants(homeDetail.billTo);
+  //       handlePocDetails(homeDetail.pointOfContacts);
+  
+  //       // Process deposits
+  //       homeDetail.deposits = (homeDetail.rentDetails || []).map((deposit) => {
+  //         let updatedDeposit = { ...deposit };
+  
+  //         if (deposit.applicableTax === null) {
+  //           updatedDeposit.applicableTax = "Inclusive";
+  //         } else {
+  //           const taxData = responseDataForTax.data.rows.find(
+  //             (tax) => tax._id === deposit.applicableTax
+  //           );
+  //           if (taxData) {
+  //             updatedDeposit = {
+  //               ...updatedDeposit,
+  //               applicableTax: taxData._id,
+  //               taxRate: taxData.taxRate,
+  //               taxName: taxData.name,
+  //             };
+  //           }
+  //         }
+  
+  //         const internalCategory = (
+  //           homeDetail.plans || homeDetail.categories || []
+  //         ).find(
+  //           (category) =>
+  //             category._id === deposit.category || category._id === deposit.plan
+  //         );
+  
+  //         if (internalCategory) {
+  //           updatedDeposit.numberOfUnits = internalCategory.numberOfUnits || 1;
+  //         }
+  
+  //         return updatedDeposit;
+  //       });
+  
+  //       if (homeDetail.plans?.length > 0) {
+  //         homeDetail.plans = homeDetail.plans.map((planItem) => {
+  //           const categoryMatch = categories.find(
+  //             (category) => category._id === planItem.category
+  //           );
+  //           return {
+  //             ...planItem,
+  //             categoryName: categoryMatch ? categoryMatch.name : null,
+  //             categoryStatus: categoryMatch ? categoryMatch.status : null,
+  //           };
+  //         });
+  //       } else {
+  //         homeDetail.plans = [];
+  //       }
+  
+  //       if (homeDetail.categories?.length > 0) {
+  //         homeDetail.categories = homeDetail.categories.map((categoryItem) => {
+  //           const categoryMatch = categories.find(
+  //             (category) => category._id === categoryItem.categoryId
+  //           );
+  
+  //           const matchedDeposit = homeDetail.deposits.find(
+  //             (category) => category.category === categoryItem.categoryId
+  //           );
+  
+  //           return {
+  //             ...categoryItem,
+  //             categoryName: categoryMatch ? categoryMatch.name : null,
+  //             categoryStatus: categoryMatch ? categoryMatch.status : null,
+  //             amount: matchedDeposit?.amount || null,
+  //             applicableTax: matchedDeposit?.applicableTax || null,
+  //           };
+  //         });
+  //       } else {
+  //         homeDetail.categories = [];
+  //       }
+  
+  //       handleHomeDetails(homeDetail);
+  //     } else {
+  //       handleHomeDetails([])
+  //       handleHomeTenants([]);
+  //       handlePocDetails([]);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoadUnit(false);
+  //   }
+  // };
+  
 
   const fetchTenantsOfActiveHome = async (id) => {
     try {

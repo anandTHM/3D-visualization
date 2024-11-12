@@ -338,10 +338,10 @@ const CustomTableForHomeDetails = ({
                     width: columnWidth,
                   }}
                 >
-                  {data?.categoryName}{" "}
+                  {data?.categoryName || data?.description }{" "}
                   <Box>
                     {" "}
-                    {data?.numberOfUnits > 1
+                    {data?.numberOfUnits > 0
                       ? `X ${data?.numberOfUnits}`
                       : ""}{" "}
                   </Box>
@@ -375,16 +375,12 @@ const CustomTableForHomeDetails = ({
                     width: columnWidth,
                   }}
                 >
-                  {data?.numberOfUnits
-                    ? formatCurrency(
-                        organizationCurrency,
-                        data?.rent?.defaultPrice.price * data?.numberOfUnits ||
-                          data?.amount
-                      )
-                    : formatCurrency(
-                        organizationCurrency,
-                        data?.rent?.defaultPrice.price || data?.amount
-                      )}
+                  {data?.numberOfUnits &&
+                    formatCurrency(
+                      organizationCurrency,
+                      data?.rent?.defaultPrice.price * data?.numberOfUnits ||
+                        data?.amount * data?.numberOfUnits
+                    )}
                 </TableCell>
               </TableRow>
             ))
@@ -783,8 +779,8 @@ const UnitData = ({
             tableHeader={tableHeaders.category}
             tableData={
               homeDetails.plans?.length > 0
-                ? homeDetails.plans
-                : homeDetails.categories
+                ? homeDetails?.plans
+                : homeDetails?.rentDetails
             }
             isLoading={isLoading}
             organizationCurrency={organizationCurrency}

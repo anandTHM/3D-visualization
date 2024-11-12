@@ -271,10 +271,11 @@ const Space = () => {
 
   const getColor = (d) => {
     let statusLabel = "";
-
+    
     switch (d.status) {
       case "occupied_by_tenant":
       case "occupied_by_owner":
+      case "shifting":
         statusLabel = "Occupied";
         break;
       case "vacant":
