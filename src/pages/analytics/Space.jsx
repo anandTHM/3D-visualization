@@ -155,37 +155,121 @@ const Space = () => {
     unitOccupancy,
   } = DigitalTwinState;
 
+  const [isLoadingViewer, setIsLoadingViewer] = useState(false);
+  const currentProjectIdRef = useRef(null);
+  const loadingSpacePromiseRef = useRef(null);
+
   useEffect(() => {
     let isMounted = true;
 
-    if (selectedProjects && document.getElementById("test")) {
-      loadSmplrJs("umd")
-        .then((smplr) => {
-          if (isMounted) {
-            const spaceInstance = new smplr.Space({
-              spaceId: selectedProjects?.spaceData?.spaceId,
-              clientToken: config.clientToken,
-              containerId: "test",
-            });
-            spaceRef.current = spaceInstance;
+    const cleanup = async () => {
+      // Cancel any pending space loading
+      if (loadingSpacePromiseRef.current) {
+        try {
+          await loadingSpacePromiseRef.current;
+        } catch (error) {
+          console.log("Cancelled previous loading");
+        }
+        loadingSpacePromiseRef.current = null;
+      }
 
-            fetchData(smplr, spaceInstance);
-          }
-        })
-        .catch((error) => console.error(error));
-    }
+      // Cleanup viewer and data layers
+      if (spaceRef.current) {
+        try {
+          spaceRef.current.removeDataLayer("rooms");
+          spaceRef.current.destroy();
+        } catch (error) {
+          console.error("Cleanup error:", error);
+        }
+        spaceRef.current = null;
+      }
+
+      setViewerReady(false);
+      viewerReadyRef.current = false;
+      setData([]);
+      setFurniture([]);
+      setIsLoadingViewer(false);
+    };
+
+    const initViewer = async () => {
+      if (!selectedProjects || !document.getElementById("test")) {
+        await cleanup();
+        return;
+      }
+
+      // Cleanup previous instance before starting new one
+      await cleanup();
+
+      setIsLoadingViewer(true);
+      currentProjectIdRef.current = selectedProjects?._id;
+
+      try {
+        const smplr = await loadSmplrJs("umd");
+
+        // Check if project changed during smplr loading
+        if (
+          !isMounted ||
+          currentProjectIdRef.current !== selectedProjects?._id
+        ) {
+          throw new Error("Project changed during initialization");
+        }
+
+        const spaceInstance = new smplr.Space({
+          spaceId: selectedProjects?.spaceData?.spaceId,
+          clientToken: config.clientToken,
+          containerId: "test",
+        });
+
+        spaceRef.current = spaceInstance;
+
+        // Create a new promise for space loading
+        loadingSpacePromiseRef.current = fetchData(smplr, spaceInstance);
+        await loadingSpacePromiseRef.current;
+      } catch (error) {
+        console.error("Initialization error:", error);
+        await cleanup();
+      } finally {
+        loadingSpacePromiseRef.current = null;
+        if (isMounted) {
+          setIsLoadingViewer(false);
+        }
+      }
+    };
+
+    initViewer();
 
     return () => {
       isMounted = false;
-      if (spaceRef.current) {
-        spaceRef.current.removeDataLayer("rooms");
-      }
+      cleanup();
     };
   }, [selectedProjects]);
 
+  // Modified dataLayer effect with additional safety checks
+
   useEffect(() => {
+    const addDataLayerWithCheck = async () => {
+      if (
+        !spaceRef.current ||
+        currentProjectIdRef.current !== selectedProjects?._id
+      ) {
+        return;
+      }
+
+      try {
+        await addDataLayer();
+      } catch (error) {
+        console.error("Error adding data layer:", error);
+        // Optionally trigger cleanup if data layer addition fails
+        if (currentProjectIdRef.current === selectedProjects?._id) {
+          if (spaceRef.current) {
+            spaceRef.current.removeDataLayer("rooms");
+          }
+        }
+      }
+    };
+
     if (viewerReady && data.length > 0) {
-      addDataLayer();
+      addDataLayerWithCheck();
     }
   }, [viewerReady, data, selectedUnits, onClickStatus, selectedFacilities]);
 
@@ -223,37 +307,75 @@ const Space = () => {
 
   const fetchData = useCallback(
     async (smplr, spaceInstance) => {
+      const currentProjectId = selectedProjects?._id;
+      let viewerStartPromise;
+
       try {
-        await spaceInstance.startViewer({
-          preview: false,
-          mode: "3d",
-          loadingMessage: "Building your space...",
-          onReady: () => {
-            setViewerReady(true);
-            viewerReadyRef.current = true;
-          },
-          onError: (error) => console.error("Could not start viewer", error),
-          // onVisibleLevelsChanged: (floors) => handleFloors(floors),
-          hideLevelPicker: true,
+        // Create a promise that can be cancelled
+        viewerStartPromise = new Promise((resolve, reject) => {
+          spaceInstance.startViewer({
+            preview: false,
+            mode: "3d",
+            loadingMessage: "Building your space...",
+            onReady: () => {
+              // Check if project is still the same
+              if (currentProjectId === selectedProjects?._id) {
+                setViewerReady(true);
+                viewerReadyRef.current = true;
+                resolve();
+              } else {
+                reject(new Error("Project changed during viewer loading"));
+              }
+            },
+            onError: (error) => {
+              console.error("Could not start viewer", error);
+              reject(error);
+            },
+            hideLevelPicker: true,
+          });
         });
+
+        await viewerStartPromise;
+
+        // Check if project changed during viewer initialization
+        if (currentProjectId !== selectedProjects?._id) {
+          throw new Error("Project changed after viewer initialization");
+        }
 
         const smplrClient = new smplr.QueryClient({
           organizationId: config.organizationId,
           clientToken: config.clientToken,
         });
 
-        const furnitures = await smplrClient.getAllFurnitureInSpace(
-          selectedProjects?.spaceData?.spaceId
+        // Use Promise.race to implement timeout
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Data fetching timeout")), 30000)
         );
 
-        const space = await smplrClient.getSpace(
-          selectedProjects?.spaceData?.spaceId || config.spaceId
-        );
+        const dataFetchPromise = Promise.all([
+          smplrClient.getAllFurnitureInSpace(
+            selectedProjects?.spaceData?.spaceId
+          ),
+          smplrClient.getSpace(
+            selectedProjects?.spaceData?.spaceId || config.spaceId
+          ),
+        ]);
+
+        const [furnitures, space] = await Promise.race([
+          dataFetchPromise,
+          timeoutPromise,
+        ]);
+
+        // Final check if project is still the same
+        if (currentProjectId !== selectedProjects?._id) {
+          throw new Error("Project changed during data fetching");
+        }
+
+        setSelectedRoom(smplrClient);
+
         const polygons = space?.assetmap.filter(
           (asset) => asset.type === "polygon"
         );
-
-        setSelectedRoom(smplrClient);
 
         if (polygons && polygons.length > 0) {
           setData(polygons[0].assets);
@@ -263,15 +385,16 @@ const Space = () => {
           setFurniture(furnitures);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error in fetchData:", error);
+        throw error; // Propagate error to initViewer for cleanup
       }
     },
-    [floors, selectedFloor]
+    [floors, selectedFloor, selectedProjects]
   );
 
   const getColor = (d) => {
     let statusLabel = "";
-    
+
     switch (d.status) {
       case "occupied_by_tenant":
       case "occupied_by_owner":
