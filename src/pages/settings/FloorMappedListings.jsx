@@ -291,12 +291,75 @@ const FloorMappedListings = () => {
     }
   };
 
+  // const renderInfoItem = (label, value) => (
+  //   <Grid item container>
+  //     <Typography
+  //       variant="body2"
+  //       component="span"
+  //       sx={{ fontSize: "12px", color: "#848484" }}
+  //     >
+  //       {label}
+  //     </Typography>
+  //     <Typography
+  //       variant="body2"
+  //       component="span"
+  //       sx={{
+  //         fontSize: "14px",
+  //         color: "rgba(0, 0, 0, .87);",
+  //         whiteSpace: "nowrap",
+  //       }}
+  //     >
+  //       <br />
+  //       {value}
+  //     </Typography>
+  //   </Grid>
+  // );
+
+  // const renderSearchAndInfo = () => {
+  //   const isProjectNameTooLong = projectName.length > 30;
+
+  //   return (
+  //     <Box sx={{ mt: 2, px: 2 }}>
+  //       <Grid container spacing={2} alignItems="flex-start">
+  //         <Grid item size={isProjectNameTooLong ? 12 : 5}>
+  //           <AppInputField
+  //             labelText="Search"
+  //             showSearchIcon={true}
+  //             fullWidth
+  //             value={searchText}
+  //             onChange={(event) => setSearchText(event.target.value)}
+  //             labelFont="14px"
+  //             width={isProjectNameTooLong ? "600px" : "300px"}
+  //           />
+  //         </Grid>
+  //         <Grid item size={isProjectNameTooLong ? 12 : 7}>
+  //           <Grid container spacing={4}>
+  //             <Grid item size={isProjectNameTooLong ? 4 : 4}>
+  //               {renderInfoItem("Property", projectName)}
+  //             </Grid>
+  //             <Grid item size={isProjectNameTooLong ? 4 : 4}>
+  //               {renderInfoItem("Floor", selectedFloor)}
+  //             </Grid>
+  //             <Grid item size={4}>
+  //               {renderInfoItem(
+  //                 "Total Mapped",
+  //                 `${mappedPolygons.length} / ${selectedFloorData?.length}`
+  //               )}
+  //             </Grid>
+  //           </Grid>
+  //         </Grid>
+  //       </Grid>
+  //     </Box>
+  //   );
+  // };
+
+
   const renderInfoItem = (label, value) => (
-    <Grid item container>
+    <Grid item container direction="column" spacing={1}>
       <Typography
         variant="body2"
         component="span"
-        sx={{ fontSize: "12px", color: "#848484" }}
+        sx={{ fontSize: "12px", color: "#848484", fontWeight: 500 }}
       >
         {label}
       </Typography>
@@ -305,22 +368,21 @@ const FloorMappedListings = () => {
         component="span"
         sx={{
           fontSize: "14px",
-          color: "rgba(0, 0, 0, .87);",
+          color: "rgba(0, 0, 0, 0.87)",
           whiteSpace: "nowrap",
         }}
       >
-        <br />
         {value}
       </Typography>
     </Grid>
   );
-
+  
   const renderSearchAndInfo = () => {
     const isProjectNameTooLong = projectName.length > 30;
-
+  
     return (
       <Box sx={{ mt: 2, px: 2 }}>
-        <Grid container spacing={4} alignItems="flex-start">
+        <Grid container spacing={3} alignItems="center">
           <Grid item size={isProjectNameTooLong ? 12 : 5}>
             <AppInputField
               labelText="Search"
@@ -333,17 +395,17 @@ const FloorMappedListings = () => {
             />
           </Grid>
           <Grid item size={isProjectNameTooLong ? 12 : 7}>
-            <Grid container spacing={4}>
-              <Grid item size={isProjectNameTooLong ? 7 : 4}>
+            <Grid container spacing={4} justifyContent="space-around">
+              <Grid item size={4}>
                 {renderInfoItem("Property", projectName)}
               </Grid>
-              <Grid item size={isProjectNameTooLong ? 1 : 4}>
+              <Grid item size={2}>
                 {renderInfoItem("Floor", selectedFloor)}
               </Grid>
               <Grid item size={4}>
                 {renderInfoItem(
                   "Total Mapped",
-                  `${mappedPolygons.length} / ${selectedFloorData?.length}`
+                  `${mappedPolygons.length} / ${selectedFloorData?.length || 0}`
                 )}
               </Grid>
             </Grid>
@@ -352,6 +414,7 @@ const FloorMappedListings = () => {
       </Box>
     );
   };
+  
 
   const renderSpaceViewer = () => (
     <Box
