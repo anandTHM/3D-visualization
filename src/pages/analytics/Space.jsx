@@ -177,7 +177,6 @@ const Space = () => {
       if (spaceRef.current) {
         try {
           spaceRef.current.removeDataLayer("rooms");
-          spaceRef.current.destroy();
         } catch (error) {
           console.error("Cleanup error:", error);
         }

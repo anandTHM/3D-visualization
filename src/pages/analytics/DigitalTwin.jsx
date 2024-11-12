@@ -295,7 +295,8 @@ const DigitalTwin = ({ mapping }) => {
       const queryParams = {
         projects: selectedProjects._id,
         floorIndex: selectedFloor !== null ? selectedFloor : null,
-        id: selectedFacilities?._id || selectedUnits?._id || null,
+        listingId: selectedUnits?._id || null,
+        facilityId:  selectedFacilities?._id || null,
       };
       const response = await get(
         "/stats/Overview/tickets",
