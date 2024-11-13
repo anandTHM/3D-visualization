@@ -245,7 +245,7 @@ const DigitalTwin = ({ mapping }) => {
         projects: selectedProjects._id,
         type: "receivables",
         floorIndex: selectedFloor !== null ? selectedFloor : null,
-        listingsId: selectedUnits?._id || null
+        listingsId: selectedUnits?._id || null,
       };
 
       const response = await get(
@@ -296,7 +296,7 @@ const DigitalTwin = ({ mapping }) => {
         projects: selectedProjects._id,
         floorIndex: selectedFloor !== null ? selectedFloor : null,
         listingId: selectedUnits?._id || null,
-        facilityId:  selectedFacilities?._id || null,
+        facilityId: selectedFacilities?._id || null,
       };
       const response = await get(
         "/stats/Overview/tickets",
@@ -322,7 +322,7 @@ const DigitalTwin = ({ mapping }) => {
         projects: selectedProjects._id,
         type: "payables",
         floorIndex: selectedFloor !== null ? selectedFloor : null,
-        listingsId: selectedUnits?._id || null
+        listingsId: selectedUnits?._id || null,
       };
 
       const response = await get(
@@ -687,14 +687,14 @@ const DigitalTwin = ({ mapping }) => {
       };
       const url = `/home/indexV2`;
       const response = await get(url, params, authToken);
-  
+
       // Fetch tax
       const responseDataForTax = await get(
         `/tax?limit=9007199254740991&page=1`,
         {},
         authToken
       );
-  
+
       // Fetch categories related to the project
       const projectId = selectedProjects?._id;
       const categoryParams = `?belongsTo=Project&categoryType=roomCategory&limit=9007199254740991&page=1&project=${projectId}&status=active`;
@@ -703,49 +703,50 @@ const DigitalTwin = ({ mapping }) => {
         {},
         authToken
       );
-  
+
       const {
         data: { rows: categories = [] },
       } = categoryResponse;
-  
+
       const {
         data: { rows = [] },
       } = response;
-  
-      const filteredRows = rows.filter(
-        (row) => row.occupancyStatus !== "draft"
-      ) || [];
-  
+
+      const filteredRows =
+        rows.filter((row) => row.occupancyStatus !== "draft") || [];
+
       if (filteredRows.length > 0) {
         const homeDetail = filteredRows[0];
         handleHomeTenants(homeDetail.billTo);
         handlePocDetails(homeDetail.pointOfContacts);
-  
+
         // Function to find numberOfUnits from plans or categories
         const findNumberOfUnits = (itemId) => {
           // First check in plans if they exist
           if (homeDetail.plans?.length > 0) {
-            const planMatch = homeDetail.plans.find(plan => 
-              plan._id === itemId || plan.category === itemId
+            const planMatch = homeDetail.plans.find(
+              (plan) => plan._id === itemId || plan.category === itemId
             );
             if (planMatch?.numberOfUnits) return planMatch.numberOfUnits;
           }
-  
+
           // Then check in categories
           if (homeDetail.categories?.length > 0) {
-            const categoryMatch = homeDetail.categories.find(category => 
-              category._id === itemId || category.categoryId === itemId
+            const categoryMatch = homeDetail.categories.find(
+              (category) =>
+                category._id === itemId || category.categoryId === itemId
             );
-            if (categoryMatch?.numberOfUnits) return categoryMatch.numberOfUnits;
+            if (categoryMatch?.numberOfUnits)
+              return categoryMatch.numberOfUnits;
           }
-  
+
           return 1; // Default to 1 if no match found
         };
-  
+
         // Process deposits with numberOfUnits
         homeDetail.deposits = (homeDetail.deposits || []).map((deposit) => {
           let updatedDeposit = { ...deposit };
-  
+
           // Handle tax information
           if (deposit.applicableTax === null) {
             updatedDeposit.applicableTax = "Inclusive";
@@ -762,21 +763,25 @@ const DigitalTwin = ({ mapping }) => {
               };
             }
           }
-  
+
           // Add numberOfUnits from plans or categories
-          updatedDeposit.numberOfUnits = findNumberOfUnits(deposit.category || deposit.plan);
-          
+          updatedDeposit.numberOfUnits = findNumberOfUnits(
+            deposit.category || deposit.plan
+          );
+
           return updatedDeposit;
         });
-  
+
         // Process rents with numberOfUnits
         homeDetail.rentDetails = (homeDetail.rentDetails || []).map((rent) => {
           return {
             ...rent,
-            numberOfUnits: findNumberOfUnits(rent.categoryId || rent.productAndService)
+            numberOfUnits: findNumberOfUnits(
+              rent.categoryId || rent.productAndService
+            ),
           };
         });
-  
+
         // Process plans if they exist
         if (homeDetail.plans?.length > 0) {
           homeDetail.plans = homeDetail.plans.map((planItem) => {
@@ -792,18 +797,18 @@ const DigitalTwin = ({ mapping }) => {
         } else {
           homeDetail.plans = [];
         }
-  
+
         // Process categories if they exist
         if (homeDetail.categories?.length > 0) {
           homeDetail.categories = homeDetail.categories.map((categoryItem) => {
             const categoryMatch = categories.find(
               (category) => category._id === categoryItem.categoryId
             );
-  
+
             const matchedDeposit = homeDetail.deposits.find(
               (deposit) => deposit.category === categoryItem.categoryId
             );
-  
+
             return {
               ...categoryItem,
               categoryName: categoryMatch ? categoryMatch.name : null,
@@ -815,7 +820,7 @@ const DigitalTwin = ({ mapping }) => {
         } else {
           homeDetail.categories = [];
         }
-  
+
         handleHomeDetails(homeDetail);
       } else {
         handleHomeDetails([]);
@@ -840,14 +845,14 @@ const DigitalTwin = ({ mapping }) => {
   //     };
   //     const url = `/home/indexV2`;
   //     const response = await get(url, params, authToken);
-  
+
   //     // Fetch tax
   //     const responseDataForTax = await get(
   //       `/tax?limit=9007199254740991&page=1`,
   //       {},
   //       authToken
   //     );
-  
+
   //     // Fetch categories related to the project
   //     const projectId = selectedProjects?._id;
   //     const categoryParams = `?belongsTo=Project&categoryType=roomCategory&limit=9007199254740991&page=1&project=${projectId}&status=active`;
@@ -856,29 +861,29 @@ const DigitalTwin = ({ mapping }) => {
   //       {},
   //       authToken
   //     );
-  
+
   //     const {
   //       data: { rows: categories = [] },
   //     } = categoryResponse; // Extract categories
-  
+
   //     const {
   //       data: { rows = [] },
   //     } = response;
-  
+
   //     // Filter and set default to empty array if filteredRows is empty
   //     const filteredRows = rows.filter(
   //       (row) => row.occupancyStatus !== "draft"
   //     ) || [];
-  
+
   //     if (filteredRows.length > 0) {
   //       const homeDetail = filteredRows[0];
   //       handleHomeTenants(homeDetail.billTo);
   //       handlePocDetails(homeDetail.pointOfContacts);
-  
+
   //       // Process deposits
   //       homeDetail.deposits = (homeDetail.rentDetails || []).map((deposit) => {
   //         let updatedDeposit = { ...deposit };
-  
+
   //         if (deposit.applicableTax === null) {
   //           updatedDeposit.applicableTax = "Inclusive";
   //         } else {
@@ -894,21 +899,21 @@ const DigitalTwin = ({ mapping }) => {
   //             };
   //           }
   //         }
-  
+
   //         const internalCategory = (
   //           homeDetail.plans || homeDetail.categories || []
   //         ).find(
   //           (category) =>
   //             category._id === deposit.category || category._id === deposit.plan
   //         );
-  
+
   //         if (internalCategory) {
   //           updatedDeposit.numberOfUnits = internalCategory.numberOfUnits || 1;
   //         }
-  
+
   //         return updatedDeposit;
   //       });
-  
+
   //       if (homeDetail.plans?.length > 0) {
   //         homeDetail.plans = homeDetail.plans.map((planItem) => {
   //           const categoryMatch = categories.find(
@@ -923,17 +928,17 @@ const DigitalTwin = ({ mapping }) => {
   //       } else {
   //         homeDetail.plans = [];
   //       }
-  
+
   //       if (homeDetail.categories?.length > 0) {
   //         homeDetail.categories = homeDetail.categories.map((categoryItem) => {
   //           const categoryMatch = categories.find(
   //             (category) => category._id === categoryItem.categoryId
   //           );
-  
+
   //           const matchedDeposit = homeDetail.deposits.find(
   //             (category) => category.category === categoryItem.categoryId
   //           );
-  
+
   //           return {
   //             ...categoryItem,
   //             categoryName: categoryMatch ? categoryMatch.name : null,
@@ -945,7 +950,7 @@ const DigitalTwin = ({ mapping }) => {
   //       } else {
   //         homeDetail.categories = [];
   //       }
-  
+
   //       handleHomeDetails(homeDetail);
   //     } else {
   //       handleHomeDetails([])
@@ -958,7 +963,6 @@ const DigitalTwin = ({ mapping }) => {
   //     setLoadUnit(false);
   //   }
   // };
-  
 
   const fetchTenantsOfActiveHome = async (id) => {
     try {
@@ -1201,8 +1205,10 @@ const DigitalTwin = ({ mapping }) => {
                   <ShowUnitAndFacility
                     name={selectedFacilities?.name}
                     onClickHandler={() => {
-                      const parentUrl = `${baseUrl}/godview/#/facility-booking/view/${selectedFacilities?._id}`;
-                      window.open(parentUrl, "_blank");
+                      if (selectedFacilities?._id) {
+                        const parentUrl = `${baseUrl}/godview/#/facility-booking/view/${selectedFacilities?._id}`;
+                        window.open(parentUrl, "_blank");
+                      }
                     }}
                     isFacility
                   />
@@ -1279,18 +1285,24 @@ const DigitalTwin = ({ mapping }) => {
                       name={selectedUnits?.name}
                       unitsDetails={selectedUnits}
                       onClickHandler={() => {
-                        const parentUrl = `${baseUrl}/godview/#/listing/view/${selectedUnits._id}`;
-                        window.open(parentUrl, "_blank");
+                        if (selectedUnits?._id) {
+                          const parentUrl = `${baseUrl}/godview/#/listing/view/${selectedUnits._id}`;
+                          window.open(parentUrl, "_blank");
+                        }
                       }}
                     />
                     <ShowUnitAndFacility
                       name={"Contract Details"}
                       onClickHandler={() => {
-                        const parentUrl = `${baseUrl}/godview/#/contracts/view/commercial/${homeDetails._id}`;
-                        window.open(parentUrl, "_blank");
+                        if (homeDetails?._id) {
+                          const parentUrl = `${baseUrl}/godview/#/contracts/view/commercial/${homeDetails._id}`;
+                          window.open(parentUrl, "_blank");
+                        }
                       }}
                       isCommercial
+                      isDisabled={!homeDetails?._id}
                     />
+
                     <UnitData
                       homeDetails={homeDetails}
                       pocDetails={pocDetails}

@@ -314,7 +314,7 @@ const CustomTableForHomeDetails = ({
           <TableRow>
             {tableHeader.map((header, index) => (
               <TableCell
-                key={`header-${index}`}
+                key={`header1-${index}`}
                 sx={{ fontWeight: "400", fontSize: "13px", color: "#8C8C8C" }}
               >
                 {header}
@@ -417,7 +417,7 @@ const CustomTableForServices = ({
             <TableRow>
               {tableHeader.map((header, index) => (
                 <TableCell
-                  key={`header-${index}`}
+                  key={`header2-${index}`}
                   sx={{ fontWeight: "400", fontSize: "13px", color: "#8C8C8C" }}
                 >
                   {header}
@@ -508,7 +508,7 @@ const CustomTableForPocHomeDetails = ({
             <TableRow>
               {tableHeader.map((header, index) => (
                 <TableCell
-                  key={`header-${index}`}
+                  key={`header3-${index}`}
                   sx={{ fontWeight: "400", fontSize: "13px", color: "#8C8C8C" }}
                 >
                   {header}
@@ -599,7 +599,7 @@ const CustomTableForDeposits = ({
             <TableRow>
               {tableHeader.map((header, index) => (
                 <TableCell
-                  key={`header-${index}`}
+                  key={`header4-${index}`}
                   sx={{ fontWeight: "400", fontSize: "13px", color: "#8C8C8C" }}
                 >
                   {header}
@@ -832,7 +832,7 @@ const UnitData = ({
                 <Grid
                   item
                   size={6}
-                  key={label}
+                  key={label+index}
                   sx={{
                     cursor: "pointer",
                     transition: "transform 0.2s ease-in-out",

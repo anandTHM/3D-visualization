@@ -164,10 +164,7 @@ const Space = () => {
     const cleanup = () => {
       if (spaceRef.current) {
         try {
-          // Remove all data layers
           spaceRef.current.removeDataLayer("rooms");
-          // Destroy the viewer if needed
-          spaceRef.current.destroy();
         } catch (error) {
           console.error("Cleanup error:", error);
         }
