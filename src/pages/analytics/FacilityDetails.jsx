@@ -79,6 +79,10 @@ const FacilityCustomTableForUserDetails = ({
                     color: "rgba(0, 0, 0, .87)",
                     fontSize: "13px",
                     py: 1,
+                    maxWidth: "100px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                 >
                   {item.firstName}
