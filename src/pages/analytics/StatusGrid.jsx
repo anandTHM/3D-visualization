@@ -1,21 +1,22 @@
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+
 const StatusGrid = ({ label, value, statusColor, onClick }) => (
   <Grid
     sx={{
-      cursor: value > 0 ? "pointer" : " default",
+      cursor: value > 0 ? "pointer" : "default",
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
-      transition: "transform 0.2s ease-in-out", 
+      transition: "transform 0.2s ease-in-out",
       "&:hover": {
-        transform: value > 0 ? "scale(1.15)" : "none", 
+        transform: value > 0 ? "scale(1.15)" : "none",
       },
     }}
     onClick={value && onClick}
     size={4}
   >
-    <Box sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
+    <Box sx={{ display: "flex", alignItems: "center", marginBottom: 0.5 }}>
       {statusColor && (
         <Box
           sx={{
