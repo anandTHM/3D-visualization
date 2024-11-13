@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import {
   Table,
@@ -22,6 +22,7 @@ import { config } from "../../utils";
 import AppButton from "../../components/AppButton";
 import { baseUrl } from "../../utils/helper";
 import AppToolBar from "../../components/AppToolbar";
+import AppLoader from "../../components/AppLoader";
 
 const CustomTable = ({ tableHeader, tableData, mappedPolygons, onClick }) => {
   const [page, setPage] = useState(0);
@@ -337,16 +338,7 @@ const FloorListings = () => {
 
   if (loadingMappedData || loadingSpaceData) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          mt: 5,
-        }}
-      >
-        <CircularProgress thickness={5} size={40} color="#000000" />
-      </Box>
+        <AppLoader thickness={5} size={40} color="#000000" />
     );
   }
 
