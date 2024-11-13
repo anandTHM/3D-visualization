@@ -1072,7 +1072,6 @@ const DigitalTwin = ({ mapping }) => {
     if (selectedFacilities?._id) {
       fetchFacilityDetails();
       fetchFacilityBookinDetails();
-      fetchTicketsForSpace();
     }
   }, [selectedFacilities]);
 
@@ -1081,7 +1080,6 @@ const DigitalTwin = ({ mapping }) => {
       fetchHomeDetails();
       fetchTotalPayables();
       fetchTotalReceivables();
-      fetchTicketsForSpace();
     }
   }, [selectedUnits]);
 
