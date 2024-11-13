@@ -338,7 +338,9 @@ const FloorListings = () => {
 
   if (loadingMappedData || loadingSpaceData) {
     return (
+      <Box sx={{mt:10}}>
         <AppLoader thickness={5} size={40} color="#000000" />
+      </Box>
     );
   }
 

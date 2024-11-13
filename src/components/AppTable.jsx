@@ -763,7 +763,16 @@ const CustomTable = ({ tableData }) => {
           </Box>
 
           {loading ? (
-            <AppLoader thickness={5} size={30} color="#000000" />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100px",
+              }}
+            >
+              <AppLoader thickness={5} size={30} color="#000000" />
+            </Box>
           ) : allUnitsAndFacilities?.rows?.length > 0 ? (
             allUnitsAndFacilities?.rows?.map((item) => {
               const isSelected =

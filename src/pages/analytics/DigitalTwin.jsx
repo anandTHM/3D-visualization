@@ -1232,7 +1232,20 @@ const DigitalTwin = ({ mapping }) => {
                     Tickets
                   </Box>
                   {loadTicketsStatus ? (
-                    <AppLoader thickness={5} size={30} color="#FFFFFF" />
+                     <Box
+                     sx={{
+                       display: "flex",
+                       justifyContent: "center",
+                       alignItems: "center",
+                       height: "100px",
+                     }}
+                   >
+                      <AppLoader
+                        thickness={5}
+                        size={30}
+                        color="#FFFFFF"
+                      />
+                    </Box>
                   ) : (
                     <TicketsOverview
                       ticketsStatus={ticketsStatus}
@@ -1333,7 +1346,16 @@ const DigitalTwin = ({ mapping }) => {
       <Grid container sx={{ background: "#ffffff" }}>
         {!selectedProjects ? (
           <Grid item size={12}>
-            <AppLoader thickness={5} size={40} color="#FFFFFF" />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "77vh",
+              }}
+            >
+              <AppLoader thickness={5} size={40} color="#FFFFFF" />
+            </Box>
           </Grid>
         ) : (
           <>

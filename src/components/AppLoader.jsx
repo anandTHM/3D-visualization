@@ -8,7 +8,6 @@ const AppLoader = ({ thickness, size, color }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        mt: 5,
       }}
     >
       <CircularProgress

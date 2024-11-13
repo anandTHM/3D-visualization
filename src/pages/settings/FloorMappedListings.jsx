@@ -485,7 +485,9 @@ const FloorMappedListings = () => {
         <Grid container>
           <Grid item size={7} spacing={1}>
             {loadMappedData ? (
-              <AppLoader thickness={5} size={30} color="#000000" />
+              <Box sx={{ mt: 10 }}>
+                <AppLoader thickness={5} size={30} color="#000000" />
+              </Box>
             ) : (
               <>
                 {renderSearchAndInfo()}
