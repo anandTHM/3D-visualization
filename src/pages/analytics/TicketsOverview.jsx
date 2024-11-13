@@ -154,8 +154,8 @@ const TicketsOverview = ({
             }}
             onClick={() => {
               const parentUrl = `${baseUrl}/godview/#/ticket/filter/none`;
-              window.parent.location.href = parentUrl;
-            }}
+              window.open(parentUrl, '_blank');
+            }}            
           >
             View More
           </Button>
