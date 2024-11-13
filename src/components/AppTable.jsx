@@ -92,8 +92,6 @@ const CustomTable = ({ tableData }) => {
       return acc;
     }, {});
 
-    console.log(transformedData, mappedPolygons);
-
     setSelectedItems(transformedData);
 
     const selectedIdsFromMappedPolygons = new Set(
@@ -470,8 +468,6 @@ const CustomTable = ({ tableData }) => {
       }
   
       // Log the state before propagating changes
-      console.log("New Selected Items:", reorderedSelectedItems);
-      console.log("Filtered Selected Items:", filteredSelectedItems);
   
       // Propagate the changes to parent handlers
       handleUpdatedSelectedItems(filteredSelectedItems);

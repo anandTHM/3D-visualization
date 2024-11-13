@@ -182,11 +182,13 @@ const FloorMappedListings = () => {
       highlighted: furniture.id === activeObjectId,
     }));
 
-    const filteredItems = Object.fromEntries(
-      Object.entries(selectedItems).filter(
-        ([_, value]) => !value.smplrSpaceData
-      )
-    );    
+    // const filteredItems = Object.fromEntries(
+    //   Object.entries(selectedItems).filter(
+    //     ([_, value]) => !value.smplrSpaceData
+    //   )
+    // );    
+
+    const filteredItems = Object.fromEntries( Object.entries(selectedItems).filter( ([_, value]) => value.updated === true || value.updated === false))
 
     setFilteredData(filteredItems);
 
@@ -270,6 +272,7 @@ const FloorMappedListings = () => {
 
     const queryParams = new URLSearchParams({ projectId }).toString();
     const payload = { smplrSpaceData: Object.values(filteredData) };
+
     try {
       const response = await put(
         `/digital-twin/add-units-and-facilities-with-polygons?${queryParams}`,
