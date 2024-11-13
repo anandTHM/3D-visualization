@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import { Box, Typography, Divider, CircularProgress } from "@mui/material";
+import { Box, Typography, Divider } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import noSpace from "../../assets/noSpace.svg";
 import AppInput from "../../components/AppInputField";
@@ -12,6 +12,7 @@ import edit from "../../assets/edit.svg";
 import AppModal from "../../components/AppModal";
 import { post, put } from "../../service";
 import AppToolBar from "../../components/AppToolbar";
+import AppLoader from "../../components/AppLoader";
 
 const SpaceIdValidator = ({
   enterSpaceId,
@@ -59,7 +60,7 @@ const SpaceIdValidator = ({
               </Box>
               {isLoading ? (
                 <Box sx={{ mt: 2 }}>
-                  <CircularProgress thickness={5} size={30} color="#000000" />
+                  <AppLoader thickness={5} size={30} color="#000000" />
                 </Box>
               ) : (
                 <Box sx={{ mt: 2 }}>

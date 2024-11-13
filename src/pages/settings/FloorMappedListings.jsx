@@ -11,7 +11,7 @@ import CustomTable from "../../components/AppTable";
 import AppModal from "../../components/AppModal";
 import { put } from "../../service";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import AppLoader from "../../components/AppLoader";
 
 const tooltipContainerStyle = {
   fontSize: "10px",
@@ -186,9 +186,13 @@ const FloorMappedListings = () => {
     //   Object.entries(selectedItems).filter(
     //     ([_, value]) => !value.smplrSpaceData
     //   )
-    // );    
+    // );
 
-    const filteredItems = Object.fromEntries( Object.entries(selectedItems).filter( ([_, value]) => value.updated === true || value.updated === false))
+    const filteredItems = Object.fromEntries(
+      Object.entries(selectedItems).filter(
+        ([_, value]) => value.updated === true || value.updated === false
+      )
+    );
 
     setFilteredData(filteredItems);
 
@@ -356,7 +360,6 @@ const FloorMappedListings = () => {
   //   );
   // };
 
-
   const renderInfoItem = (label, value) => (
     <Grid item container direction="column" spacing={1}>
       <Typography
@@ -379,10 +382,10 @@ const FloorMappedListings = () => {
       </Typography>
     </Grid>
   );
-  
+
   const renderSearchAndInfo = () => {
     const isProjectNameTooLong = projectName.length > 30;
-  
+
     return (
       <Box sx={{ mt: 2, px: 2 }}>
         <Grid container spacing={3} alignItems="center">
@@ -417,7 +420,6 @@ const FloorMappedListings = () => {
       </Box>
     );
   };
-  
 
   const renderSpaceViewer = () => (
     <Box
@@ -483,16 +485,7 @@ const FloorMappedListings = () => {
         <Grid container>
           <Grid item size={7} spacing={1}>
             {loadMappedData ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100px",
-                }}
-              >
-                <CircularProgress thickness={5} size={30} color="#000000" />
-              </Box>
+              <AppLoader thickness={5} size={30} color="#000000" />
             ) : (
               <>
                 {renderSearchAndInfo()}

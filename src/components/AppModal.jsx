@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { CircularProgress } from "@mui/material";
 import { useSpace } from "../store";
+import AppLoader from "./AppLoader";
 
 const style = {
   position: "absolute",
@@ -65,7 +65,7 @@ const AppModal = ({
       >
         <Box sx={style}>
           <Box sx={headerStyle}>
-            <Typography variant="h6" component="h2" sx={{fontSize:"16px"}} >
+            <Typography variant="h6" component="h2" sx={{ fontSize: "16px" }}>
               {headerText}
             </Typography>
             <IconButton onClick={onClickCancelHandler} sx={{ color: "#fff" }}>
@@ -128,7 +128,7 @@ const AppModal = ({
               onClick={onClickPrimaryButton}
             >
               {isLoading ? (
-                <CircularProgress thickness={5} size={30} color="#FFFFFF" />
+                <AppLoader thickness={5} size={30} color="#FFFFFF" />
               ) : (
                 primaryButtonText
               )}

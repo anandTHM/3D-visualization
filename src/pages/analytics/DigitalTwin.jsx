@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, CircularProgress, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import Space from "./Space";
 import { useSpace } from "../../store";
@@ -13,6 +13,7 @@ import ShowUnitAndFacility from "./ShowUnitandFacility";
 import OverView from "./Overview";
 import TicketsOverview from "./TicketsOverview";
 import AppToolBar from "../../components/AppToolbar";
+import AppLoader from "../../components/AppLoader";
 
 const DigitalTwin = ({ mapping }) => {
   //=========================================Space Store Store State===============================================================
@@ -1231,20 +1232,7 @@ const DigitalTwin = ({ mapping }) => {
                     Tickets
                   </Box>
                   {loadTicketsStatus ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100px",
-                      }}
-                    >
-                      <CircularProgress
-                        thickness={5}
-                        size={30}
-                        color="#FFFFFF"
-                      />
-                    </Box>
+                    <AppLoader thickness={5} size={30} color="#FFFFFF" />
                   ) : (
                     <TicketsOverview
                       ticketsStatus={ticketsStatus}
@@ -1345,16 +1333,7 @@ const DigitalTwin = ({ mapping }) => {
       <Grid container sx={{ background: "#ffffff" }}>
         {!selectedProjects ? (
           <Grid item size={12}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "77vh",
-              }}
-            >
-              <CircularProgress thickness={5} size={40} color="#FFFFFF" />
-            </Box>
+            <AppLoader thickness={5} size={40} color="#FFFFFF" />
           </Grid>
         ) : (
           <>

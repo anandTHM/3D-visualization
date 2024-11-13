@@ -29,7 +29,7 @@ import { useSpace } from "../store";
 import { get } from "../service";
 import EastIcon from "@mui/icons-material/East";
 import WestIcon from "@mui/icons-material/West";
-import { CircularProgress } from "@mui/material";
+import AppLoader from "../src/components/AppLoader";
 
 const tableHeader = ["ObjectId", "Object Name", "Select Unit"];
 
@@ -768,16 +768,9 @@ const CustomTable = ({ tableData }) => {
           </Box>
 
           {loading ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100px",
-              }}
-            >
-              <CircularProgress thickness={5} size={30} color="#000000" />
-            </Box>
+           
+              <AppLoader thickness={5} size={30} color="#000000" />
+          
           ) : allUnitsAndFacilities?.rows?.length > 0 ? (
             allUnitsAndFacilities?.rows?.map((item) => {
               const isSelected =

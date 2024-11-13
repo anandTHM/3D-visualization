@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -14,8 +14,7 @@ import moment from "moment";
 import { Chip } from "@mui/material";
 import { getStatusColor } from "../../utils/helper";
 import { useDigitalTwin } from "../../store/digitalTwin";
-
-
+import AppLoader from "../../components/AppLoader";
 
 const CustomTable = ({ tableHeader, tableData, isLoading }) => {
   return (
@@ -44,7 +43,7 @@ const CustomTable = ({ tableHeader, tableData, isLoading }) => {
                 colSpan={tableHeader.length}
                 sx={{ textAlign: "center", py: 3 }}
               >
-                <CircularProgress thickness={4} size={20} color="inherit" />
+                <AppLoader thickness={4} size={20} color="inherit" />
               </TableCell>
             </TableRow>
           ) : tableData?.length > 0 ? (
@@ -105,14 +104,14 @@ const CustomTable = ({ tableHeader, tableData, isLoading }) => {
   );
 };
 
-const Tickets = ({ tickets, isLoading}) => {
+const Tickets = ({ tickets, isLoading }) => {
   const TableHeaderForTickets = ["Category", "Status", "Created on"];
 
   return (
     <Box>
       <CustomTable
         tableHeader={TableHeaderForTickets}
-        tableData={tickets.slice(0,5)}
+        tableData={tickets.slice(0, 5)}
         isLoading={isLoading}
       />
     </Box>

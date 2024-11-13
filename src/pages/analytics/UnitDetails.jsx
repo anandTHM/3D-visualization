@@ -270,7 +270,7 @@
 // export default UnitData;
 
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -338,7 +338,7 @@ const CustomTableForHomeDetails = ({
                     width: columnWidth,
                   }}
                 >
-                  {data?.categoryName || data?.description }{" "}
+                  {data?.categoryName || data?.description}{" "}
                   <Box>
                     {" "}
                     {data?.numberOfUnits > 0
@@ -705,7 +705,7 @@ const UnitData = ({
           height: "30vh",
         }}
       >
-        <CircularProgress thickness={5} size={25} color="inherit" />
+        <AppLoader thickness={5} size={25} color="inherit" />
       </Box>
     );
   }
@@ -832,7 +832,7 @@ const UnitData = ({
                 <Grid
                   item
                   size={6}
-                  key={label+index}
+                  key={label + index}
                   sx={{
                     cursor: "pointer",
                     transition: "transform 0.2s ease-in-out",

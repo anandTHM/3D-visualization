@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, CircularProgress, Divider } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -14,6 +14,7 @@ import moment from "moment";
 
 import { capitalizeFirstLetter } from "../../utils/helper";
 import { formatCurrency } from "../../utils/helper";
+import AppLoader from "../../components/AppLoader";
 
 const FacilityCustomTableForUserDetails = ({
   tableHeader,
@@ -68,7 +69,7 @@ const FacilityCustomTableForUserDetails = ({
                 colSpan={tableHeader.length}
                 sx={{ textAlign: "center", py: 3 }}
               >
-                <CircularProgress thickness={4} size={20} color="inherit" />
+                <AppLoader thickness={4} size={20} color="inherit" />
               </TableCell>
             </TableRow>
           ) : filteredData.length > 0 ? (
@@ -276,7 +277,7 @@ const FacilityCustomTable = ({
                 colSpan={tableHeader.length}
                 sx={{ textAlign: "center", py: 3 }}
               >
-                <CircularProgress thickness={4} size={20} color="inherit" />
+                <AppLoader thickness={4} size={20} color="inherit" />
               </TableCell>
             </TableRow>
           ) : (

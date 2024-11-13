@@ -29,7 +29,7 @@ import { useSpace } from "../store";
 import { get } from "../service";
 import EastIcon from "@mui/icons-material/East";
 import WestIcon from "@mui/icons-material/West";
-import { CircularProgress } from "@mui/material";
+import AppLoader from "./AppLoader";
 
 const tableHeader = ["ObjectId", "Object Name", "Select Unit"];
 
@@ -292,15 +292,15 @@ const CustomTable = ({ tableData }) => {
   // const handleSubmit = () => {
   //   setSelectedItems((prev) => {
   //     const newSelectedItems = { ...prev };
-  
+
   //     if (selectedModalItem) {
   //       const previousSelectedItem = prev[editingRowObjectId];
-  
+
   //       const isItemChanged =
   //         !previousSelectedItem ||
   //         previousSelectedItem._id !== selectedModalItem._id ||
   //         previousSelectedItem.objectId !== editingRowObjectId;
-  
+
   //       if (isItemChanged) {
   //         newSelectedItems[editingRowObjectId] = {
   //           ...selectedModalItem,
@@ -310,19 +310,19 @@ const CustomTable = ({ tableData }) => {
   //           index: selectedFloor - 1,
   //           updated: !!previousSelectedItem, // Set updated to true if there was a previous item
   //         };
-  
+
   //         setAlreadySelectedIds((prevIds) => {
   //           const updatedIds = new Set(prevIds);
-  
+
   //           if (
   //             previousSelectedItem &&
   //             previousSelectedItem._id !== selectedModalItem._id
   //           ) {
   //             updatedIds.delete(previousSelectedItem._id);
   //           }
-  
+
   //           updatedIds.add(selectedModalItem._id);
-  
+
   //           return updatedIds;
   //         });
   //       } else {
@@ -343,34 +343,34 @@ const CustomTable = ({ tableData }) => {
   //       }
   //       delete newSelectedItems[editingRowObjectId];
   //     }
-  
+
   //     const filteredSelectedItems = Object.entries(newSelectedItems)
   //       .filter(([key, value]) => !value.smplrSpaceData)
   //       .reduce((acc, [key, value]) => {
   //         acc[key] = value;
   //         return acc;
   //       }, {});
-  
+
   //     const reorderedSelectedItems = {};
   //     Object.keys(newSelectedItems)
   //       .filter((key) => key !== editingRowObjectId)
   //       .forEach((key) => {
   //         reorderedSelectedItems[key] = newSelectedItems[key];
   //       });
-  
+
   //     if (newSelectedItems[editingRowObjectId]) {
   //       reorderedSelectedItems[editingRowObjectId] =
   //         newSelectedItems[editingRowObjectId];
   //     }
-  
+
   //     handleUpdatedSelectedItems(filteredSelectedItems);
   //     handleSelectedItems(reorderedSelectedItems);
-  
+
   //     console.log("Filtered Selected Items:", reorderedSelectedItems);
-  
+
   //     return reorderedSelectedItems;
   //   });
-  
+
   //   setIsOpen(false);
   //   setSelectedModalItem(null);
   //   setEditingRowObjectId(null);
@@ -379,23 +379,22 @@ const CustomTable = ({ tableData }) => {
   const handleSubmit = () => {
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev };
-  
+
       if (selectedModalItem) {
         // Get the current stored item for this row
         const previousSelectedItem = prev[editingRowObjectId];
-  
+
         // Find if the selected item is already mapped to another objectId
         const existingMappingEntry = Object.entries(prev).find(
           ([key, value]) =>
-            key !== editingRowObjectId &&
-            value._id === selectedModalItem._id
+            key !== editingRowObjectId && value._id === selectedModalItem._id
         );
-  
+
         // If this item is already mapped somewhere else, remove that mapping
         if (existingMappingEntry) {
           delete newSelectedItems[existingMappingEntry[0]];
         }
-  
+
         // Create the new mapping or update the existing one
         newSelectedItems[editingRowObjectId] = {
           ...selectedModalItem,
@@ -405,11 +404,11 @@ const CustomTable = ({ tableData }) => {
           index: selectedFloor - 1,
           updated: previousSelectedItem ? true : false, // Set the updated flag
         };
-  
+
         // Update alreadySelectedIds
         setAlreadySelectedIds((prevIds) => {
           const updatedIds = new Set(prevIds);
-  
+
           // Remove the previous selection if it existed
           if (
             previousSelectedItem &&
@@ -417,10 +416,10 @@ const CustomTable = ({ tableData }) => {
           ) {
             updatedIds.delete(previousSelectedItem._id);
           }
-  
+
           // Add the new selection
           updatedIds.add(selectedModalItem._id);
-  
+
           return updatedIds;
         });
       } else {
@@ -435,7 +434,7 @@ const CustomTable = ({ tableData }) => {
         }
         delete newSelectedItems[editingRowObjectId];
       }
-  
+
       // Create a properly filtered version that excludes smplrSpaceData items
       const filteredSelectedItems = Object.entries(newSelectedItems)
         .filter(([_, value]) => !value.smplrSpaceData)
@@ -450,38 +449,38 @@ const CustomTable = ({ tableData }) => {
           };
           return acc;
         }, {});
-  
+
       // Create reordered items maintaining the latest changes
       const reorderedSelectedItems = {};
-  
+
       // First add all items except the currently edited one
       Object.keys(newSelectedItems)
         .filter((key) => key !== editingRowObjectId)
         .forEach((key) => {
           reorderedSelectedItems[key] = newSelectedItems[key];
         });
-  
+
       // Then add the edited item at the end if it exists
       if (newSelectedItems[editingRowObjectId]) {
         reorderedSelectedItems[editingRowObjectId] =
           newSelectedItems[editingRowObjectId];
       }
-  
+
       // Log the state before propagating changes
-  
+
       // Propagate the changes to parent handlers
       handleUpdatedSelectedItems(filteredSelectedItems);
       handleSelectedItems(reorderedSelectedItems);
-  
+
       return reorderedSelectedItems;
     });
-  
+
     // Reset states and close modal
     setIsOpen(false);
     setSelectedModalItem(null);
     setEditingRowObjectId(null);
   };
-  
+
   return (
     <Box sx={{ p: 2 }}>
       <TableContainer component={Paper} sx={{ border: "1px solid #C9CFD9" }}>
@@ -764,16 +763,7 @@ const CustomTable = ({ tableData }) => {
           </Box>
 
           {loading ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100px",
-              }}
-            >
-              <CircularProgress thickness={5} size={30} color="#000000" />
-            </Box>
+            <AppLoader thickness={5} size={30} color="#000000" />
           ) : allUnitsAndFacilities?.rows?.length > 0 ? (
             allUnitsAndFacilities?.rows?.map((item) => {
               const isSelected =
