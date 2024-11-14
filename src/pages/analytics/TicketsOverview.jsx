@@ -153,7 +153,7 @@ const TicketsOverview = ({
               },
             }}
             onClick={() => {
-              const parentUrl = `${baseUrl}/godview/#/ticket/filter/none`;
+              const parentUrl = `${baseUrl}/godview/#/ticket/filter/${selectedProjects?._id}`;
               window.open(parentUrl, '_blank');
             }}            
           >
