@@ -1,5 +1,37 @@
 import { Box, Divider } from "@mui/material";
 import LaunchSharpIcon from "@mui/icons-material/LaunchSharp";
+import sqt from "../../assets/sqt.svg";
+import seat from "../../assets/seat.svg";
+
+const styles = {
+  container: { px: 2, py: 1 },
+  header: { mt: 1 },
+  titleContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  titleText: { fontSize: "14px", fontWeight: "400" },
+  actionContainer: (isDisabled) => ({
+    display: "flex",
+    alignItems: "center",
+    gap: 1,
+    fontSize: "13px",
+    cursor: isDisabled ? "not-allowed" : "pointer",
+    color: isDisabled ? "#B0B0B0" : "#7E1946",
+  }),
+  icon: { height: "14px", width: "14px", fontWeight: "400" },
+  detailsContainer: { mt: 0.5, display: "flex", gap: 1 },
+  detailText: {
+    fontSize: "13px",
+    fontWeight: "400",
+    display: "flex",
+    alignItems: "center",
+    gap: 0.5,
+  },
+  image: { width: "16px", height: "16px" },
+  divider: { py: 1 },
+};
 
 const ShowUnitAndFacility = ({
   name,
@@ -15,44 +47,30 @@ const ShowUnitAndFacility = ({
   };
 
   return (
-    <Box sx={{ px: 2, py: 1 }}>
-      <Box sx={{ mt: 1 }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box sx={{ fontSize: "14px", fontWeight: "400" }}>{name}</Box>
+    <Box sx={styles.container}>
+      <Box sx={styles.header}>
+        <Box sx={styles.titleContainer}>
+          <Box sx={styles.titleText}>{name}</Box>
           <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              fontSize: "13px",
-              cursor: isDisabled ? "not-allowed" : "pointer", // Disable pointer cursor when disabled
-              color: isDisabled ? "#B0B0B0" : "#7E1946",
-            }}
-            onClick={!isDisabled ? onClickHandler : undefined} // Disable onClick when isDisabled is true
+            sx={styles.actionContainer(isDisabled)}
+            onClick={!isDisabled ? onClickHandler : undefined}
           >
-            <LaunchSharpIcon
-              fontSize="small"
-              sx={{ height: "14px", width: "14px", fontWeight: "400" }}
-            />
+            <LaunchSharpIcon fontSize="small" sx={styles.icon} />
             <span>{getViewText()}</span>
           </Box>
         </Box>
         {unitsDetails && (
           <>
-            <Box sx={{ mt: 0.5, display: "flex", gap: 1 }}>
+            <Box sx={styles.detailsContainer}>
               {unitsDetails?.numberOfSeats && (
-                <Box sx={{ fontSize: "13px", fontWeight: "400" }}>
+                <Box sx={styles.detailText}>
+                  <img src={seat} alt="seat" style={styles.image} />
                   Seats: {unitsDetails.numberOfSeats}
                 </Box>
               )}
               {unitsDetails?.buildUpArea && (
-                <Box sx={{ fontSize: "13px", fontWeight: "400" }}>
+                <Box sx={styles.detailText}>
+                  <img src={sqt} alt="sqt" style={styles.image} />
                   Sft: {unitsDetails.buildUpArea}
                 </Box>
               )}
@@ -60,7 +78,7 @@ const ShowUnitAndFacility = ({
           </>
         )}
       </Box>
-      <Divider sx={{ py: 1 }} />
+      <Divider sx={styles.divider} />
     </Box>
   );
 };

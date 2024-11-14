@@ -3,13 +3,43 @@ import { Button, Typography, Divider } from "@mui/material";
 import Tickets from "./TicketsDetails";
 import { baseUrl } from "../../utils/helper";
 
+const TicketStatusCard = ({ status, count, projectId, label }) => {
+  const handleClick = () => {
+    if (count > 0) {
+      const parentUrl = `${baseUrl}/godview/#/ticket/${status}/${projectId}`;
+      window.open(parentUrl, "_blank");
+    }
+  };
+
+  return (
+    <Grid
+      item
+      xs={3}
+      container
+      direction="column"
+      alignItems="center"
+      sx={{
+        cursor: count > 0 ? "pointer" : "default",
+        transition: "transform 0.2s ease-in-out",
+        "&:hover": {
+          transform: count > 0 ? "scale(1.15)" : "none",
+        },
+        marginRight: 2,
+      }}
+      onClick={handleClick}
+    >
+      <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
+        {label}
+      </Typography>
+      <Typography variant="span">{count || 0}</Typography>
+    </Grid>
+  );
+};
+
 const TicketsOverview = ({
   ticketsStatus,
-  ticketsOnSpace,
   tickets,
   isLoading,
-  selectedFacilities,
-  selectedUnits,
   selectedProjects,
 }) => {
   const { openTickets, inProgressTickets, onHoldTickets, reopenedTickets } =
@@ -17,127 +47,47 @@ const TicketsOverview = ({
 
   return (
     <Grid container alignItems="center" sx={{ py: 1, px: 2 }}>
-      <Grid
-        item
-        xs={3}
-        container
-        direction="column"
-        alignItems="center"
-        sx={{
-          cursor: openTickets ? "pointer" : "default",
-          transition: "transform 0.2s ease-in-out",
-          "&:hover": {
-            transform: openTickets > 0 ? "scale(1.15)" : "none",
-          },
-        }}
-        onClick={() => {
-          const parentUrl = `${baseUrl}/godview/#/ticket/${"open"}/${
-            selectedProjects?._id
-          }`;
-          // window.parent.location.href = parentUrl;
-          openTickets && window.open(parentUrl, "_blank");
-        }}
-      >
-        <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
-          Open
-        </Typography>
-        <Typography variant="span">{openTickets || 0}</Typography>
-      </Grid>
+      <TicketStatusCard
+        status="open"
+        count={openTickets}
+        projectId={selectedProjects?._id}
+        label="Open"
+      />
       <Grid item size={1}>
         <Divider orientation="vertical" variant="middle" flexItem />
       </Grid>
-      <Grid
-        item
-        size={3}
-        container
-        direction="column"
-        alignItems="center"
-        sx={{
-          cursor: inProgressTickets ? "pointer" : "default",
-          transition: "transform 0.2s ease-in-out",
-          "&:hover": {
-            transform: inProgressTickets > 0 ? "scale(1.15)" : "none",
-          },
-        }}
-        onClick={() => {
-          const parentUrl = `${baseUrl}/godview/#/ticket/${"in-progress"}/${
-            selectedProjects?._id
-          }`;
-          // window.parent.location.href = parentUrl;
-          inProgressTickets && window.open(parentUrl, "_blank");
-        }}
-      >
-        <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
-          In-Progress
-        </Typography>
-        <Typography variant="span">{inProgressTickets || 0}</Typography>
-      </Grid>
+      <TicketStatusCard
+        status="in-progress"
+        count={inProgressTickets}
+        projectId={selectedProjects?._id}
+        label="In-Progress"
+      />
       <Grid item size={1}>
         <Divider orientation="vertical" />
       </Grid>
-      <Grid
-        item={3}
-        container
-        direction="column"
-        alignItems="center"
-        sx={{
-          cursor: reopenedTickets ? "pointer" : "default",
-
-          transition: "transform 0.2s ease-in-out",
-          "&:hover": {
-            transform: inProgressTickets > 0 ? "scale(1.15)" : "none",
-          },
-        }}
-        onClick={() => {
-          const parentUrl = `${baseUrl}/godview/#/ticket/${"re-open"}/${
-            selectedProjects?._id
-          }`;
-          // window.parent.location.href = parentUrl;
-          reopenedTickets && window.open(parentUrl, "_blank");
-        }}
-      >
-        <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
-          Re-Open
-        </Typography>
-        <Typography variant="span">{reopenedTickets || 0}</Typography>
-      </Grid>
+      <TicketStatusCard
+        status="re-open"
+        count={reopenedTickets}
+        projectId={selectedProjects?._id}
+        label="Re-Open"
+      />
       <Grid item size={1}>
         <Divider orientation="vertical" />
       </Grid>
-      <Grid
-        item
-        size={3}
-        container
-        direction="column"
-        alignItems="center"
-        sx={{
-          cursor: onHoldTickets ? "pointer" : "default",
-          transition: "transform 0.2s ease-in-out",
-          "&:hover": {
-            transform: onHoldTickets > 0 ? "scale(1.15)" : "none",
-          },
-        }}
-        onClick={() => {
-          const parentUrl = `${baseUrl}/godview/#/ticket/${"on-hold"}/${
-            selectedProjects?._id
-          }`;
-          // window.parent.location.href = parentUrl;
-          onHoldTickets && window.open(parentUrl, "_blank");
-        }}
-      >
-        <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
-          On-Hold
-        </Typography>
-        <Typography variant="span">{onHoldTickets || 0}</Typography>
-      </Grid>
+      <TicketStatusCard
+        status="on-hold"
+        count={onHoldTickets}
+        projectId={selectedProjects?._id}
+        label="On-Hold"
+      />
       <Grid item size={12} sx={{ py: 2 }}>
         <Divider />
       </Grid>
       <Grid size={12}>
         <Tickets tickets={tickets || []} isLoading={isLoading} />
       </Grid>
-      <Grid size={3} sx={{ mt: 1 }}>
-        {tickets.length > 5 && (
+      {tickets.length > 5 && (
+        <Grid size={3} sx={{ mt: 1 }}>
           <Button
             variant="text"
             sx={{
@@ -154,13 +104,13 @@ const TicketsOverview = ({
             }}
             onClick={() => {
               const parentUrl = `${baseUrl}/godview/#/ticket/filter/${selectedProjects?._id}`;
-              window.open(parentUrl, '_blank');
-            }}            
+              window.open(parentUrl, "_blank");
+            }}
           >
             View More
           </Button>
-        )}
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 };

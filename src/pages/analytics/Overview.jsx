@@ -6,6 +6,36 @@ import { formatCurrency } from "../../utils/helper";
 import AppLoader from "../../components/AppLoader";
 import { baseUrl } from "../../utils/helper";
 
+const styles = {
+  container: { py: 2, px: 2, fontSize: "14px", fontWeight: "400" },
+  loaderContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100px",
+  },
+  accountsLoaderContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "40px",
+  },
+  gridContainer: { py: 1, px: 2 },
+  amountItem: {
+    cursor: "pointer",
+    transition: "transform 0.2s ease-in-out",
+    "&:hover": { transform: "scale(1.1)" },
+  },
+  facilityItem: (isClickable) => ({
+    cursor: isClickable ? "pointer" : "default",
+    transition: "transform 0.2s ease-in-out",
+    "&:hover": {
+      transform: isClickable ? "scale(1.15)" : "none",
+    },
+  }),
+  labelText: { color: "#717171", fontSize: "13px" },
+};
+
 const OverView = ({
   unitOccupancy,
   organizationCurrency,
@@ -26,7 +56,6 @@ const OverView = ({
   } = unitOccupancy || {};
 
   const navigateToUrl = (url) => {
-    // window.parent.location.href = `${baseUrl}${url}`;
     window.open(`${baseUrl}${url}`, '_blank');
   };
 
@@ -78,23 +107,14 @@ const OverView = ({
 
   return (
     <Box>
-      <Box sx={{ py: 2, px: 2, fontSize: "14px", fontWeight: "400" }}>
-        Units
-      </Box>
+      <Box sx={styles.container}>Units</Box>
       {loadUnitOccupancy ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100px",
-          }}
-        >
+        <Box sx={styles.loaderContainer}>
           <AppLoader thickness={5} size={30} />
         </Box>
       ) : (
         <>
-          <Grid container spacing={3} sx={{ py: 1, px: 2 }}>
+          <Grid container spacing={3} sx={styles.gridContainer}>
             {OccupancyOverviewData?.map(({ label, value, status, url }) => (
               <StatusGrid
                 key={label}
@@ -111,38 +131,22 @@ const OverView = ({
           </Grid>
           <Divider />
 
-          <Box sx={{ py: 2, px: 2, fontSize: "14px", fontWeight: "400" }}>
-            Accounts
-          </Box>
+          <Box sx={styles.container}>Accounts</Box>
           {loadTransaction ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "40px",
-              }}
-            >
+            <Box sx={styles.accountsLoaderContainer}>
               <AppLoader thickness={5} size={20} />
             </Box>
           ) : (
-            <Grid container spacing={3} sx={{ py: 1, px: 2 }}>
+            <Grid container spacing={3} sx={styles.gridContainer}>
               {amountData.map(({ label, value, url }) => (
                 <Grid
                   item
                   size={6}
                   key={label}
-                  sx={{
-                    cursor: "pointer",
-                    transition: "transform 0.2s ease-in-out",
-                    "&:hover": { transform: "scale(1.1)" },
-                  }}
+                  sx={styles.amountItem}
                   onClick={() => value && navigateToUrl(url)}
                 >
-                  <Typography
-                    variant="body1"
-                    sx={{ color: "#717171", fontSize: "13px" }}
-                  >
+                  <Typography variant="body1" sx={styles.labelText}>
                     {label}
                   </Typography>
                   <Typography variant="span">
@@ -155,44 +159,24 @@ const OverView = ({
 
           <Divider />
 
-          <Box sx={{ py: 2, px: 2, fontSize: "14px", fontWeight: "400" }}>
-            Facilities
-          </Box>
-          <Grid container spacing={3} sx={{ py: 1, px: 2 }}>
+          <Box sx={styles.container}>Facilities</Box>
+          <Grid container spacing={3} sx={styles.gridContainer}>
             <Grid
               item
-              xs={12}
-              sx={{
-                cursor: totalFacility?.totalFacilityRequestPending> 0 ? "pointer" : "default",
-                transition: "transform 0.2s ease-in-out",
-                "&:hover": {
-                  transform:
-                    totalFacility?.totalFacilityRequestPending 
-                      ? "scale(1.15)"
-                      : "none",
-                },
-              }}
-              onClick={() =>  totalFacility?.totalFacilityRequestPending > 0  &&
+              size={12}
+              sx={styles.facilityItem(totalFacility?.totalFacilityRequestPending > 0)}
+              onClick={() =>
+                totalFacility?.totalFacilityRequestPending > 0 &&
                 navigateToUrl(
                   `/godview/#/facility-booking/filter/${selectedProjects?._id}`
                 )
               }
             >
-              <Typography
-                variant="body1"
-                sx={{ color: "#717171", fontSize: "13px" }}
-              >
+              <Typography variant="body1" sx={styles.labelText}>
                 Total Facilities
               </Typography>
               {loadTotalFacility ? (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "40px",
-                  }}
-                >
+                <Box sx={styles.accountsLoaderContainer}>
                   <AppLoader thickness={5} size={20} />
                 </Box>
               ) : (

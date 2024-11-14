@@ -1,39 +1,53 @@
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
+const styles = {
+  gridContainer: (isChecked) => ({
+    cursor: isChecked ? "pointer" : "default",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    transition: "transform 0.2s ease-in-out",
+    "&:hover": {
+      transform: isChecked ? "scale(1.15)" : "none",
+    },
+  }),
+  labelContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 0.5,
+  },
+  statusBox: (statusColor) => ({
+    width: 12,
+    height: 12,
+    backgroundColor: statusColor,
+    marginRight: 1,
+  }),
+  labelText: {
+    color: "#717171",
+    fontSize: "13px",
+  },
+  valueText: {
+    fontSize: "16px",
+    color: "#000000",
+  },
+};
+
 const StatusGrid = ({ label, value, statusColor, onClick }) => {
-  const ischecked = value > 0;
+  const isChecked = value > 0;
   return (
     <Grid
-      sx={{
-        cursor: ischecked ? "pointer" : "default",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        transition: "transform 0.2s ease-in-out",
-        "&:hover": {
-          transform: ischecked ? "scale(1.15)" : "none",
-        },
-      }}
-      onClick={ischecked ? onClick : undefined}
+      sx={styles.gridContainer(isChecked)}
+      onClick={isChecked ? onClick : undefined}
       size={4}
     >
-      <Box sx={{ display: "flex", alignItems: "center", marginBottom: 0.5 }}>
-        {statusColor && (
-          <Box
-            sx={{
-              width: 12,
-              height: 12,
-              backgroundColor: statusColor,
-              marginRight: 1,
-            }}
-          />
-        )}
-        <Typography variant="body1" sx={{ color: "#717171", fontSize: "13px" }}>
+      <Box sx={styles.labelContainer}>
+        {statusColor && <Box sx={styles.statusBox(statusColor)} />}
+        <Typography variant="body1" sx={styles.labelText}>
           {label}
         </Typography>
       </Box>
-      <Typography variant="body2" sx={{ fontSize: "16px", color: "#000000" }}>
+      <Typography variant="body2" sx={styles.valueText}>
         {value || 0}
       </Typography>
     </Grid>
