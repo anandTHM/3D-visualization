@@ -30,7 +30,7 @@ const styles = {
     cursor: isClickable ? "pointer" : "default",
     transition: "transform 0.2s ease-in-out",
     "&:hover": {
-      transform: isClickable ? "scale(1.15)" : "none",
+      transform: isClickable ? "scale(1.05)" : "none",
     },
   }),
   labelText: { color: "#717171", fontSize: "13px" },
