@@ -183,7 +183,7 @@ const ToolbarForProperty = ({}) => {
 
   const onChangeUnitHandler = (event, newValue) => {
     handleSelectedUnits(newValue);
-    handleSelectedFloor(newValue?.smplrSpaceData?.index);
+    handleSelectedFloor(newValue?.smplrSpaceData?.index || null);
     handleSelectedFacilities(null);
     handleOnClickStatus("All");
     handleTicketsOnSpace([]);
@@ -191,7 +191,7 @@ const ToolbarForProperty = ({}) => {
 
   const onChangeFacilityHandler = (event, newValue) => {
     handleSelectedFacilities(newValue);
-    handleSelectedFloor(newValue?.smplrSpaceData?.index);
+    handleSelectedFloor(newValue?.smplrSpaceData?.index || null);
     handleSelectedUnits(null);
     handleOnClickStatus("All");
     handleTicketsOnSpace([]);
@@ -204,12 +204,12 @@ const ToolbarForProperty = ({}) => {
   };
 
   const filteredUnitFloorWise =
-    selectedFloor != null
+    selectedFloor !== null
       ? units.filter((unit) => unit.smplrSpaceData.index === selectedFloor)
       : units;
 
   const filteredFacilityFloorWise =
-    selectedFloor != null
+    selectedFloor !== null
       ? facilities.filter(
           (facility) => facility.smplrSpaceData.index === selectedFloor
         )
