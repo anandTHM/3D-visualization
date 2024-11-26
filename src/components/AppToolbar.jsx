@@ -204,12 +204,12 @@ const ToolbarForProperty = ({}) => {
   };
 
   const filteredUnitFloorWise =
-    selectedFloor !== null
+    selectedFloor != null
       ? units.filter((unit) => unit.smplrSpaceData.index === selectedFloor)
       : units;
 
   const filteredFacilityFloorWise =
-    selectedFloor !== null
+    selectedFloor != null
       ? facilities.filter(
           (facility) => facility.smplrSpaceData.index === selectedFloor
         )
