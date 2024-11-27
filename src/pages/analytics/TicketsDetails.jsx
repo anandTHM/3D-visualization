@@ -1,6 +1,6 @@
 import React from "react";
-import { Box } from "@mui/material";
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -8,13 +8,26 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Chip,
 } from "@mui/material";
-import "moment-timezone";
 import moment from "moment";
-import { Chip } from "@mui/material";
 import { getStatusColor } from "../../utils/helper";
-import { useDigitalTwin } from "../../store/digitalTwin";
 import AppLoader from "../../components/AppLoader";
+
+const styles = {
+  tableContainer: { border: "1px solid #D6D6D6" },
+  tableHead: { backgroundColor: "#F6F6F6" },
+  tableHeaderCell: { fontWeight: "400", fontSize: "13px", color: "#8C8C8C" },
+  loadingCell: { textAlign: "center", py: 3 },
+  tableRow: { "&:hover": { backgroundColor: "#F6F6F6" } },
+  tableCell: { color: "rgba(0, 0, 0, .87)", fontSize: "13px", py: 1 },
+  chip: (status) => ({
+    backgroundColor: getStatusColor(status),
+    color: "rgba(0, 0, 0, .87)",
+    fontSize: "13px",
+    py: 1,
+  }),
+};
 
 const CustomTable = ({ tableHeader, tableData, isLoading }) => {
   return (
@@ -22,15 +35,12 @@ const CustomTable = ({ tableHeader, tableData, isLoading }) => {
       <Table
         size="small"
         aria-label="custom dense table"
-        sx={{ border: "1px solid #D6D6D6" }}
+        sx={styles.tableContainer}
       >
-        <TableHead sx={{ backgroundColor: "#F6F6F6" }}>
+        <TableHead sx={styles.tableHead}>
           <TableRow>
             {tableHeader.map((header, index) => (
-              <TableCell
-                key={`header-${index}`}
-                sx={{ fontWeight: "400", fontSize: "13px", color: "#8C8C8C" }}
-              >
+              <TableCell key={`header-${index}`} sx={styles.tableHeaderCell}>
                 {header}
               </TableCell>
             ))}
@@ -39,50 +49,20 @@ const CustomTable = ({ tableHeader, tableData, isLoading }) => {
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell
-                colSpan={tableHeader.length}
-                sx={{ textAlign: "center", py: 3 }}
-              >
+              <TableCell colSpan={tableHeader.length} sx={styles.loadingCell}>
                 <AppLoader thickness={4} size={20} color="inherit" />
               </TableCell>
             </TableRow>
           ) : tableData?.length > 0 ? (
             tableData.map((item, index) => (
-              <TableRow
-                key={`row-${index}`}
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "#F6F6F6",
-                  },
-                }}
-              >
-                <TableCell
-                  sx={{
-                    color: "rgba(0, 0, 0, .87)",
-                    fontSize: "13px",
-                    py: 1,
-                  }}
-                >
+              <TableRow key={`row-${index}`} sx={styles.tableRow}>
+                <TableCell sx={styles.tableCell}>
                   {item?.ticketCategory}
                 </TableCell>
                 <TableCell>
-                  <Chip
-                    label={item?.status}
-                    sx={{
-                      backgroundColor: getStatusColor(item?.status),
-                      color: "rgba(0, 0, 0, .87)",
-                      fontSize: "13px",
-                      py: 1,
-                    }}
-                  />
+                  <Chip label={item?.status} sx={styles.chip(item?.status)} />
                 </TableCell>
-                <TableCell
-                  sx={{
-                    color: "rgba(0, 0, 0, .87)",
-                    fontSize: "13px",
-                    py: 1,
-                  }}
-                >
+                <TableCell sx={styles.tableCell}>
                   {item.createdAt &&
                     moment(item.createdAt).format("DD MMM YYYY")}
                 </TableCell>
@@ -90,10 +70,7 @@ const CustomTable = ({ tableHeader, tableData, isLoading }) => {
             ))
           ) : (
             <TableRow>
-              <TableCell
-                colSpan={tableHeader.length}
-                sx={{ textAlign: "center", py: 3 }}
-              >
+              <TableCell colSpan={tableHeader.length} sx={styles.loadingCell}>
                 No data available
               </TableCell>
             </TableRow>
