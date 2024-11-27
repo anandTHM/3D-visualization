@@ -183,7 +183,7 @@ const ToolbarForProperty = ({}) => {
 
   const onChangeUnitHandler = (event, newValue) => {
     handleSelectedUnits(newValue);
-    handleSelectedFloor(newValue?.smplrSpaceData?.index || null);
+    handleSelectedFloor(newValue?.smplrSpaceData?.index || selectedFloor);
     handleSelectedFacilities(null);
     handleOnClickStatus("All");
     handleTicketsOnSpace([]);
@@ -191,7 +191,7 @@ const ToolbarForProperty = ({}) => {
 
   const onChangeFacilityHandler = (event, newValue) => {
     handleSelectedFacilities(newValue);
-    handleSelectedFloor(newValue?.smplrSpaceData?.index || null);
+    handleSelectedFloor(newValue?.smplrSpaceData?.index || selectedFloor);
     handleSelectedUnits(null);
     handleOnClickStatus("All");
     handleTicketsOnSpace([]);
