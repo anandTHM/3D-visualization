@@ -101,7 +101,7 @@ const OverView = ({
     {
       label: "Total Payables",
       value: totalPayables,
-      url: "/godview/#/payment/invoice/filter/none",
+      url: "/godview/#/transaction/bill/filter/none",
     },
   ];
 

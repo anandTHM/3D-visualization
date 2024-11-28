@@ -14,6 +14,7 @@ import {
 import moment from "moment";
 import "moment-timezone";
 import AppLoader from "../../components/AppLoader";
+import { baseUrl } from "../../utils/helper";
 
 import Grid from "@mui/material/Grid2";
 
@@ -449,9 +450,13 @@ const UnitData = ({
     {
       label: "Total Payables",
       value: totalPayables || 0,
-      url: "/godview/#/payment/invoice/filter/none",
+      url: "/godview/#/transaction/bill/filter/none",
     },
   ];
+
+  const navigateToUrl = (url) => {
+    window.open(`${baseUrl}${url}`, '_blank');
+  };
 
   return (
     <Box sx={{ px: 2, py: 1 }}>
