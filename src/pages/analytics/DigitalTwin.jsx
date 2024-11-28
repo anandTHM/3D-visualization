@@ -246,7 +246,7 @@ const DigitalTwin = ({ mapping }) => {
         projects: selectedProjects._id,
         type: "receivables",
         floorIndex: selectedFloor !== null ? selectedFloor : null,
-        listingsId: selectedUnits?._id || null,
+        listingId: selectedUnits?._id || null,
       };
 
       const response = await get(
@@ -322,7 +322,7 @@ const DigitalTwin = ({ mapping }) => {
         projects: selectedProjects._id,
         type: "payables",
         floorIndex: selectedFloor !== null ? selectedFloor : null,
-        listingsId: selectedUnits?._id || null,
+        listingId: selectedUnits?._id || null,
       };
 
       const response = await get(
