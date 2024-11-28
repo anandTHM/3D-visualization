@@ -134,8 +134,16 @@ const CustomTable = ({ tableData }) => {
         handleAllUnitsAndFacilities(response.data);
       }
     };
-    fetchData();
+
+    if (radioButton && searchQuery !== undefined) {
+      fetchData();
+    }
   }, [radioButton, searchQuery, modalPage]);
+
+  useEffect(() => {
+    setModalPage(1);
+  }, [radioButton, searchQuery]);
+  
 
   const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
