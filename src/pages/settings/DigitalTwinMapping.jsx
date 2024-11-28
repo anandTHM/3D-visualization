@@ -441,7 +441,7 @@ const DigitalTwinMapping = () => {
       <AppModal
         open={openModal}
         headerText="Confirmation"
-        descriptionText={`Mapping MTL property  <b>${projectName}</b>   to Digital Twin   <b>${propertyName}</b>    
+        descriptionText={`Mapping MTL property ${projectName} to Digital Twin ${propertyName} 
     \n Are you sure you want to proceed with mapping units? \n\n Note that you will not be allowed to change the space ID after confirmation.`}
         primaryButtonText="Confirm"
         secondaryButtonText="Cancel"
