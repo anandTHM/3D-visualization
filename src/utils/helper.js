@@ -19,8 +19,10 @@ export const formatCurrency = (currency = "USD", amount = 0) => {
 // ========================================================== Base URL For Navigation and API call =============================================
 // export const baseUrl = "http://localhost:9000";
 // export const baseUrl = "https://dev.thehousemonk.com";
-export const baseUrl = "https://staging.thehousemonk.com";
+// export const baseUrl = "https://staging.thehousemonk.com";
 // export const baseUrl = "https://dashboard.thehousemonk.com";
+// ================== QA Server ================================================
+export const baseUrl = "https://qa1.thehousemonk.com";
 
 // ========================================================== Statuses Legends For Occupancy Status  =============================================
 export const OccupancyStatuses = [
