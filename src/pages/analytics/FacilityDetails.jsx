@@ -104,11 +104,11 @@ const FacilityCustomTableForUserDetails = ({
                     py: 1,
                   }}
                 >
-                  {item?.bookingInfo?.rate === 0
+                  {item?.totalAmount === 0
                     ? "Free"
                     : formatCurrency(
                         organizationCurrency,
-                        item?.bookingInfo?.rate
+                        item?.totalAmount
                       )}
                 </TableCell>
               </TableRow>

@@ -417,7 +417,8 @@ const DigitalTwin = ({ mapping }) => {
             data?.facility?.bookingInfo,
             data?.startDate,
             data?.endDate,
-            data?.status
+            data?.status,
+            data?.totalAmount
           )
         );
 
@@ -439,7 +440,8 @@ const DigitalTwin = ({ mapping }) => {
     bookingInfo,
     startDate,
     endDate,
-    status
+    status,
+    totalAmount
   ) => {
     try {
       const queryParams = {
@@ -455,6 +457,7 @@ const DigitalTwin = ({ mapping }) => {
           startDate: startDate,
           endDate: endDate,
           status: status,
+          totalAmount: totalAmount,
         };
 
         return userDetail;
