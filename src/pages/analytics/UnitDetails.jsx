@@ -172,7 +172,7 @@ const CustomTableForServices = ({
                       width: columnWidth,
                     }}
                   >
-                    {data?.description}
+                    {data?.name}
                   </TableCell>
                   <TableCell
                     sx={{

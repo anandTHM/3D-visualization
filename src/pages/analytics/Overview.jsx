@@ -48,11 +48,10 @@ const OverView = ({
   selectedProjects,
 }) => {
   const {
-    totalUnits,
-    totalVacantUnits,
-    totalNotReadyUnits,
-    totalOccupied,
-    totalUnderNoticeUnits,
+    totalSeats,
+    totalOccupiedSeats,
+    totalVacantSeats,
+    totalUnderNoticeSets
   } = unitOccupancy || {};
 
   const navigateToUrl = (url) => {
@@ -62,31 +61,31 @@ const OverView = ({
   const OccupancyOverviewData = [
     {
       label: "Total Units",
-      value: totalUnits,
+      value:  totalSeats || 0,
       status: "All",
-      url: `/godview/#/listing/search/all/${selectedProjects?._id}`,
+      url: `/godview/#/contracts/search/all/${selectedProjects?._id}`,
     },
     {
       label: "Occupied",
-      value: totalOccupied,
+      value:  totalOccupiedSeats || 0,
       status: "Occupied",
-      url: `/godview/#/listing/search/occupied/${selectedProjects?._id}`,
+      url: `/godview/#/contracts/search/occupied/${selectedProjects?._id}`,
     },
     {
       label: "Vacant",
-      value: totalVacantUnits,
+      value: totalVacantSeats || 0,
       status: "Vacant",
-      url: `/godview/#/listing/search/vacant/${selectedProjects?._id}`,
+      url: `/godview/#/contracts/search/vacant/${selectedProjects?._id}`,
     },
-    {
-      label: "Not Ready",
-      value: totalNotReadyUnits,
-      status: "Not Ready",
-      url: `/godview/#/listing/search/not-ready/${selectedProjects?._id}`,
-    },
+    // {
+    //   label: "Not Ready",
+    //   value: totalNotReadyUnits,
+    //   status: "Not Ready",
+    //   url: `/godview/#/listing/search/not-ready/${selectedProjects?._id}`,
+    // },
     {
       label: "Under Notice",
-      value: totalUnderNoticeUnits || 0,
+      value:  totalUnderNoticeSets || 0,
       status: "Under Notice",
       url: `/godview/#/listing/search/under-notice/${selectedProjects?._id}`,
     },

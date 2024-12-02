@@ -29,7 +29,7 @@ export const OccupancyStatuses = [
   { label: "All" },
   { color: "#2E8B57", label: "Occupied" },
   { color: "#E4B667", label: "Vacant" },
-  { color: "#00BFFF", label: "Not Ready" },
+  // { color: "#00BFFF", label: "Not Ready" },
   { color: "#C84A3E", label: "Under Notice" },
 ];
 

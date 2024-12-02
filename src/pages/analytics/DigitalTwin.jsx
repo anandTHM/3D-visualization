@@ -14,6 +14,9 @@ import OverView from "./Overview";
 import TicketsOverview from "./TicketsOverview";
 import AppToolBar from "../../components/AppToolbar";
 import AppLoader from "../../components/AppLoader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
 
 const DigitalTwin = ({ mapping }) => {
   //=========================================Space Store Store State===============================================================
@@ -124,7 +127,20 @@ const DigitalTwin = ({ mapping }) => {
           console.error("No properties found in the response");
         }
       } catch (error) {
-        console.error("Error fetching properties:", error);
+        toast.error("Failed to fetch properties. Please try again.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          style: {
+            background: "#1c1c1c",
+            color: "white",
+          },
+        });
       } finally {
         setLoading(false);
       }
@@ -148,6 +164,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Failed to fetch poc. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     }
   };
 
@@ -180,6 +210,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.error("Error fetching properties:", error);
+      toast.error("Failed to fetch listings. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     }
   };
 
@@ -212,6 +256,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.error("Error fetching properties:", error);
+      toast.error("Failed to fetch faciclities. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     }
   };
 
@@ -219,12 +277,12 @@ const DigitalTwin = ({ mapping }) => {
     setLoadUnitOccupancy(true);
     try {
       const queryParams = {
-        projects: selectedProjects._id,
+        project: selectedProjects._id,
         floorIndex: selectedFloor !== null ? selectedFloor : null,
       };
 
       const response = await get(
-        "/stats/Overview/unit-occupancy",
+        "/digital-twin/occupancy-status",
         queryParams,
         authToken
       );
@@ -235,6 +293,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.error("Error fetchinng unit occupancy:", error);
+      toast.error("Failed to fetch listings occupancy. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     } finally {
       setLoadUnitOccupancy(false);
     }
@@ -261,6 +333,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.error("Error fetching trasaction:", error);
+      toast.error("Failed to fetch total receivables. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     } finally {
       setLoadTransaction(false);
     }
@@ -285,6 +371,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.error("Error fetchinng total facility:", error);
+      toast.error("Failed to fetch facility count. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     } finally {
       setLoadTotalFacility(false);
     }
@@ -310,6 +410,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.error("Error fetchinng ticket status:", error);
+      toast.error("Failed to fetch tickets. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     } finally {
       setLoadTicketsStatus(false);
     }
@@ -337,6 +451,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.error("Error fetching trasaction:", error);
+      toast.error("Failed to fetch total payables. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     } finally {
       setLoadTransaction(false);
     }
@@ -389,6 +517,20 @@ const DigitalTwin = ({ mapping }) => {
       handleTicketsOnSpace(response?.data);
     } catch (error) {
       console.log("fetching tickets for space error", error);
+      toast.error("Failed to fetch tickets. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     } finally {
       setIsLoading(false);
     }
@@ -402,6 +544,10 @@ const DigitalTwin = ({ mapping }) => {
         page: 1,
         sort: "-createdAt",
         populate: "facilities",
+        status: ["pending", "approved"],
+        // Remove endDate
+        startDate: moment().startOf("day").format("YYYY-MM-DD"),
+        showActiveBookingsOnly: true,
       };
 
       const response = await get(
@@ -409,8 +555,14 @@ const DigitalTwin = ({ mapping }) => {
         queryParams,
         authToken
       );
+
       if (response && response.data) {
-        const userDetailsPromises = response.data.rows?.map((data) =>
+        // Filtering bookings for only today and future bookings
+        const currentAndFutureBookings = response.data.rows.filter((booking) =>
+          moment(booking.endDate).isSameOrAfter(moment().startOf("day"), "day")
+        );
+
+        const userDetailsPromises = currentAndFutureBookings.map((data) =>
           fetchFacilityUserDetails(
             data?.user,
             data?.rate,
@@ -429,6 +581,23 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.log(error);
+      toast.error(
+        "Failed to fetch facility booking history. Please try again.",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          style: {
+            background: "#1c1c1c",
+            color: "white",
+          },
+        }
+      );
     } finally {
       setFacilityDetailsLoading(false);
     }
@@ -467,6 +636,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Failed to fetch users. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
       return null;
     }
   };
@@ -485,6 +668,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Failed to fetch facility details. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     }
   };
 
@@ -832,6 +1029,20 @@ const DigitalTwin = ({ mapping }) => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Failed to fetch homes details. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        style: {
+          background: "#1c1c1c",
+          color: "white",
+        },
+      });
     } finally {
       setLoadUnit(false);
     }
@@ -1234,19 +1445,15 @@ const DigitalTwin = ({ mapping }) => {
                     Tickets
                   </Box>
                   {loadTicketsStatus ? (
-                     <Box
-                     sx={{
-                       display: "flex",
-                       justifyContent: "center",
-                       alignItems: "center",
-                       height: "100px",
-                     }}
-                   >
-                      <AppLoader
-                        thickness={5}
-                        size={30}
-                        color="#FFFFFF"
-                      />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100px",
+                      }}
+                    >
+                      <AppLoader thickness={5} size={30} color="#FFFFFF" />
                     </Box>
                   ) : (
                     <TicketsOverview
@@ -1343,36 +1550,102 @@ const DigitalTwin = ({ mapping }) => {
   //===========================================Render=============================================================
 
   return (
-    <>
-      <AppToolBar mapped={false} />
-      <Grid container sx={{ background: "#ffffff" }}>
-        {!selectedProjects ? (
-          <Grid item size={12}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "77vh",
-              }}
-            >
-              <AppLoader thickness={5} size={40} color="#FFFFFF" />
-            </Box>
-          </Grid>
-        ) : (
-          <>
-            <Grid item size={8.5}>
-              <Box sx={{ height: "77vh" }}>
-                <Space mapping={mapping} />
-              </Box>
-            </Grid>
-            <Grid item size={3.5}>
-              {renderSpaceDetails()}
-            </Grid>
-          </>
-        )}
+    // <>
+    //   <ToastContainer
+    //     position="top-right"
+    //     autoClose={5000}
+    //     hideProgressBar={false}
+    //     newestOnTop
+    //     closeOnClick
+    //     rtl={false}
+    //     pauseOnFocusLoss
+    //     draggable
+    //     pauseOnHover
+    //     theme="dark"
+    //   />
+    //   <AppToolBar mapped={false} />
+    //   <Grid container sx={{ background: "#ffffff" }}>
+    //     {!selectedProjects ? (
+    //       <Grid item size={12}>
+    //         <Box
+    //           sx={{
+    //             display: "flex",
+    //             justifyContent: "center",
+    //             alignItems: "center",
+    //             height: "77vh",
+    //           }}
+    //         >
+    //           <AppLoader thickness={5} size={40} color="#FFFFFF" />
+    //         </Box>
+    //       </Grid>
+    //     ) : (
+    //       <>
+    //         <Grid item size={8.5}>
+    //           <Box sx={{ height: "77vh" }}>
+    //             <Space mapping={mapping} />
+    //           </Box>
+    //         </Grid>
+    //         <Grid item size={3.5}>
+    //           {renderSpaceDetails()}
+    //         </Grid>
+    //       </>
+    //     )}
+    //   </Grid>
+    // </>
+<>
+  <ToastContainer
+    position="top-right"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="dark"
+  />
+  <AppToolBar mapped={false} />
+  <Grid container sx={{ background: "#ffffff" }}>
+    {!selectedProjects ? (
+      <Grid item size={12}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "77vh",
+          }}
+        >
+          <AppLoader thickness={5} size={40} color="#FFFFFF" />
+        </Box>
       </Grid>
-    </>
+    ) : (
+      <>
+        <Grid item size={8.5}>
+          <Box sx={{ height: "77vh" }}>
+            <Space mapping={mapping} />
+          </Box>
+        </Grid>
+        <Grid item size={3.5}>
+          <Box 
+            sx={{
+              height: "77vh", 
+              overflowY: "auto", 
+              '&::-webkit-scrollbar': {
+                display: 'none'
+              },
+              msOverflowStyle: 'none',  
+              scrollbarWidth: 'none', 
+            }}
+          >
+            {renderSpaceDetails()}
+          </Box>
+        </Grid>
+      </>
+    )}
+  </Grid>
+</>
   );
 };
 

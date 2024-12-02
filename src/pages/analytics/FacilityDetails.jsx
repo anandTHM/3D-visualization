@@ -38,10 +38,9 @@ const FacilityCustomTableForUserDetails = ({
     );
   };
 
-  const filteredData = tableData?.filter(
-    // (item) => item?.status === "pending" || item?.status === "approved"
-    (item) => item.status !== "cancelled"
-  );
+  // const filteredData = tableData?.filter(
+  //   (item) => item?.status === "pending" || item?.status === "approved"
+  // );
 
   return (
     <TableContainer component={Paper}>
@@ -72,8 +71,8 @@ const FacilityCustomTableForUserDetails = ({
                 <AppLoader thickness={4} size={20} color="inherit" />
               </TableCell>
             </TableRow>
-          ) : filteredData.length > 0 ? (
-            filteredData.map((item, index) => (
+          ) : tableData.length > 0 ? (
+            tableData.map((item, index) => (
               <TableRow key={index}>
                 <TableCell
                   sx={{
