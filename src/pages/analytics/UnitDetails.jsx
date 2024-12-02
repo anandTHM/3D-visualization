@@ -445,12 +445,12 @@ const UnitData = ({
     {
       label: "Total Receivables",
       value: totalReceivables || 0,
-      url: "/godview/#/transaction/invoice/filter/none",
+      // url: "/godview/#/transaction/invoice/filter/none",
     },
     {
       label: "Total Payables",
       value: totalPayables || 0,
-      url: "/godview/#/transaction/bill/filter/none",
+      // url: "/godview/#/transaction/bill/filter/none",
     },
   ];
 
@@ -568,12 +568,12 @@ const UnitData = ({
                   item
                   size={6}
                   key={label + index}
-                  sx={{
-                    cursor: "pointer",
-                    transition: "transform 0.2s ease-in-out",
-                    "&:hover": { transform: "scale(1.1)" },
-                  }}
-                  onClick={() => value && navigateToUrl(url)}
+                  // sx={{
+                  //   cursor: "pointer",
+                  //   transition: "transform 0.2s ease-in-out",
+                  //   "&:hover": { transform: "scale(1.1)" },
+                  // }}
+                  // onClick={() => value && navigateToUrl(url)}
                 >
                   <Typography
                     variant="body1"
