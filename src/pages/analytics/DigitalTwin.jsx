@@ -181,30 +181,78 @@ const DigitalTwin = ({ mapping }) => {
     }
   };
 
+  // const fetchUnits = async () => {
+  //   try {
+  //     const queryParams = {
+  //       project: selectedProjects._id,
+  //       sort: "-createdAt",
+  //       status: "available",
+  //     };
+
+  //     const response = await get("digital-twin/listing", queryParams, authToken);
+  //     if (response && response.data) {
+  //       const transformedProperties = response.data.rows
+  //         .filter((item) => item?.smplrSpaceData?.objectId)
+  //         .map((item) => ({
+  //           _id: item?._id,
+  //           name: item?.unitAddress,
+  //           smplrSpaceData: item?.smplrSpaceData,
+            // status: item?.occupancyStatus,
+            // occupancyStatus: item?.occupancyStatus,
+  //           buildUpArea: item?.buildUpArea,
+  //           numberOfSeats: item?.numberOfSeats,
+  //         }));
+
+  //       console.log("============",response);
+  //       handleUnits(transformedProperties);
+  //     } else {
+  //       console.error("No properties found in the response");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching properties:", error);
+  //     toast.error("Failed to fetch listings. Please try again.", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "dark",
+  //       style: {
+  //         background: "#1c1c1c",
+  //         color: "white",
+  //       },
+  //     });
+  //   }
+  // };
+
   const fetchUnits = async () => {
     try {
       const queryParams = {
-        limit: 9007199254740991,
-        page: 1,
-        projects: selectedProjects._id,
+        project: selectedProjects._id,
         sort: "-createdAt",
         status: "available",
       };
-
-      const response = await get("/listing", queryParams, authToken);
+  
+      const response = await get("digital-twin/listing", queryParams, authToken);
+  
       if (response && response.data) {
-        const transformedProperties = response.data.rows
-          .filter((item) => item?.smplrSpaceData?.objectId)
+        const transformedProperties = response.data
+          .filter((item) => item?.smplrSpaceData?.objectId) 
           .map((item) => ({
             _id: item?._id,
-            name: item?.unitAddress,
+            name: item?.unitAddress || "Unnamed Unit", 
             smplrSpaceData: item?.smplrSpaceData,
             status: item?.occupancyStatus,
             occupancyStatus: item?.occupancyStatus,
-            buildUpArea: item?.buildUpArea,
-            numberOfSeats: item?.numberOfSeats,
+            buildUpArea: item?.buildUpArea || 0, 
+            numberOfSeats: item?.numberOfSeats || 0, 
+            project: item?.project || "Unknown Project", 
+            isFromHomes: item?.isFromHomes || false, 
           }));
-        handleUnits(transformedProperties);
+  
+        handleUnits(transformedProperties); 
       } else {
         console.error("No properties found in the response");
       }
@@ -226,6 +274,7 @@ const DigitalTwin = ({ mapping }) => {
       });
     }
   };
+  
 
   const fetchFacilities = async () => {
     try {
