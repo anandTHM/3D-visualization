@@ -62,18 +62,19 @@ const ShowUnitAndFacility = ({
         {unitsDetails && (
           <>
             <Box sx={styles.detailsContainer}>
-              {unitsDetails?.numberOfSeats && (
+              {unitsDetails?.numberOfSeats > 0 && (
                 <Box sx={styles.detailText}>
                   <img src={seat} alt="seat" style={styles.image} />
                   Seats: {unitsDetails.numberOfSeats}
                 </Box>
               )}
-              {unitsDetails?.buildUpArea && (
+              {unitsDetails?.buildUpArea > 0 && (
                 <Box sx={styles.detailText}>
                   <img src={sqt} alt="sqt" style={styles.image} />
                   Sft: {unitsDetails.buildUpArea}
                 </Box>
               )}
+
             </Box>
           </>
         )}
