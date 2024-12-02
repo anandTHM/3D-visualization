@@ -68,6 +68,7 @@ const statusMapping = {
   vacant: "Vacant",
   not_ready: "Not Ready",
   under_notice: "Under Notice",
+  move_in_pending: "Booked",
   unknown: "Unknown",
 };
 
@@ -356,6 +357,9 @@ const Space = () => {
         break;
       case "under_notice":
         statusLabel = "Under Notice";
+        break;
+      case "move_in_pending":
+        statusLabel = "Booked";
         break;
       default:
         statusLabel = "Unknown";

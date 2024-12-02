@@ -189,7 +189,7 @@ const DigitalTwin = ({ mapping }) => {
   //       status: "available",
   //     };
 
-  //     const response = await get("digital-twin/listing", queryParams, authToken);
+  //     const response = await get("/listing", queryParams, authToken);
   //     if (response && response.data) {
   //       const transformedProperties = response.data.rows
   //         .filter((item) => item?.smplrSpaceData?.objectId)
@@ -197,13 +197,12 @@ const DigitalTwin = ({ mapping }) => {
   //           _id: item?._id,
   //           name: item?.unitAddress,
   //           smplrSpaceData: item?.smplrSpaceData,
-            // status: item?.occupancyStatus,
-            // occupancyStatus: item?.occupancyStatus,
+  //           status: item?.occupancyStatus,
+  //           occupancyStatus: item?.occupancyStatus,
   //           buildUpArea: item?.buildUpArea,
   //           numberOfSeats: item?.numberOfSeats,
   //         }));
 
-  //       console.log("============",response);
   //       handleUnits(transformedProperties);
   //     } else {
   //       console.error("No properties found in the response");
