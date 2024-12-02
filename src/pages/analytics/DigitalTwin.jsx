@@ -960,8 +960,15 @@ const DigitalTwin = ({ mapping }) => {
         data: { rows = [] },
       } = response;
 
+      // const filteredRows =
+      //   rows.filter((row) => row.occupancyStatus !== "draft") || [];
+
       const filteredRows =
-        rows.filter((row) => row.occupancyStatus !== "draft") || [];
+        rows.filter((row) =>
+          row.occupancyStatus !== "draft" &&
+          !(row.occupancyStatus === "move_in_pending" && new Date(row.contractEndDate) < new Date())
+        ) || [];
+
 
       if (filteredRows.length > 0) {
         const homeDetail = filteredRows[0];
