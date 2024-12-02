@@ -423,6 +423,10 @@ const UnitData = ({
     category: ["Category", "Amount", "Total Amount"],
   };
 
+  const getCategoryHeader = () => {
+    return homeDetails.plans?.length > 0 ? "Plans" : "Category";
+  };
+
   const formatDate = (date) =>
     date ? moment(date).tz(organizationTimeZone).format("DD MMM YYYY") : "--";
 
@@ -511,7 +515,7 @@ const UnitData = ({
       <>
         <Box sx={{ py: 1 }}>
           <CustomTableForHomeDetails
-            tableHeader={tableHeaders.category}
+            tableHeader={[getCategoryHeader(), "Amount", "Total Amount"]}
             tableData={
               homeDetails.plans?.length > 0
                 ? homeDetails?.plans
