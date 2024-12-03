@@ -963,12 +963,20 @@ const DigitalTwin = ({ mapping }) => {
       // const filteredRows =
       //   rows.filter((row) => row.occupancyStatus !== "draft") || [];
 
-      const filteredRows =
-        rows.filter((row) =>
-          row.occupancyStatus !== "draft" &&
-          !(row.occupancyStatus === "move_in_pending" && new Date(row.contractEndDate) < new Date())
-        ) || [];
-
+      const filteredRows = rows.filter((row) =>
+        row.occupancyStatus !== "draft" &&
+        !(
+          (row.occupancyStatus === "move_in_pending" ||
+            row.occupancyStatus === "under_notice" ||
+            row.occupancyStatus === "vacant" ||
+            row.occupancyStatus === "occupied_by_tenant" ||
+            row.occupancyStatus === "occupied_by_owner" ||
+            row.occupancyStatus === "shifting") &&
+          row.contractEndDate &&
+          new Date(row.contractEndDate) < new Date()
+        )
+      ) || [];
+    
 
       if (filteredRows.length > 0) {
         const homeDetail = filteredRows[0];
