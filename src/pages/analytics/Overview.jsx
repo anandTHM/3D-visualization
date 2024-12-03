@@ -48,11 +48,11 @@ const OverView = ({
   selectedProjects,
 }) => {
   const {
-    totalSeats,
-    totalOccupiedSeats,
-    totalVacantSeats,
-    totalUnderNoticeSets,
-    totalBookedSeats,
+    total,
+    totalOccupied,
+    totalVacant,
+    totalUnderNotice,
+    totalBooked,
   } = unitOccupancy || {};
 
   const navigateToUrl = (url) => {
@@ -62,25 +62,25 @@ const OverView = ({
   const OccupancyOverviewData = [
     {
       label: "Total Units",
-      value:  totalSeats || 0,
+      value:  total || 0,
       status: "All",
       url: `/godview/#/listing/search/all/${selectedProjects?._id}`,
     },
     {
       label: "Occupied",
-      value:  totalOccupiedSeats || 0,
+      value:  totalOccupied || 0,
       status: "Occupied",
       url: `/godview/#/listing/search/occupied/${selectedProjects?._id}`,
     },
     {
       label: "Vacant",
-      value: totalVacantSeats || 0,
+      value: totalVacant || 0,
       status: "Vacant",
       url: `/godview/#/listing/search/vacant/${selectedProjects?._id}`,
     },
     {
       label: "Booked",
-      value: totalBookedSeats || 0,
+      value: totalBooked || 0,
       status: "Booked",
       url: `/godview/#/listing/search/booked/${selectedProjects?._id}`,
     },
@@ -92,7 +92,7 @@ const OverView = ({
     // },
     {
       label: "Under Notice",
-      value:  totalUnderNoticeSets || 0,
+      value:  totalUnderNotice || 0,
       status: "Under Notice",
       url: `/godview/#/listing/search/units/${selectedProjects?._id}`,
     },

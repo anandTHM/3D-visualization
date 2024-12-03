@@ -968,6 +968,7 @@ const DigitalTwin = ({ mapping }) => {
         !(
           (row.occupancyStatus === "move_in_pending" ||
             row.occupancyStatus === "under_notice" ||
+            row.occupancyStatus === "moved_out" ||
             row.occupancyStatus === "vacant" ||
             row.occupancyStatus === "occupied_by_tenant" ||
             row.occupancyStatus === "occupied_by_owner" ||
