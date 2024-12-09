@@ -330,7 +330,7 @@ const DigitalTwin = ({ mapping }) => {
       };
 
       const response = await get(
-        "/digital-twin/occupancy-status",
+        "/digital-twin/overview/occupancy-status",
         queryParams,
         authToken
       );
@@ -370,7 +370,7 @@ const DigitalTwin = ({ mapping }) => {
       };
 
       const response = await get(
-        "/stats/Overview/transaction",
+        "/digital-twin/overview/transaction",
         queryParams,
         authToken
       );
@@ -408,7 +408,7 @@ const DigitalTwin = ({ mapping }) => {
         floorIndex: selectedFloor !== null ? selectedFloor : null,
       };
       const response = await get(
-        "/stats/Overview/facility",
+        "/digital-twin/overview/facility",
         queryParams,
         authToken
       );
@@ -447,7 +447,7 @@ const DigitalTwin = ({ mapping }) => {
         id: selectedFacilities?._id || selectedUnits?._id || null,
       };
       const response = await get(
-        "/stats/Overview/tickets",
+        "/digital-twin/overview/tickets",
         queryParams,
         authToken
       );
@@ -488,7 +488,7 @@ const DigitalTwin = ({ mapping }) => {
       };
 
       const response = await get(
-        "/stats/Overview/transaction",
+        "/digital-twin/overview/transaction",
         queryParams,
         authToken
       );

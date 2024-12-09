@@ -102,12 +102,12 @@ const OverView = ({
     {
       label: "Total Receivables",
       value: totalReceivables,
-      url: "/godview/#/transaction/invoice/filter/none",
+      url: `/godview/#/transaction/invoice/filter/${selectedProjects?._id}`,
     },
     {
       label: "Total Payables",
       value: totalPayables,
-      url: "/godview/#/transaction/bill/filter/none",
+      url: `/godview/#/transaction/bill/filter/${selectedProjects?._id}`,
     },
   ];
 
