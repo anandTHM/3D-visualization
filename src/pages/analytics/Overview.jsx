@@ -21,16 +21,22 @@ const styles = {
     height: "40px",
   },
   gridContainer: { py: 1, px: 2 },
-  amountItem: {
-    cursor: "pointer",
-    transition: "transform 0.2s ease-in-out",
-    "&:hover": { transform: "scale(1.1)" },
-  },
-  facilityItem: (isClickable) => ({
-    cursor: isClickable ? "pointer" : "default",
-    transition: "transform 0.2s ease-in-out",
+  amountItem: (selectedFloor) => ({
+    cursor: selectedFloor === null ? "pointer" : "default",
+    transition: selectedFloor === null ? "transform 0.2s ease-in-out" : "none",
+    "&:hover": { 
+      transform: selectedFloor === null ? "scale(1.1)" : "none" 
+    },
+  }),
+  facilityItem: (totalFacilityRequestPending, selectedFloor) => ({
+    cursor: (selectedFloor === null && totalFacilityRequestPending > 0) 
+      ? "pointer" 
+      : "default",
+    transition: selectedFloor === null ? "transform 0.2s ease-in-out" : "none",
     "&:hover": {
-      transform: isClickable ? "scale(1.05)" : "none",
+      transform: (selectedFloor === null && totalFacilityRequestPending > 0)
+        ? "scale(1.05)"
+        : "none",
     },
   }),
   labelText: { color: "#717171", fontSize: "13px" },
@@ -46,6 +52,7 @@ const OverView = ({
   loadTotalFacility,
   loadUnitOccupancy,
   selectedProjects,
+  selectedFloor
 }) => {
   const {
     total,
@@ -126,12 +133,13 @@ const OverView = ({
                 key={label}
                 label={label}
                 value={value}
+                selectedFloor={selectedFloor}
                 statusColor={
                   OccupancyStatuses.find(
                     (statusObj) => statusObj.label === status
                   )?.color
                 }
-                onClick={() => navigateToUrl(url)}
+                onClick={() => selectedFloor === null &&  navigateToUrl(url)}
               />
             ))}
           </Grid>
@@ -149,8 +157,8 @@ const OverView = ({
                   item
                   size={6}
                   key={label}
-                  sx={styles.amountItem}
-                  onClick={() => value && navigateToUrl(url)}
+                  sx={styles.amountItem(selectedFloor)}
+                  onClick={() => selectedFloor === null && value && navigateToUrl(url)}
                 >
                   <Typography variant="body1" sx={styles.labelText}>
                     {label}
@@ -170,9 +178,9 @@ const OverView = ({
             <Grid
               item
               size={12}
-              sx={styles.facilityItem(totalFacility?.totalFacilityRequestPending > 0)}
-              onClick={() =>
-                totalFacility?.totalFacilityRequestPending > 0 &&
+              sx={styles.facilityItem(totalFacility?.totalFacilityRequestPending  , selectedFloor)}
+              onClick={() => selectedFloor === null && 
+                totalFacility?.totalFacilityRequestPending > 0 && 
                 navigateToUrl(
                   `/godview/#/facility-booking/filter/${selectedProjects?._id}`
                 )

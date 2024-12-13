@@ -2,14 +2,14 @@ import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 const styles = {
-  gridContainer: (isChecked) => ({
-    cursor: isChecked ? "pointer" : "default",
+  gridContainer: (isChecked, selectedFloor) => ({
+    cursor: (isChecked && selectedFloor === null) ? "pointer" : "default",
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    transition: "transform 0.2s ease-in-out",
+    transition: (selectedFloor === null && isChecked) ? "transform 0.2s ease-in-out" : "none",
     "&:hover": {
-      transform: isChecked ? "scale(1.15)" : "none",
+      transform: (isChecked && selectedFloor === null) ? "scale(1.15)" : "none",
     },
   }),
   labelContainer: {
@@ -33,12 +33,12 @@ const styles = {
   },
 };
 
-const StatusGrid = ({ label, value, statusColor, onClick }) => {
+const StatusGrid = ({ label, value, statusColor, onClick, selectedFloor }) => {
   const isChecked = value > 0;
   return (
     <Grid
-      sx={styles.gridContainer(isChecked)}
-      onClick={isChecked ? onClick : undefined}
+      sx={styles.gridContainer(isChecked, selectedFloor)}
+      onClick={(isChecked && selectedFloor === null) ? onClick : undefined}
       size={4}
     >
       <Box sx={styles.labelContainer}>

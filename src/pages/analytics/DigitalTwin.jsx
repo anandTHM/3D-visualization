@@ -1528,6 +1528,7 @@ const DigitalTwin = ({ mapping }) => {
                       selectedFacilities={selectedFacilities}
                       selectedUnits={selectedUnits}
                       selectedProjects={selectedProjects}
+                      selectedFloor={selectedFloor}
                     />
                   )}
                 </Box>
@@ -1601,6 +1602,7 @@ const DigitalTwin = ({ mapping }) => {
                     loadTotalFacility={loadTotalFacility}
                     loadTotalReceivables={loadTransaction}
                     selectedProjects={selectedProjects}
+                    selectedFloor={selectedFloor}
                   />
                 )}
               </Box>

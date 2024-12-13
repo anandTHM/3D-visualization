@@ -3,9 +3,9 @@ import { Button, Typography, Divider } from "@mui/material";
 import Tickets from "./TicketsDetails";
 import { baseUrl } from "../../utils/helper";
 
-const TicketStatusCard = ({ status, count, projectId, label }) => {
+const TicketStatusCard = ({ status, count, projectId, label, isClickable }) => {
   const handleClick = () => {
-    if (count > 0) {
+    if (isClickable && count > 0) {
       const parentUrl = `${baseUrl}/godview/#/ticket/${status}/${projectId}`;
       window.open(parentUrl, "_blank");
     }
@@ -19,10 +19,11 @@ const TicketStatusCard = ({ status, count, projectId, label }) => {
       direction="column"
       alignItems="center"
       sx={{
-        cursor: count > 0 ? "pointer" : "default",
+        cursor: (isClickable && count > 0) ? "pointer" : "default",
         transition: "transform 0.2s ease-in-out",
         "&:hover": {
-          transform: count > 0 ? "scale(1.15)" : "none",
+          transform:
+            ( isClickable && count > 0 )? "scale(1.15)" : "none",
         },
         marginRight: 2,
       }}
@@ -41,6 +42,7 @@ const TicketsOverview = ({
   tickets,
   isLoading,
   selectedProjects,
+  selectedFloor,
 }) => {
   const { openTickets, inProgressTickets, onHoldTickets, reopenedTickets } =
     ticketsStatus;
@@ -52,6 +54,7 @@ const TicketsOverview = ({
         count={openTickets}
         projectId={selectedProjects?._id}
         label="Open"
+        isClickable={selectedFloor === null}
       />
       <Grid item size={1}>
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -61,6 +64,7 @@ const TicketsOverview = ({
         count={inProgressTickets}
         projectId={selectedProjects?._id}
         label="In-Progress"
+        isClickable={selectedFloor === null}
       />
       <Grid item size={1}>
         <Divider orientation="vertical" />
@@ -70,6 +74,7 @@ const TicketsOverview = ({
         count={reopenedTickets}
         projectId={selectedProjects?._id}
         label="Re-Open"
+        isClickable={selectedFloor === null}
       />
       <Grid item size={1}>
         <Divider orientation="vertical" />
@@ -79,6 +84,7 @@ const TicketsOverview = ({
         count={onHoldTickets}
         projectId={selectedProjects?._id}
         label="On-Hold"
+        isClickable={selectedFloor === null}
       />
       <Grid item size={12} sx={{ py: 2 }}>
         <Divider />
@@ -86,7 +92,7 @@ const TicketsOverview = ({
       <Grid size={12}>
         <Tickets tickets={tickets || []} isLoading={isLoading} />
       </Grid>
-      {tickets.length > 5 && (
+      {selectedFloor === null && tickets.length > 5 && (
         <Grid size={3} sx={{ mt: 1 }}>
           <Button
             variant="text"

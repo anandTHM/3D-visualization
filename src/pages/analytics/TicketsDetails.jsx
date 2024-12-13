@@ -13,6 +13,7 @@ import {
 import moment from "moment";
 import { getStatusColor } from "../../utils/helper";
 import AppLoader from "../../components/AppLoader";
+import { ticketsStatus } from "../../utils/helper";
 
 const styles = {
   tableContainer: { border: "1px solid #D6D6D6" },
@@ -60,7 +61,22 @@ const CustomTable = ({ tableHeader, tableData, isLoading }) => {
                   {item?.ticketCategory}
                 </TableCell>
                 <TableCell>
-                  <Chip label={item?.status} sx={styles.chip(item?.status)} />
+                  <TableCell>
+                    {(() => {
+                      const statusInfo = ticketsStatus.find(
+                        (status) => status.value === item?.status
+                      );
+                      return statusInfo ? (
+                        <Chip
+                          label={statusInfo.label}
+                          sx={{
+                            ...styles.chip(statusInfo.value),
+                            backgroundColor: statusInfo.color,
+                          }}
+                        />
+                      ) : null;
+                    })()}
+                  </TableCell>
                 </TableCell>
                 <TableCell sx={styles.tableCell}>
                   {item.createdAt &&
