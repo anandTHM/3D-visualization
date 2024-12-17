@@ -98,12 +98,12 @@ const DigitalTwin = ({ mapping }) => {
       setLoading(true);
       try {
         const response = await get(
-          `/project/search`,
-          { limit: 9007199254740991, page: 1 },
+          `/digital-twin/project`,
+          {},
           authToken
         );
         if (response && response.data) {
-          const transformedProperties = response.data.rows
+          const transformedProperties = response.data
             ?.filter(
               (item) => item.spaceData?.status && item?.spaceData?.spaceId
             )
@@ -111,6 +111,7 @@ const DigitalTwin = ({ mapping }) => {
               _id: item?._id,
               name: item?.name,
               spaceData: item?.spaceData,
+              hasActiveHotDesk: item?.hasActiveHotDesk,
               contactPoints: item?.contactPoints,
               floors: item?.floors,
             }));
@@ -233,25 +234,25 @@ const DigitalTwin = ({ mapping }) => {
         sort: "-createdAt",
         status: "available",
       };
-  
+
       const response = await get("digital-twin/listing", queryParams, authToken);
-  
+
       if (response && response.data) {
         const transformedProperties = response.data
-          .filter((item) => item?.smplrSpaceData?.objectId) 
+          .filter((item) => item?.smplrSpaceData?.objectId)
           .map((item) => ({
             _id: item?._id,
-            name: item?.unitAddress || "Unnamed Unit", 
+            name: item?.unitAddress || "Unnamed Unit",
             smplrSpaceData: item?.smplrSpaceData,
             status: item?.occupancyStatus,
             occupancyStatus: item?.occupancyStatus,
-            buildUpArea: item?.buildUpArea || 0, 
-            numberOfSeats: item?.numberOfSeats || 0, 
-            project: item?.project || "Unknown Project", 
-            isFromHomes: item?.isFromHomes || false, 
+            buildUpArea: item?.buildUpArea || 0,
+            numberOfSeats: item?.numberOfSeats || 0,
+            project: item?.project || "Unknown Project",
+            isFromHomes: item?.isFromHomes || false,
           }));
-  
-        handleUnits(transformedProperties); 
+
+        handleUnits(transformedProperties);
       } else {
         console.error("No properties found in the response");
       }
@@ -273,7 +274,7 @@ const DigitalTwin = ({ mapping }) => {
       });
     }
   };
-  
+
 
   const fetchFacilities = async () => {
     try {
@@ -977,7 +978,7 @@ const DigitalTwin = ({ mapping }) => {
           new Date(row.contractEndDate) < new Date()
         )
       ) || [];
-    
+
 
       if (filteredRows.length > 0) {
         const homeDetail = filteredRows[0];
@@ -1371,21 +1372,14 @@ const DigitalTwin = ({ mapping }) => {
         {selectedProjects && (
           <>
             <Box>
-              <Typography
-                variant="h4"
-                component="h4"
+              <Box
                 sx={{
-                  color: "#0F0F0F",
-                  fontSize: "16px",
-                  py: 2,
-                  px: 2,
                   display: "flex",
                   alignItems: "center",
-                  fontWeight: "400",
+                  padding: "16px 16px 8px",
                 }}
               >
-                {(selectedFacilities?._id ||
-                  (selectedFloor !== null && selectedFloor !== undefined)) && (
+                {(selectedFacilities?._id || (selectedFloor !== null && selectedFloor !== undefined)) && (
                   <Box
                     sx={{ marginRight: 2, cursor: "pointer" }}
                     onClick={onClickBackHandler}
@@ -1403,13 +1397,45 @@ const DigitalTwin = ({ mapping }) => {
                   </Box>
                 )}
 
-                {selectedFacilities
-                  ? `Facilities - ${selectedProjects?.name}`
-                  : selectedFloor !== null && selectedFloor !== undefined
-                  ? ` Floor ${selectedFloor + 1} - ${selectedProjects?.name}`
-                  : selectedProjects?.name}
-              </Typography>
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{
+                      color: "#0F0F0F",
+                      fontSize: "16px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {selectedFacilities
+                      ? `Facilities - ${selectedProjects?.name}`
+                      : selectedFloor !== null && selectedFloor !== undefined
+                        ? `Floor ${selectedFloor + 1} - ${selectedProjects?.name}`
+                        : selectedProjects?.name}
+                  </Typography>
+
+                  {selectedProjects?.hasActiveHotDesk && (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: "#4caf50",
+                        fontSize: "12px",
+                        fontWeight: "normal",
+                        marginTop: "4px",
+                        border: "1px solid #4caf50", 
+                        borderRadius: "4px",
+                        padding: "4px 8px",
+                        display: "inline-block", 
+                      }}
+                    >
+                      Stats for the Hot Desks are not shown on the Digital Twin
+                    </Typography>
+                  )}
+                </Box>
+              </Box>
             </Box>
+
+
 
             <Divider />
 
@@ -1658,60 +1684,60 @@ const DigitalTwin = ({ mapping }) => {
     //     )}
     //   </Grid>
     // </>
-<>
-  <ToastContainer
-    position="top-right"
-    autoClose={5000}
-    hideProgressBar={false}
-    newestOnTop
-    closeOnClick
-    rtl={false}
-    pauseOnFocusLoss
-    draggable
-    pauseOnHover
-    theme="dark"
-  />
-  <AppToolBar mapped={false} />
-  <Grid container sx={{ background: "#ffffff" }}>
-    {!selectedProjects ? (
-      <Grid item size={12}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "77vh",
-          }}
-        >
-          <AppLoader thickness={5} size={40} color="#FFFFFF" />
-        </Box>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <AppToolBar mapped={false} />
+      <Grid container sx={{ background: "#ffffff" }}>
+        {!selectedProjects ? (
+          <Grid item size={12}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "77vh",
+              }}
+            >
+              <AppLoader thickness={5} size={40} color="#FFFFFF" />
+            </Box>
+          </Grid>
+        ) : (
+          <>
+            <Grid item size={8.5}>
+              <Box sx={{ height: "77vh" }}>
+                <Space mapping={mapping} />
+              </Box>
+            </Grid>
+            <Grid item size={3.5}>
+              <Box
+                sx={{
+                  height: "77vh",
+                  overflowY: "auto",
+                  '&::-webkit-scrollbar': {
+                    display: 'none'
+                  },
+                  msOverflowStyle: 'none',
+                  scrollbarWidth: 'none',
+                }}
+              >
+                {renderSpaceDetails()}
+              </Box>
+            </Grid>
+          </>
+        )}
       </Grid>
-    ) : (
-      <>
-        <Grid item size={8.5}>
-          <Box sx={{ height: "77vh" }}>
-            <Space mapping={mapping} />
-          </Box>
-        </Grid>
-        <Grid item size={3.5}>
-          <Box 
-            sx={{
-              height: "77vh", 
-              overflowY: "auto", 
-              '&::-webkit-scrollbar': {
-                display: 'none'
-              },
-              msOverflowStyle: 'none',  
-              scrollbarWidth: 'none', 
-            }}
-          >
-            {renderSpaceDetails()}
-          </Box>
-        </Grid>
-      </>
-    )}
-  </Grid>
-</>
+    </>
   );
 };
 

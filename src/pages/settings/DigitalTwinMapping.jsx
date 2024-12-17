@@ -441,8 +441,26 @@ const DigitalTwinMapping = () => {
       <AppModal
         open={openModal}
         headerText="Confirmation"
-        descriptionText={`Mapping MTL property ${projectName} to Digital Twin ${propertyName} 
-    \n Are you sure you want to proceed with mapping units? \n\n Note that you will not be allowed to change the space ID after confirmation.`}
+        descriptionText={
+          <>
+            <Typography variant="body1">
+              Mapping MTL property{" "}
+              <Typography component="span" sx={{ fontWeight: 500 }}>
+                {projectName}
+              </Typography>
+              {" "}to Digital Twin{" "}
+              <Typography component="span" sx={{ fontWeight: 500 }}>
+                {propertyName}
+              </Typography>
+              <br />
+              Are you sure you want to proceed with mapping units? <br />
+              <br />
+              <Typography variant="body1">
+                Note that you will not be allowed to change the space ID after confirmation.
+              </Typography>
+            </Typography>
+          </>
+        }
         primaryButtonText="Confirm"
         secondaryButtonText="Cancel"
         onClickPrimaryButton={onClickSpaceConfirmationHandler}

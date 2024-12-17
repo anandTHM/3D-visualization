@@ -137,7 +137,9 @@ const AppDropdown = ({
               />
             )}
             endAdornment={
-              (value !== null && value !== undefined && value !== "") && (
+              value !== null &&
+              value !== undefined &&
+              value !== "" && (
                 <InputAdornment
                   position="end"
                   sx={{
@@ -154,7 +156,7 @@ const AppDropdown = ({
                   </IconButton>
                 </InputAdornment>
               )
-            }            
+            }
           >
             {options.length > 0 ? (
               options.map((item, index) => (
@@ -163,7 +165,9 @@ const AppDropdown = ({
                 </MenuItem>
               ))
             ) : (
-              <MenuItem sx={{ color: "#848484" , fontSize:"14px" }}>No Data Found</MenuItem>
+              <MenuItem sx={{ color: "#848484", fontSize: "14px" }}>
+                No Data Found
+              </MenuItem>
             )}
           </Select>
         </FormControl>
