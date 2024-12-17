@@ -148,7 +148,7 @@ const styles = {
     color: "rgba(0, 0, 0, .87)",
     fontSize: "13px",
     py: 1,
-    maxWidth: "150px", 
+    maxWidth: "120px", 
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
