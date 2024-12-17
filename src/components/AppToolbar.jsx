@@ -140,6 +140,7 @@ const ToolbarForProperty = ({}) => {
     handleSelectedFacilities,
     handleOnClickStatus,
     handleTicketsOnSpace,
+    handleSelectedTab
   } = useDigitalTwin();
   const {
     projects = [],
@@ -179,6 +180,7 @@ const ToolbarForProperty = ({}) => {
       (_, index) => index
     );
     handleFloors(floorOptions);
+    handleSelectedTab("Overview")
   };
 
   const onChangeUnitHandler = (event, newValue) => {
