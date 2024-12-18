@@ -205,13 +205,13 @@ const DigitalTwinMapping = () => {
       const space = await smplrClient.getSpace(enterSpaceId);
       const furnitures = await smplrClient.getAllFurnitureInSpace(enterSpaceId);
 
-      const polygons = space?.assetmap.filter(
+      const polygons = space?.assetmap?.filter(
         (item) => item.type === "polygon"
-      )[0];
+      )[0] || [];
 
       const floorWiseDataObj = {};
 
-      polygons?.assets.forEach((asset) => {
+      polygons?.assets?.forEach((asset) => {
         const floor = asset.levelIndex + 1;
         if (!floorWiseDataObj[floor]) {
           floorWiseDataObj[floor] = [];

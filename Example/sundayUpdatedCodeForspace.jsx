@@ -249,9 +249,9 @@ const Space = () => {
         const space = await smplrClient.getSpace(
           selectedProjects?.spaceData?.spaceId || config.spaceId
         );
-        const polygons = space?.assetmap.filter(
+        const polygons = space?.assetmap?.filter(
           (asset) => asset.type === "polygon"
-        );
+        ) || [];
 
         setSelectedRoom(smplrClient);
 

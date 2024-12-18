@@ -318,9 +318,9 @@ const Space = () => {
 
         setSelectedRoom(smplrClient);
 
-        const polygons = space?.assetmap.filter(
+        const polygons = space?.assetmap?.filter(
           (asset) => asset.type === "polygon"
-        );
+        ) || [];
 
         if (polygons && polygons.length > 0) {
           setData(polygons[0].assets);

@@ -257,7 +257,7 @@ const FloorListings = () => {
 
         const polygons = space?.assetmap?.filter(
           (item) => item.type === "polygon"
-        )[0];
+        )[0] || [];
 
         if (!polygons) {
           throw new Error("No polygons found in the space");
@@ -266,7 +266,7 @@ const FloorListings = () => {
         const floorWiseData = {};
 
         // Add polygon data
-        polygons.assets.forEach((asset) => {
+        polygons?.assets?.forEach((asset) => {
           const floor = asset.levelIndex + 1;
           if (!floorWiseData[floor]) {
             floorWiseData[floor] = [];
