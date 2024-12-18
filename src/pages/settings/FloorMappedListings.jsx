@@ -182,12 +182,6 @@ const FloorMappedListings = () => {
       highlighted: furniture.id === activeObjectId,
     }));
 
-    // const filteredItems = Object.fromEntries(
-    //   Object.entries(selectedItems).filter(
-    //     ([_, value]) => !value.smplrSpaceData
-    //   )
-    // );
-
     const filteredItems = Object.fromEntries(
       Object.entries(selectedItems).filter(
         ([_, value]) => value.updated === true || value.updated === false
@@ -297,68 +291,6 @@ const FloorMappedListings = () => {
       setLoading(false);
     }
   };
-
-  // const renderInfoItem = (label, value) => (
-  //   <Grid item container>
-  //     <Typography
-  //       variant="body2"
-  //       component="span"
-  //       sx={{ fontSize: "12px", color: "#848484" }}
-  //     >
-  //       {label}
-  //     </Typography>
-  //     <Typography
-  //       variant="body2"
-  //       component="span"
-  //       sx={{
-  //         fontSize: "14px",
-  //         color: "rgba(0, 0, 0, .87);",
-  //         whiteSpace: "nowrap",
-  //       }}
-  //     >
-  //       <br />
-  //       {value}
-  //     </Typography>
-  //   </Grid>
-  // );
-
-  // const renderSearchAndInfo = () => {
-  //   const isProjectNameTooLong = projectName.length > 30;
-
-  //   return (
-  //     <Box sx={{ mt: 2, px: 2 }}>
-  //       <Grid container spacing={2} alignItems="flex-start">
-  //         <Grid item size={isProjectNameTooLong ? 12 : 5}>
-  //           <AppInputField
-  //             labelText="Search"
-  //             showSearchIcon={true}
-  //             fullWidth
-  //             value={searchText}
-  //             onChange={(event) => setSearchText(event.target.value)}
-  //             labelFont="14px"
-  //             width={isProjectNameTooLong ? "600px" : "300px"}
-  //           />
-  //         </Grid>
-  //         <Grid item size={isProjectNameTooLong ? 12 : 7}>
-  //           <Grid container spacing={4}>
-  //             <Grid item size={isProjectNameTooLong ? 4 : 4}>
-  //               {renderInfoItem("Property", projectName)}
-  //             </Grid>
-  //             <Grid item size={isProjectNameTooLong ? 4 : 4}>
-  //               {renderInfoItem("Floor", selectedFloor)}
-  //             </Grid>
-  //             <Grid item size={4}>
-  //               {renderInfoItem(
-  //                 "Total Mapped",
-  //                 `${mappedPolygons.length} / ${selectedFloorData?.length}`
-  //               )}
-  //             </Grid>
-  //           </Grid>
-  //         </Grid>
-  //       </Grid>
-  //     </Box>
-  //   );
-  // };
 
   const renderInfoItem = (label, value) => (
     <Grid item container direction="column" spacing={1}>

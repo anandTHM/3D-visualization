@@ -295,58 +295,6 @@ const DigitalTwinMapping = () => {
     }
   }, [enterSpaceId, fetchData, isSmplrReady]);
 
-  // const onClickSpaceConfirmationHandler = async () => {
-  //   const payload = {
-  //     spaceData: {
-  //       status: true,
-  //       spaceId: enterSpaceId,
-  //       floors: floorWisePolygons?.length,
-  //     },
-  //   };
-  //   const totalFloorDataItems = floorWisePolygons.reduce(
-  //     (sum, item) => sum + item.floorData.length,
-  //     0
-  //   );
-
-  //   const polygonPayload = {
-  //     spaceId: enterSpaceId,
-  //     spaceName: propertyName,
-  //     spaceType: "polygon",
-  //     totalPolygons: totalFloorDataItems,
-  //   };
-  //   console.log("response", polygonPayload, authToken);
-
-  //   const response = await post(
-  //     `/digial-twin/${projectId}`,
-  //     polygonPayload,
-  //     authToken
-  //   );
-  //   console.log("response", response);
-
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await put(
-  //       `/project/addSpaceId/${projectId}`,
-  //       payload,
-  //       authToken
-  //     );
-
-  //     if (response.status === 200) {
-  //       setOpenModal(false);
-  //       navigate("/floor-listings");
-  //     } else {
-  //       console.log("Failed to add space ID");
-  //       // navigate("/floor-listings");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error response:", error.response);
-  //     // navigate("/floor-listings");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const onClickSpaceConfirmationHandler = async () => {
     setLoading(true);
 
