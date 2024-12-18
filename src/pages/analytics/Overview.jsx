@@ -77,19 +77,19 @@ const OverView = ({
       label: "Occupied",
       value:  totalOccupied || 0,
       status: "Occupied",
-      url: `/godview/#/listing/search/occupied/${selectedProjects?._id}`,
+      url:  `/godview/#/listing/search/all/${selectedProjects?._id}`,
     },
     {
       label: "Vacant",
       value: totalVacant || 0,
       status: "Vacant",
-      url: `/godview/#/listing/search/vacant/${selectedProjects?._id}`,
+      url: `/godview/#/listing/search/all/${selectedProjects?._id}`,
     },
     {
       label: "Booked",
       value: totalBooked || 0,
       status: "Booked",
-      url: `/godview/#/listing/search/booked/${selectedProjects?._id}`,
+      url:  `/godview/#/listing/search/all/${selectedProjects?._id}`,
     },
     // {
     //   label: "Not Ready",
@@ -101,7 +101,7 @@ const OverView = ({
       label: "Under Notice",
       value:  totalUnderNotice || 0,
       status: "Under Notice",
-      url: `/godview/#/listing/search/units/${selectedProjects?._id}`,
+      url: `/godview/#/listing/search/all/${selectedProjects?._id}`,
     },
   ];
 

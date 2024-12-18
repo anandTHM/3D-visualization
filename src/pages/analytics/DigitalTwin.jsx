@@ -1642,48 +1642,6 @@ const DigitalTwin = ({ mapping }) => {
   //===========================================Render=============================================================
 
   return (
-    // <>
-    //   <ToastContainer
-    //     position="top-right"
-    //     autoClose={5000}
-    //     hideProgressBar={false}
-    //     newestOnTop
-    //     closeOnClick
-    //     rtl={false}
-    //     pauseOnFocusLoss
-    //     draggable
-    //     pauseOnHover
-    //     theme="dark"
-    //   />
-    //   <AppToolBar mapped={false} />
-    //   <Grid container sx={{ background: "#ffffff" }}>
-    //     {!selectedProjects ? (
-    //       <Grid item size={12}>
-    //         <Box
-    //           sx={{
-    //             display: "flex",
-    //             justifyContent: "center",
-    //             alignItems: "center",
-    //             height: "77vh",
-    //           }}
-    //         >
-    //           <AppLoader thickness={5} size={40} color="#FFFFFF" />
-    //         </Box>
-    //       </Grid>
-    //     ) : (
-    //       <>
-    //         <Grid item size={8.5}>
-    //           <Box sx={{ height: "77vh" }}>
-    //             <Space mapping={mapping} />
-    //           </Box>
-    //         </Grid>
-    //         <Grid item size={3.5}>
-    //           {renderSpaceDetails()}
-    //         </Grid>
-    //       </>
-    //     )}
-    //   </Grid>
-    // </>
     <>
       <ToastContainer
         position="top-right"
