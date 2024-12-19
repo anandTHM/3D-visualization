@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
   Route,
   BrowserRouter as Router,
-  HashRouter,
   Routes,
   Navigate,
 } from "react-router-dom";
@@ -75,18 +74,18 @@ const App = () => {
   };
 
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         <Route
           path="/"
-          element={<Navigate to="/mapping" replace />}
+          element={<Navigate to="/digital-twin-mapping" replace />}
         />
-        <Route path="/mapping" element={<DigitalTwinMapping />} />
-        <Route path="/twin" element={<DigitalTwin  />} />
+        <Route path="/digital-twin-mapping" element={<DigitalTwinMapping />} />
+        <Route path="/digital-twin" element={<DigitalTwin  />} />
         <Route path="/floor-listings" element={<FloorListings />} />
         <Route path="/floor-mapping-units" element={<FloorMappedListings />} />
       </Routes>
-    </HashRouter>
+    </Router>
   );
 };
 
