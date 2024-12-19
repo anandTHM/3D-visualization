@@ -158,7 +158,7 @@ const Space = () => {
     clientToken,
     organizationId,
   } = DigitalTwinState;
-
+  
   const currentProjectIdRef = useRef(null);
 
   useEffect(() => {
@@ -200,6 +200,8 @@ const Space = () => {
         ) {
           return;
         }
+
+        console.log("========",clientToken)
 
         const spaceInstance = new smplr.Space({
           spaceId: selectedProjects?.spaceData?.spaceId,
@@ -277,7 +279,7 @@ const Space = () => {
   const fetchData = useCallback(
     async (smplr, spaceInstance) => {
       const currentProjectId = selectedProjects?._id;
-
+      
       try {
         await spaceInstance.startViewer({
           preview: false,

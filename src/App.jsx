@@ -54,12 +54,7 @@ const App = () => {
       handleEnterSpaceId(spaceId);
     }
 
-    if (floors) {
-      const floorOptions = Array.from({ length: floors }, (_, index) => index);
-      handleFloors(floorOptions);
-    } else {
-      fetchData(token);
-    }
+    fetchData(token);
   }, []);
 
   const fetchData = async (token) => {

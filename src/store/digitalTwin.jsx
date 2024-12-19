@@ -28,8 +28,8 @@ const initialState = {
   selectedTab: "Overview",
   ticketsOnSpace: [],
   ticketStatusFilter: "",
-  clientToken: "",
-  organizationId: "",
+  clientToken: "pub_838e6b526dc14f81b3ded7bf5a9f42ce",
+  organizationId: "7d271fde-b941-4495-9578-2ed7a539b03e",
 };
 
 // ================================= actions ================================
@@ -210,7 +210,7 @@ const digitalTwinReducer = (state, action) => {
     case SET_CLIENT_TOKEN:
       return {
         ...state,
-        clientToken: action.clientToken
+        clientToken: action.payload
       }
 
     default:
