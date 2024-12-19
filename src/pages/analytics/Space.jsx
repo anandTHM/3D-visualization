@@ -155,6 +155,8 @@ const Space = () => {
     ticketStatusFilter,
     ticketsStatus,
     unitOccupancy,
+    clientToken,
+    organizationId,
   } = DigitalTwinState;
 
   const currentProjectIdRef = useRef(null);
@@ -201,7 +203,7 @@ const Space = () => {
 
         const spaceInstance = new smplr.Space({
           spaceId: selectedProjects?.spaceData?.spaceId,
-          clientToken: config.clientToken,
+          clientToken: clientToken,
           containerId: "test",
         });
 
@@ -298,8 +300,8 @@ const Space = () => {
         }
 
         const smplrClient = new smplr.QueryClient({
-          organizationId: config.organizationId,
-          clientToken: config.clientToken,
+          organizationId: organizationId,
+          clientToken: clientToken,
         });
 
         const [furnitures, space] = await Promise.all([

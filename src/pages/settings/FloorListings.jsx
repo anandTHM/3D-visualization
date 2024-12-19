@@ -23,6 +23,7 @@ import AppButton from "../../components/AppButton";
 import { baseUrl } from "../../utils/helper";
 import AppToolBar from "../../components/AppToolbar";
 import AppLoader from "../../components/AppLoader";
+import { useDigitalTwin } from "../../store/digitalTwin";
 
 const CustomTable = ({ tableHeader, tableData, mappedPolygons, onClick }) => {
   const [page, setPage] = useState(0);
@@ -181,6 +182,10 @@ const FloorListings = () => {
     loadingMappedData,
   } = state;
 
+  const { state : useDigitalTwinState} = useDigitalTwin();
+
+  const { clientToken , organizationId } = useDigitalTwinState;
+
   const tableHeader = ["Floor", "Mapped Polygons", "Edit"];
 
   const [selectedFloor, setSelectedFloor] = useState(null);
@@ -244,8 +249,8 @@ const FloorListings = () => {
       try {
         const smplr = await loadSmplrJs("esm");
         const spaceData = new smplr.QueryClient({
-          organizationId: config.organizationId,
-          clientToken: config.clientToken,
+          organizationId: organizationId,
+          clientToken: clientToken,
         });
 
         const space = await spaceData.getSpace(enterSpaceId);

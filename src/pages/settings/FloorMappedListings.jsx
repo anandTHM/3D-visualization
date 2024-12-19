@@ -12,6 +12,7 @@ import AppModal from "../../components/AppModal";
 import { put } from "../../service";
 import { useNavigate } from "react-router-dom";
 import AppLoader from "../../components/AppLoader";
+import { useDigitalTwin } from "../../store/digitalTwin";
 
 const tooltipContainerStyle = {
   fontSize: "10px",
@@ -67,6 +68,10 @@ const FloorMappedListings = () => {
     selectedObjectId,
   } = state;
 
+  const { state: useDigitalTwinState} = useDigitalTwin();
+
+  const { clientToken , organizationId } = useDigitalTwinState;
+
   const spaceRef = useRef(null);
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
@@ -88,7 +93,7 @@ const FloorMappedListings = () => {
       const smplr = await loadSmplrJs("esm");
       spaceRef.current = new smplr.Space({
         spaceId: enterSpaceId,
-        clientToken: config.clientToken,
+        clientToken: clientToken,
         containerId: config.containerId,
         whiteLabel: config.whiteLabel,
       });
@@ -102,8 +107,8 @@ const FloorMappedListings = () => {
     async (smplr) => {
       try {
         const smplrClient = new smplr.QueryClient({
-          organizationId: config.organizationId,
-          clientToken: config.clientToken,
+          organizationId: organizationId,
+          clientToken: clientToken,
         });
 
         const space = await smplrClient.getSpace(enterSpaceId);

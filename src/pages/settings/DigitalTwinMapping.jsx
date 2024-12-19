@@ -5,7 +5,7 @@ import { Box, Typography, Divider } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import noSpace from "../../assets/noSpace.svg";
 import AppInput from "../../components/AppInputField";
-import { useSpace } from "../../store";
+import { useSpace  } from "../../store";
 import { loadSmplrJs } from "@smplrspace/smplr-loader";
 import { config } from "../../utils";
 import edit from "../../assets/edit.svg";
@@ -13,6 +13,7 @@ import AppModal from "../../components/AppModal";
 import { post, put } from "../../service";
 import AppToolBar from "../../components/AppToolbar";
 import AppLoader from "../../components/AppLoader";
+import { useDigitalTwin } from "../../store/digitalTwin";
 
 const SpaceIdValidator = ({
   enterSpaceId,
@@ -159,6 +160,10 @@ const DigitalTwinMapping = () => {
     floorWisePolygons,
   } = state;
 
+  const { state : useDigitalTwinState} = useDigitalTwin()
+
+  const { clientToken , organizationId } = useDigitalTwinState;
+
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -178,8 +183,8 @@ const DigitalTwinMapping = () => {
     setIsLoading(true);
 
     const smplrClient = new smplr.QueryClient({
-      organizationId: config.organizationId,
-      clientToken: config.clientToken,
+      organizationId: organizationId,
+      clientToken: clientToken,
     });
 
     handleInvalidSpace(false);
@@ -274,7 +279,7 @@ const DigitalTwinMapping = () => {
           .then((smplr) => {
             spaceRef.current = new smplr.Space({
               spaceId: enterSpaceId,
-              clientToken: config.clientToken,
+              clientToken: clientToken,
               containerId: "smplr-container",
               whiteLabel: config.whiteLabel,
             });

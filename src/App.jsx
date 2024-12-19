@@ -23,7 +23,7 @@ const App = () => {
     handleFloors,
   } = useSpace();
 
-  const { handleOrganizationTimeZone, handleOrganizationCurrency } =
+  const { handleOrganizationTimeZone, handleOrganizationCurrency , handleClientToken , handleOrganizationId } =
     useDigitalTwin();
 
   const searchParams = new URLSearchParams(window.location.search);
@@ -65,9 +65,11 @@ const App = () => {
   const fetchData = async (token) => {
     try {
       const response = await get("user/refresh-payload", {}, token);
-      const { currencyCode, organizationTimezone } = response.data;
+      const { currencyCode, organizationTimezone , smplrSpaceClientToken , smplrSpaceOrganizationId} = response.data;
       handleOrganizationCurrency(currencyCode);
       handleOrganizationTimeZone(organizationTimezone);
+      handleOrganizationId(smplrSpaceOrganizationId);
+      handleClientToken(smplrSpaceClientToken)
     } catch (error) {
       console.log(error);
     }

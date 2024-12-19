@@ -28,6 +28,8 @@ const initialState = {
   selectedTab: "Overview",
   ticketsOnSpace: [],
   ticketStatusFilter: "",
+  clientToken: "",
+  organizationId: "",
 };
 
 // ================================= actions ================================
@@ -57,6 +59,8 @@ const SET_HOME_TENANTS = "SET_HOME_TENANTS";
 const SET_SELECTED_TAB = "SET_SELECTED_TAB";
 const SET_TICKETS_ON_SPACE = "SET_TICKETS_ON_SPACE";
 const SET_TICKET_STATUS_FILTER = "SET_TICKET_STATUS_FILTER";
+const SET_CLIENT_TOKEN = "SET_CLIENT_TOKEN";
+const SET_ORGANIZATION_ID = "SET_ORGANIZATION_ID";
 
 // ================================= reducer ================================
 const digitalTwinReducer = (state, action) => {
@@ -197,7 +201,18 @@ const digitalTwinReducer = (state, action) => {
         ...state,
         ticketStatusFilter: action.payload,
       };
-    
+    case SET_ORGANIZATION_ID:
+      return {
+        ...state,
+        organizationId: action.payload
+      }
+
+    case SET_CLIENT_TOKEN:
+      return {
+        ...state,
+        clientToken: action.clientToken
+      }
+
     default:
       return state;
   }
@@ -314,6 +329,14 @@ export const DigitalTwinProvider = ({ children }) => {
     dispatch({ type: SET_TICKET_STATUS_FILTER, payload: status });
   };
 
+  const handleClientToken = (token) => {
+    dispatch({ type: SET_CLIENT_TOKEN, payload: token })
+  }
+
+  const handleOrganizationId = (id) => {
+    dispatch({ type: SET_ORGANIZATION_ID, payload: id })
+  }
+
   const value = {
     state,
     handleProjects,
@@ -341,7 +364,9 @@ export const DigitalTwinProvider = ({ children }) => {
     handleHomeTenants,
     handleSelectedTab,
     handleTicketsOnSpace,
-    handleTicketStatusFilter
+    handleTicketStatusFilter,
+    handleClientToken,
+    handleOrganizationId
   };
 
   return (
