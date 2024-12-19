@@ -79,10 +79,10 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={<Navigate to="/digital-twin-mapping" replace />}
+          element={<Navigate to="/mapping" replace />}
         />
-        <Route path="/digital-twin-mapping" element={<DigitalTwinMapping />} />
-        <Route path="/digital-twin" element={<DigitalTwin  />} />
+        <Route path="/mapping" element={<DigitalTwinMapping />} />
+        <Route path="/" element={<DigitalTwin  />} />
         <Route path="/floor-listings" element={<FloorListings />} />
         <Route path="/floor-mapping-units" element={<FloorMappedListings />} />
       </Routes>
