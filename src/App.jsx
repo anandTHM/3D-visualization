@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import {
   Route,
   BrowserRouter as Router,
+  HashRouter,
   Routes,
   Navigate,
 } from "react-router-dom";
@@ -74,7 +75,7 @@ const App = () => {
   };
 
   return (
-    <Router>
+    <HashRouter>
       <Routes>
         <Route
           path="/"
@@ -85,7 +86,7 @@ const App = () => {
         <Route path="/floor-listings" element={<FloorListings />} />
         <Route path="/floor-mapping-units" element={<FloorMappedListings />} />
       </Routes>
-    </Router>
+    </HashRouter>
   );
 };
 
