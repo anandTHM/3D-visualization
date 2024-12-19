@@ -21,8 +21,9 @@ export const formatCurrency = (currency = "USD", amount = 0) => {
 // export const baseUrl = "https://dev.thehousemonk.com";
 // export const baseUrl = "https://staging.thehousemonk.com";
 // export const baseUrl = "https://dashboard.thehousemonk.com";
+export const baseUrl = "https://app.monktechlabs.com";
 // ================== QA Server ================================================
-export const baseUrl = "https://qa1.thehousemonk.com";
+// export const baseUrl = "https://qa1.thehousemonk.com";
 
 // ========================================================== Statuses Legends For Occupancy Status  =============================================
 export const OccupancyStatuses = [
@@ -112,9 +113,9 @@ export function darkenColor(hex, factor = 0.5) {
 // ========================================================== Svg Icon Generator =============================================
 
 export const generateSvgDataUri = (number) => {
-  const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 47" width="31" height="47">
+  const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 47" width="21" height="27">
     <defs>
-      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <linearGradient id="gradient" x1="0%" y1="0%" x2="20%" y2="100%">
         <stop offset="0%" style="stop-color:#FE734A;stop-opacity:1" />
         <stop offset="100%" style="stop-color:#8754D6;stop-opacity:1" />
       </linearGradient>
