@@ -471,13 +471,14 @@ const Space = () => {
     if (roomCenterPoint) {
       const currentPlacement = spaceRef?.current.getCameraPlacement();
 
-      spaceRef?.current.setCameraPlacement({
+      const zoomedRadius = Math.max(currentPlacement.radius * 0.3, 40)
+      spaceRef.current.setCameraPlacement({
         alpha: currentPlacement.alpha,
         beta: currentPlacement.beta,
-        radius: 130,
+        radius: zoomedRadius,
         target: {
-          x: roomCenterPoint?.x,
-          y: 10,
+          x: roomCenterPoint.x,
+          y: currentPlacement.target.y,
           z: roomCenterPoint?.z,
         },
         animate: true,
@@ -577,14 +578,15 @@ const Space = () => {
           polygon: d.coordinates,
         });
         const currentPlacement = spaceRef.current.getCameraPlacement();
+        const zoomedRadius = Math.max(currentPlacement.radius * 0.3, 40)
         spaceRef.current.setCameraPlacement({
           alpha: currentPlacement.alpha,
           beta: currentPlacement.beta,
-          radius: 130,
+          radius: zoomedRadius,
           target: {
             x: roomCenter.x,
-            y: 10,
-            z: roomCenter.z,
+            y: currentPlacement.target.y,
+            z: roomCenterPoint?.z,
           },
           animate: true,
           animationDuration: 1,
@@ -610,14 +612,102 @@ const Space = () => {
     selectedRoom,
   ]);
 
+  // useEffect(() => {
+  //   if (selectedTab !== "Tickets") return;
+  //   if (ticketsOnSpace?.length === 0) {
+  //     return;
+  //   }
+
+  //   let addedLayerIds = [];
+
+  //   const filteredTickets = ticketsOnSpace
+  //     .map((ticket) => ({
+  //       ...ticket,
+  //       tickets: ticket.tickets.filter(
+  //         (t) => ticketStatusFilter === "" || t.status === ticketStatusFilter
+  //       ),
+  //       ticketCount: ticket.tickets.filter(
+  //         (t) => ticketStatusFilter === "" || t.status === ticketStatusFilter
+  //       ).length,
+  //     }))
+  //     .filter((ticket) => ticket.ticketCount > 0);
+
+  //   const updatedDataLayer = dataLayer.map((item) => {
+  //     const matchedTicket = filteredTickets.find(
+  //       (ticket) => ticket?.smplrSpaceData?.objectId === item.id
+  //     );
+
+  //     return {
+  //       ...item,
+  //       ticketCount: matchedTicket?.ticketCount || 0,
+  //     };
+  //   });
+
+  //   const updatedDataLayerWithTickets = updatedDataLayer.filter(
+  //     (item) => item.ticketCount > 0
+  //   );
+
+  //   if (!selectedUnits && !selectedFacilities) {
+  //     spaceRef?.current?.centerCamera();
+  //   }
+
+  //   if (updatedDataLayerWithTickets.length > 0) {
+  //     updatedDataLayerWithTickets.forEach((item) => {
+  //       if (!addedLayerIds.includes(item.id)) {
+  //         const svgUri = generateSvgDataUri(item.ticketCount);
+
+  //         const centerIconPosition =
+  //           !item.catalogId &&
+  //           selectedRoom.getPolygonCenter({
+  //             polygon: item.coordinates,
+  //           });
+
+  //         spaceRef.current.addIconDataLayer({
+  //           id: item.id,
+  //           type: "icon",
+  //           data: [
+  //             {
+  //               id: item.id,
+  //               position: {
+  //                 levelIndex:  item.levelIndex,
+  //                 x: centerIconPosition.x || item.x,
+  //                 z: centerIconPosition.z || item.z,
+  //                 elevation: 4,
+  //               },
+  //             },
+  //           ],
+  //           icon: {
+  //             url: svgUri,
+  //             width: 70,
+  //             height: 70,
+  //           },
+  //           width: 10,
+  //           color: "#973bed",
+  //           anchor: "center",
+  //           disableElevationCorrection: true,
+  //         });
+
+  //         addedLayerIds.push(item.id);
+  //       }
+  //     });
+  //   }
+
+  //   return () => {
+  //     addedLayerIds.forEach((id) => {
+  //       spaceRef.current.removeDataLayer(id);
+  //     });
+  //     addedLayerIds = [];
+  //   };
+  // }, [ticketsOnSpace, ticketStatusFilter]);
+
   useEffect(() => {
     if (selectedTab !== "Tickets") return;
     if (ticketsOnSpace?.length === 0) {
       return;
     }
-
+  
     let addedLayerIds = [];
-
+  
     const filteredTickets = ticketsOnSpace
       .map((ticket) => ({
         ...ticket,
@@ -629,36 +719,37 @@ const Space = () => {
         ).length,
       }))
       .filter((ticket) => ticket.ticketCount > 0);
-
+  
     const updatedDataLayer = dataLayer.map((item) => {
       const matchedTicket = filteredTickets.find(
         (ticket) => ticket?.smplrSpaceData?.objectId === item.id
       );
-
+  
       return {
         ...item,
         ticketCount: matchedTicket?.ticketCount || 0,
       };
     });
-
+  
     const updatedDataLayerWithTickets = updatedDataLayer.filter(
       (item) => item.ticketCount > 0
     );
-
+  
     if (!selectedUnits && !selectedFacilities) {
       spaceRef?.current?.centerCamera();
     }
-
+  
     if (updatedDataLayerWithTickets.length > 0) {
       updatedDataLayerWithTickets.forEach((item) => {
         if (!addedLayerIds.includes(item.id)) {
           const svgUri = generateSvgDataUri(item.ticketCount);
 
-          const centerIconPosition =
-            !item.catalogId &&
-            selectedRoom.getPolygonCenter({
-              polygon: item.coordinates,
-            });
+          // Get the center of the polygon
+          const centerIconPosition = !item.catalogId
+            ? selectedRoom.getPolygonCenter({
+                polygon: item.coordinates
+              })
+            : { x: item.x, z: item.z, levelIndex: item.levelIndex };
 
           spaceRef.current.addIconDataLayer({
             id: item.id,
@@ -667,19 +758,19 @@ const Space = () => {
               {
                 id: item.id,
                 position: {
-                  levelIndex: centerIconPosition.levelIndex || item.levelIndex,
-                  x: centerIconPosition.x || item.x,
-                  z: centerIconPosition.z || item.z,
-                  elevation: 8,
+                  levelIndex: centerIconPosition.levelIndex,
+                  x: centerIconPosition.x,
+                  z: centerIconPosition.z,
+                  elevation: 4,
                 },
               },
             ],
             icon: {
               url: svgUri,
-              width: 70,
-              height: 70,
+              width: 50,
+              height: 50,
             },
-            width: 10,
+            width: 5,
             color: "#973bed",
             anchor: "center",
             disableElevationCorrection: true,
@@ -689,7 +780,7 @@ const Space = () => {
         }
       });
     }
-
+  
     return () => {
       addedLayerIds.forEach((id) => {
         spaceRef.current.removeDataLayer(id);
@@ -697,6 +788,7 @@ const Space = () => {
       addedLayerIds = [];
     };
   }, [ticketsOnSpace, ticketStatusFilter]);
+  
 
   return (
     <Box className="smplr-wrapper">
