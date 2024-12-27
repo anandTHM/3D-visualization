@@ -754,22 +754,22 @@ const DigitalTwin = ({ mapping }) => {
           if (deposit.applicableTax === null) {
             updatedDeposit.applicableTax = "Inclusive";
           } else {
-            const taxData = responseDataForTax.data.rows.find(
-              (tax) => tax._id === deposit.applicableTax
+            const taxData = responseDataForTax?.data?.rows.find(
+              (tax) => tax?._id === deposit?.applicableTax
             );
             if (taxData) {
               updatedDeposit = {
                 ...updatedDeposit,
-                applicableTax: taxData._id,
-                taxRate: taxData.taxRate,
-                taxName: taxData.name,
+                applicableTax: taxData?._id,
+                taxRate: taxData?.taxRate,
+                taxName: taxData?.name,
               };
             }
           }
 
           // Add numberOfUnits from plans or categories
-          updatedDeposit.numberOfUnits = findNumberOfUnits(
-            deposit.category || deposit.plan
+          updatedDeposit?.numberOfUnits = findNumberOfUnits(
+            deposit?.category || deposit?.plan
           );
 
           return updatedDeposit;
