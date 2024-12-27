@@ -768,8 +768,8 @@ const DigitalTwin = ({ mapping }) => {
           }
 
           // Add numberOfUnits from plans or categories
-          updatedDeposit?.numberOfUnits = findNumberOfUnits(
-            deposit?.category || deposit?.plan
+          updatedDeposit.numberOfUnits = findNumberOfUnits(
+            deposit.category || deposit.plan
           );
 
           return updatedDeposit;
