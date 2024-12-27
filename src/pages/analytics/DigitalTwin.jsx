@@ -678,7 +678,7 @@ const DigitalTwin = ({ mapping }) => {
       // Fetch tax
       const responseDataForTax = await get(
         `/tax?limit=9007199254740991&page=1`,
-        {},
+        {projects: selectedProjects?._id},
         authToken
       );
 
