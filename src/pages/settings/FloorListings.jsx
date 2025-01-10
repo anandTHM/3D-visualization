@@ -284,17 +284,17 @@ const FloorListings = () => {
         });
 
         // Add furniture data
-        furnitures.forEach((furniture) => {
-          const floor = furniture.levelIndex + 1;
-          if (!floorWiseData[floor]) {
-            floorWiseData[floor] = [];
-          }
-          floorWiseData[floor].push({
-            type: "furniture",
-            objectId: furniture.id,
-            objectName: furniture.name,
-          });
-        });
+        // furnitures.forEach((furniture) => {
+        //   const floor = furniture.levelIndex + 1;
+        //   if (!floorWiseData[floor]) {
+        //     floorWiseData[floor] = [];
+        //   }
+        //   floorWiseData[floor].push({
+        //     type: "furniture",
+        //     objectId: furniture.id,
+        //     objectName: furniture.name,
+        //   });
+        // });
 
         const floorWiseDataArray = Object.entries(floorWiseData).map(
           ([floor, floorData]) => ({

@@ -490,54 +490,54 @@ const Space = () => {
       });
     }
 
-    if (furniture.length > 0) {
-      spaceRef.current.addFurnitureDataLayer({
-        id: "furniture",
-        type: "furniture",
-        data: updatedDataLayerFurniture.map((item) => ({
-          ...item,
-          id: item.id,
-          furnitureId: item.id,
-        })),
-        color: (d) => getColor(d),
-        onClick: (d) => {
-          if (d.unitId) {
-            handleSelectedUnits({
-              name: d.unitName,
-              _id: d.unitId,
-              smplrSpaceData: {
-                objectId: d.id,
-                index: d.levelIndex,
-              },
-              buildUpArea: d.buildUpArea,
-              numberOfSeats: d.numberOfSeats,
-              status: d.status,
-            });
-            handleSelectedFacilities(null);
-          } else if (d.facilityId) {
-            handleSelectedFacilities({
-              name: d.facilityName,
-              _id: d.facilityId,
-              smplrSpaceData: {
-                objectId: d.id,
-                index: d.levelIndex,
-              },
-            });
-            handleSelectedUnits(null);
-          } else {
-            handleSelectedUnits(null);
-            handleSelectedFacilities(null);
-          }
-          handleTicketsOnSpace([]);
-          handleSelectedFloor(d.levelIndex);
-          spaceRef?.current.showUpToLevel(d.levelIndex);
-        },
-        tooltip: (d) => d.isSelected && getTooltipHtml(d),
-        persistentTooltip: true,
-        tooltipContainerStyle: tooltipContainerStyle,
-        // onHover: (d) => d,
-      });
-    }
+    // if (furniture.length > 0) {
+    //   spaceRef.current.addFurnitureDataLayer({
+    //     id: "furniture",
+    //     type: "furniture",
+    //     data: updatedDataLayerFurniture.map((item) => ({
+    //       ...item,
+    //       id: item.id,
+    //       furnitureId: item.id,
+    //     })),
+    //     color: (d) => getColor(d),
+    //     onClick: (d) => {
+    //       if (d.unitId) {
+    //         handleSelectedUnits({
+    //           name: d.unitName,
+    //           _id: d.unitId,
+    //           smplrSpaceData: {
+    //             objectId: d.id,
+    //             index: d.levelIndex,
+    //           },
+    //           buildUpArea: d.buildUpArea,
+    //           numberOfSeats: d.numberOfSeats,
+    //           status: d.status,
+    //         });
+    //         handleSelectedFacilities(null);
+    //       } else if (d.facilityId) {
+    //         handleSelectedFacilities({
+    //           name: d.facilityName,
+    //           _id: d.facilityId,
+    //           smplrSpaceData: {
+    //             objectId: d.id,
+    //             index: d.levelIndex,
+    //           },
+    //         });
+    //         handleSelectedUnits(null);
+    //       } else {
+    //         handleSelectedUnits(null);
+    //         handleSelectedFacilities(null);
+    //       }
+    //       handleTicketsOnSpace([]);
+    //       handleSelectedFloor(d.levelIndex);
+    //       spaceRef?.current.showUpToLevel(d.levelIndex);
+    //     },
+    //     tooltip: (d) => d.isSelected && getTooltipHtml(d),
+    //     persistentTooltip: true,
+    //     tooltipContainerStyle: tooltipContainerStyle,
+    //     // onHover: (d) => d,
+    //   });
+    // }
 
     // Add room data layer
     spaceRef.current.addPolygonDataLayer({
@@ -601,7 +601,7 @@ const Space = () => {
       tooltipContainerStyle: tooltipContainerStyle,
       // onHover: (d) => d,
       color: (d) => getColor(d),
-      alpha: 1,
+      alpha: 0.5,
       height: 2,
     });
 

@@ -229,22 +229,22 @@ const DigitalTwinMapping = () => {
       });
 
       // Add furniture data
-      furnitures.forEach((furniture) => {
-        const floor = furniture.levelIndex + 1;
-        if (!floorWiseDataObj[floor]) {
-          floorWiseDataObj[floor] = [];
-        }
-        floorWiseDataObj[floor].push({
-          type: "furniture",
-          objectId: furniture.id,
-          objectName: furniture.name,
-          catalogId: furniture.catalogId,
-          position: furniture.position,
-          rotation: furniture.rotation,
-          dimensions: furniture.dimensions,
-          configuration: furniture.configuration,
-        });
-      });
+      // furnitures.forEach((furniture) => {
+      //   const floor = furniture.levelIndex + 1;
+      //   if (!floorWiseDataObj[floor]) {
+      //     floorWiseDataObj[floor] = [];
+      //   }
+      //   floorWiseDataObj[floor].push({
+      //     type: "furniture",
+      //     objectId: furniture.id,
+      //     objectName: furniture.name,
+      //     catalogId: furniture.catalogId,
+      //     position: furniture.position,
+      //     rotation: furniture.rotation,
+      //     dimensions: furniture.dimensions,
+      //     configuration: furniture.configuration,
+      //   });
+      // });
 
       const floorWiseData = Object.entries(floorWiseDataObj).map(
         ([floor, floorData]) => ({
