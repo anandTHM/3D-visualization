@@ -601,7 +601,7 @@ const Space = () => {
       tooltipContainerStyle: tooltipContainerStyle,
       // onHover: (d) => d,
       color: (d) => getColor(d),
-      alpha: 0.5,
+      alpha: 0.7,
       height: 2,
     });
 

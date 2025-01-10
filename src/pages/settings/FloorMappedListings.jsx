@@ -241,8 +241,8 @@ const FloorMappedListings = () => {
       data: updatedData,
       color: (d) => (d.mapped ? "green" : d.highlighted ? "yellow" : "#ae3ec9"),
       // alpha: data2.length > 0 ? 0.8 : 1,
-      alpha: 0.5,
-      height: 0.7,
+      alpha: 1,
+      height: 2,
       // onClick: (d) => {
       //   console.log("Clicked on room:", d);
       // },
