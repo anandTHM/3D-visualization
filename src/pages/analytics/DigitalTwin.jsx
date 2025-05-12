@@ -282,7 +282,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         project: selectedProjects._id,
-        floorIndex: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor.value : null,
       };
 
       const response = await get(
@@ -321,7 +321,7 @@ const DigitalTwin = ({ mapping }) => {
       const queryParams = {
         projects: selectedProjects._id,
         type: "receivables",
-        floorIndex: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor.value : null,
         listingId: selectedUnits?._id || null,
       };
 
@@ -361,7 +361,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         projects: selectedProjects._id,
-        floorIndex: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor.value : null,
       };
       const response = await get(
         "/digital-twin/overview/facility",
@@ -399,7 +399,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         projects: selectedProjects._id,
-        floorIndex: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor.value : null,
         id: selectedFacilities?._id || selectedUnits?._id || null,
       };
       const response = await get(
@@ -439,7 +439,7 @@ const DigitalTwin = ({ mapping }) => {
       const queryParams = {
         projects: selectedProjects._id,
         type: "payables",
-        floorIndex: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor.value : null,
         listingId: selectedUnits?._id || null,
       };
 
@@ -479,7 +479,7 @@ const DigitalTwin = ({ mapping }) => {
     try {
       const queryParams = {
         status: ["open", "re-open", "on-hold", "in-progress"],
-        floorIndex: selectedFloor !== null ? selectedFloor : null,
+        floorIndex: selectedFloor !== null ? selectedFloor.value : null,
         facilityId: selectedFacilities?._id || "",
         listingId: selectedUnits?._id || "",
         projectId: selectedProjects._id,

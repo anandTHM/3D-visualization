@@ -200,9 +200,6 @@ const Space = () => {
         ) {
           return;
         }
-
-        console.log("========",clientToken)
-
         const spaceInstance = new smplr.Space({
           spaceId: selectedProjects?.spaceData?.spaceId,
           clientToken: clientToken,
@@ -577,7 +574,11 @@ const Space = () => {
 
         // handleOnClickStatus("All");
         handleTicketsOnSpace([]);
-        handleSelectedFloor(d.levelIndex);
+        
+        // Set the selected floor to the level index of the clicked space
+        const floorData = floors.find(floor => floor.value === d.levelIndex);
+        handleSelectedFloor(floorData);
+        
         spaceRef?.current.showUpToLevel(d.levelIndex);
 
         const roomCenter = selectedRoom?.getPolygonCenter({

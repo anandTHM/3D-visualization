@@ -217,7 +217,6 @@ const FloorListings = () => {
 
           const transformedData = response.data.reduce((acc, item) => {
             const index = item.smplrSpaceData.index;
-            console.log("index",index)
             if (!acc[index]) {
               acc[index] = { index: index, length: 0 };
             }
@@ -226,7 +225,6 @@ const FloorListings = () => {
           }, {});
 
           const finalData = Object.values(transformedData);
-          console.log("finalData",finalData)
           handleMappedPolygons(finalData);
         } catch (err) {
           console.error("Error fetching mapped data:", err);
@@ -335,7 +333,6 @@ const FloorListings = () => {
   }, [enterSpaceId]);
 
   const onClickViewer = async (data) => {
-    console.log("data",data)
     handleSelectedFloorData(data);
     handleLoadMappedData(true);
     navigate("/floor-mapping-units");
