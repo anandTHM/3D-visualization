@@ -88,7 +88,7 @@ const CustomTable = ({ tableHeader, tableData, mappedPolygons, onClick }) => {
                       width: 300,
                     }}
                   >
-                    Floor {item.floor}
+                    {item.name}
                   </TableCell>
                   <TableCell
                     align="center"
@@ -170,6 +170,7 @@ const FloorListings = () => {
     handleFloorWisePolygons,
     handleSelectedFloorData,
     handleLoadMappedData,
+    handleFloors,
   } = useSpace();
 
   const {
@@ -216,6 +217,7 @@ const FloorListings = () => {
 
           const transformedData = response.data.reduce((acc, item) => {
             const index = item.smplrSpaceData.index;
+            console.log("index",index)
             if (!acc[index]) {
               acc[index] = { index: index, length: 0 };
             }
@@ -224,6 +226,7 @@ const FloorListings = () => {
           }, {});
 
           const finalData = Object.values(transformedData);
+          console.log("finalData",finalData)
           handleMappedPolygons(finalData);
         } catch (err) {
           console.error("Error fetching mapped data:", err);
@@ -260,6 +263,13 @@ const FloorListings = () => {
 
         const furnitures = await spaceData.getAllFurnitureInSpace(enterSpaceId);
 
+        // Map the floors with their names from levels
+        const floorLevels = space.definition.levels.map((level, index) => ({
+          name: level.name,
+          value: index
+        }));
+        handleFloors(floorLevels);
+
         const polygons = space?.assetmap?.filter(
           (item) => item.type === "polygon"
         )[0] || [];
@@ -270,12 +280,15 @@ const FloorListings = () => {
 
         const floorWiseData = {};
 
+        // Initialize floorWiseData for all floors, even if they have no polygons
+        space.definition.levels.forEach((level, index) => {
+          const floor = index + 1;
+          floorWiseData[floor] = [];
+        });
+
         // Add polygon data
         polygons?.assets?.forEach((asset) => {
           const floor = asset.levelIndex + 1;
-          if (!floorWiseData[floor]) {
-            floorWiseData[floor] = [];
-          }
           floorWiseData[floor].push({
             type: "polygon",
             objectId: asset.id,
@@ -297,10 +310,16 @@ const FloorListings = () => {
         // });
 
         const floorWiseDataArray = Object.entries(floorWiseData).map(
-          ([floor, floorData]) => ({
-            floor: parseInt(floor),
-            floorData,
-          })
+          ([floor, floorData]) => {
+            const floorIndex = parseInt(floor) - 1;
+            const levelName = space.definition.levels[floorIndex]?.name || `Floor ${floor}`;
+            return {
+              floor: parseInt(floor),
+              floorData,
+              name: levelName,
+              value: floorIndex
+            };
+          }
         );
 
         handleFloorWisePolygons(floorWiseDataArray);
@@ -316,6 +335,7 @@ const FloorListings = () => {
   }, [enterSpaceId]);
 
   const onClickViewer = async (data) => {
+    console.log("data",data)
     handleSelectedFloorData(data);
     handleLoadMappedData(true);
     navigate("/floor-mapping-units");

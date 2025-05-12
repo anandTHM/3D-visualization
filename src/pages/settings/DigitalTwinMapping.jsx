@@ -198,7 +198,11 @@ const DigitalTwinMapping = () => {
             handleViewerReady(true);
           },
           onVisibleLevelsChanged: (floors) => {
-            handleFloors(floors);
+            const floorLevels = space?.definition?.levels.map((level, index) => ({
+              name: level.name,
+              value: index
+            }));
+            handleFloors(floorLevels);
           },
           disableCameraControls: false,
           disableCameraRotation: false,

@@ -1018,7 +1018,7 @@ const DigitalTwin = ({ mapping }) => {
                     {selectedFacilities
                       ? `Facilities - ${selectedProjects?.name}`
                       : selectedFloor !== null && selectedFloor !== undefined
-                        ? `Floor ${selectedFloor + 1} - ${selectedProjects?.name}`
+                        ? `${selectedFloor.name} - ${selectedProjects?.name}`
                         : selectedProjects?.name}
                   </Typography>
 

@@ -117,7 +117,7 @@ const AppDropdown = ({
             displayEmpty
             renderValue={(selected) => {
               if (isEmpty) return "";
-              return `Floor ${Number(selected) + 1}`;
+              return selected?.name || "";
             }}
             sx={{
               paddingRight: "40px",
@@ -161,7 +161,7 @@ const AppDropdown = ({
             {options.length > 0 ? (
               options.map((item, index) => (
                 <MenuItem key={index} value={item} sx={{ fontSize: "14px" }}>
-                  Floor {item + 1}
+                  {item.name}
                 </MenuItem>
               ))
             ) : (

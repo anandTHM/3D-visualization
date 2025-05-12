@@ -253,7 +253,7 @@ const Space = () => {
       spaceRef?.current?.centerCamera();
       handleSelectedUnits(null);
       handleSelectedFacilities(null);
-      spaceRef?.current?.showUpToLevel(Array.from(floors).length);
+      spaceRef?.current?.showUpToLevel(floors.length);
     }
   }, [selectedFloor, selectedUnits, selectedFacilities]);
 
@@ -266,12 +266,12 @@ const Space = () => {
       selectedFacilities
     ) {
       const floorIndex =
-        selectedFloor ??
+        selectedFloor?.value ??
         selectedUnits?.smplrSpaceData?.index ??
         selectedFacilities?.smplrSpaceData?.index;
 
       const levelToShow =
-        floorIndex !== undefined ? floorIndex : Array.from(floors).length;
+        floorIndex !== undefined ? floorIndex : floors.length;
       spaceRef.current.showUpToLevel(levelToShow);
     }
   }, [viewerReady, selectedFloor, selectedUnits, selectedFacilities, floors]);
@@ -330,6 +330,8 @@ const Space = () => {
           setData(polygons[0].assets);
         }
 
+        handleFloors(space?.definition?.levels);
+        
         if (furnitures && furnitures.length > 0) {
           setFurniture(furnitures);
         }
@@ -377,11 +379,11 @@ const Space = () => {
     } else {
       return d.isSelected
         ? darkenColor(
-            d.facilityId ? "#FF8C00" : statusObj?.color || "#8C8C8C",
+            d.facilityId ? "#a63603" : statusObj?.color || "#8C8C8C",
             0.4
           )
         : d.facilityId
-        ? "#FF8C00"
+        ? "#a63603"
         : statusObj?.color || "#8C8C8C";
     }
   };

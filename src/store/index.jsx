@@ -18,6 +18,7 @@ const initialState = {
   open: false,
   mappedPolygons: [],
   selectedFloor: null,
+  selectedFloorName: "",
   selectedFloorData: [],
   allUnitsAndFacilities: {},
   selectedItems: {},
@@ -85,7 +86,10 @@ const spaceReducer = (state, action) => {
     case SET_FLOORS:
       return {
         ...state,
-        floors: action.payload,
+        floors: action.payload.map((item,index) => ({
+          name: item.name,
+          value: index
+        })),
       };
     case SET_VIEWER_READY:
       return { ...state, viewerReady: action.payload };
@@ -103,6 +107,7 @@ const spaceReducer = (state, action) => {
         ...state,
         selectedFloorData: action.payload.floorData,
         selectedFloor: action.payload.floor,
+        selectedFloorName: action.payload.name,
       };
     case SET_ALL_UNITS_AND_FACILITIES:
       return { ...state, allUnitsAndFacilities: action.payload };

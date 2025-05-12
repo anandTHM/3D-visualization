@@ -64,6 +64,7 @@ const FloorMappedListings = () => {
     projectId,
     authToken,
     updatedSelectedItems,
+    selectedFloorName,
     loadMappedData,
     selectedObjectId,
   } = state;
@@ -343,7 +344,7 @@ const FloorMappedListings = () => {
                 {renderInfoItem("Property", projectName)}
               </Grid>
               <Grid item size={2}>
-                {renderInfoItem("Floor", selectedFloor)}
+                {renderInfoItem("Floor", selectedFloorName)}
               </Grid>
               <Grid item size={4}>
                 {renderInfoItem(
