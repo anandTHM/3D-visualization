@@ -136,6 +136,7 @@ const DigitalTwinMapping = () => {
   const spaceRef = useRef(null);
   const [isSmplrReady, setSmplrReady] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [spaceData, setSpaceData] = useState(null);
 
   const {
     state,
@@ -198,11 +199,13 @@ const DigitalTwinMapping = () => {
             handleViewerReady(true);
           },
           onVisibleLevelsChanged: (floors) => {
-            const floorLevels = space?.definition?.levels.map((level, index) => ({
-              name: level.name,
-              value: index
-            }));
-            handleFloors(floorLevels);
+            if (spaceData?.definition?.levels) {
+              const floorLevels = spaceData.definition.levels.map((level, index) => ({
+                name: level.name,
+                value: index
+              }));
+              handleFloors(floorLevels);
+            }
           },
           disableCameraControls: false,
           disableCameraRotation: false,
@@ -212,6 +215,16 @@ const DigitalTwinMapping = () => {
         });
       }
       const space = await smplrClient.getSpace(enterSpaceId);
+      setSpaceData(space);
+      
+      if (space?.definition?.levels) {
+        const floorLevels = space.definition.levels.map((level, index) => ({
+          name: level.name,
+          value: index
+        }));
+        handleFloors(floorLevels);
+      }
+      
       const furnitures = await smplrClient.getAllFurnitureInSpace(enterSpaceId);
 
       const polygons = space?.assetmap?.filter(
