@@ -23,8 +23,21 @@ const AppDropdown = ({
   searchable = false,
   disabled = false,
   onClearSelectedFloor,
+  onClearSelectedUnit,
+  onClearSelectedFacility,
 }) => {
   const isEmpty = value === "" || value === null || value === undefined;
+  
+  const handleClearClick = () => {
+    if (onClearSelectedFloor) {
+      onClearSelectedFloor();
+    } else if (onClearSelectedUnit) {
+      onClearSelectedUnit();
+    } else if (onClearSelectedFacility) {
+      onClearSelectedFacility();
+    }
+  };
+  
   return (
     <Box>
       {searchable ? (
@@ -149,7 +162,7 @@ const AppDropdown = ({
                   }}
                 >
                   <IconButton
-                    onClick={onClearSelectedFloor}
+                    onClick={handleClearClick}
                     sx={{ padding: "4px" }}
                   >
                     <CloseIcon fontSize="small" />

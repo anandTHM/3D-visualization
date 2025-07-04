@@ -189,7 +189,8 @@ const ToolbarForProperty = ({}) => {
       selectedFloor === null &&
       newValue?.smplrSpaceData?.index !== undefined
     ) {
-      handleSelectedFloor(newValue.smplrSpaceData.index);
+      const floorData = floors.find(floor => floor.value === newValue.smplrSpaceData.index);
+      handleSelectedFloor(floorData || { name: `Floor ${newValue.smplrSpaceData.index + 1}`, value: newValue.smplrSpaceData.index });
     }
     handleSelectedFacilities(null);
     handleOnClickStatus("All");
@@ -202,7 +203,8 @@ const ToolbarForProperty = ({}) => {
       selectedFloor === null &&
       newValue?.smplrSpaceData?.index !== undefined
     ) {
-      handleSelectedFloor(newValue.smplrSpaceData.index);
+      const floorData = floors.find(floor => floor.value === newValue.smplrSpaceData.index);
+      handleSelectedFloor(floorData || { name: `Floor ${newValue.smplrSpaceData.index + 1}`, value: newValue.smplrSpaceData.index });
     }
     handleSelectedUnits(null);
     handleOnClickStatus("All");
@@ -215,15 +217,23 @@ const ToolbarForProperty = ({}) => {
     handleSelectedFacilities(null);
   };
 
+  const onClearSelectedUnit = () => {
+    handleSelectedUnits(null);
+  };
+
+  const onClearSelectedFacility = () => {
+    handleSelectedFacilities(null);
+  };
+
   const filteredUnitFloorWise =
-    selectedFloor != null
-      ? units.filter((unit) => unit.smplrSpaceData.index === selectedFloor)
+    selectedFloor != null && selectedFloor.value !== undefined
+      ? units.filter((unit) => unit.smplrSpaceData.index === selectedFloor.value)
       : units;
 
   const filteredFacilityFloorWise =
-    selectedFloor != null
+    selectedFloor != null && selectedFloor.value !== undefined
       ? facilities.filter(
-          (facility) => facility.smplrSpaceData.index === selectedFloor
+          (facility) => facility.smplrSpaceData.index === selectedFloor.value
         )
       : facilities;
 
@@ -261,6 +271,7 @@ const ToolbarForProperty = ({}) => {
                 value={selectedUnits}
                 onChange={onChangeUnitHandler}
                 searchable
+                onClearSelectedUnit={onClearSelectedUnit}
               />
             </Box>
             <Box>
@@ -271,6 +282,7 @@ const ToolbarForProperty = ({}) => {
                 value={selectedFacilities}
                 onChange={onChangeFacilityHandler}
                 searchable
+                onClearSelectedFacility={onClearSelectedFacility}
               />
             </Box>
           </Box>

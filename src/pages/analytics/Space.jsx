@@ -577,7 +577,7 @@ const Space = () => {
         
         // Set the selected floor to the level index of the clicked space
         const floorData = floors.find(floor => floor.value === d.levelIndex);
-        handleSelectedFloor(floorData);
+        handleSelectedFloor(floorData || { name: `Floor ${d.levelIndex + 1}`, value: d.levelIndex });
         
         spaceRef?.current.showUpToLevel(d.levelIndex);
 
