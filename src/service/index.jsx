@@ -1,8 +1,13 @@
 import axios from "axios";
 import { baseUrl } from "../utils/helper";
 
+const apiBaseURL = import.meta.env.DEV ? "/api" : `${baseUrl}/api`;
+
+console.log("Environment:", import.meta.env.DEV ? "Development" : "Production");
+console.log("API Base URL:", apiBaseURL);
+
 const apiService = axios.create({
-  baseURL: `${baseUrl}/api`,
+  baseURL: apiBaseURL,
 });
 
 const defaultHeaders = {

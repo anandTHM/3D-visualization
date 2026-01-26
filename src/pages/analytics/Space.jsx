@@ -167,7 +167,7 @@ const Space = () => {
     const cleanup = () => {
       if (spaceRef.current) {
         try {
-          spaceRef.current.removeDataLayer("rooms");
+          spaceRef.current.remove();
         } catch (error) {
           console.error("Cleanup error:", error);
         }
@@ -227,7 +227,7 @@ const Space = () => {
       isMounted = false;
       cleanup();
     };
-  }, [selectedProjects]);
+  }, [selectedProjects?._id, clientToken, organizationId]);
 
   useEffect(() => {
     const currentProjectId = selectedProjects?._id;
