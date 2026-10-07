@@ -28,8 +28,8 @@ const initialState = {
   selectedTab: "Overview",
   ticketsOnSpace: [],
   ticketStatusFilter: "",
-  clientToken: "pub_838e6b526dc14f81b3ded7bf5a9f42ce",
-  organizationId: "7d271fde-b941-4495-9578-2ed7a539b03e",
+  clientToken: "pub_909630fdd14b4d0d9e9f426f5d29caad",
+  organizationId: "2a266331-ae4b-455f-aa71-2b77a8de5315",
 };
 
 // ================================= actions ================================
